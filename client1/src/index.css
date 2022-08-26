@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'ZenKakuGothicAntique-Bold';
+    src: local('ZenKakuGothicAntique-Bold'), url('./assets/ZenKakuGothicAntique-Bold.ttf') format('truetype');
+}
+
+body {
+    margin: 0;
+    font-family: 'ZenKakuGothicAntique-Bold';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

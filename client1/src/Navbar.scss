@@ -1,0 +1,24 @@
+.navbar {
+    width: 100vw;
+    height: 10vh;
+}
+
+.row-between {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.nav-title {
+    margin: 0 20px;
+    font-size: 40px;
+}
+
+.log-out-btn {
+    background-color: #FF8080;
+    padding: 5px 15px;
+    margin: 0 20px;
+    border-radius: 20px;
+}

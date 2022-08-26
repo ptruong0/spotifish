@@ -1,0 +1,32 @@
+.background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+@keyframes light {
+    0% {
+        opacity: 100%;
+    }
+    50% {
+        opacity: 20%;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+
+.light1 {
+    animation: 6s ease-in 0s infinite running light;
+}
+
+.light2 {
+    animation: 6s ease-in 2s infinite running light;
+}
+
+.light3 {
+    animation: 6s ease-in 4s infinite running light;
+}

@@ -1,0 +1,53 @@
+$spotify-green: #1ED660;
+$background-blue: #91DCE7;
+* {
+    font-family: 'ZenKakuGothicAntique-Bold';
+}
+
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+.container {
+    margin-bottom: 25vh;
+    min-width: 30vw;
+    padding: 10px 50px;
+    z-index: 2;
+}
+
+.header {
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 96px;
+    color: white;
+}
+
+.login-btn {
+    width: 800px;
+    border-radius: 30px;
+    border: none;
+    font-size: 32px;
+    font-weight: 600;
+    text-decoration: none;
+    background-color: $spotify-green;
+    color: white;
+}
+
+.row-around {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: $spotify-green;
+    border-radius: 50px;
+    padding: 20px 35px;
+}
+
+.login-text {
+    margin: 0 10px 0 0;
+}
