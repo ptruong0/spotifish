@@ -29,13 +29,14 @@ const Home = (props) => {
 
       <div className='main-container'>
         <Navbar />
-        <button onClick={() => refreshToken(props.refreshToken, props.setT, props.setRT)}>Refresh</button>
+        {/* <button onClick={() => refreshToken(props.refreshToken, props.setT, props.setRT)}>Refresh</button> */}
+        <div className='fish-container'>
         {
           topArtists &&
-          (topArtists.map((artist) => {
-            return <Fish artist={artist}/>;
+          (topArtists.map((artist, index) => {
+            return <Fish artist={artist} rank={index} numFish={topArtists.length}/>;
           }))
-        }
+        }</div>
       </div>
     </div>
   );

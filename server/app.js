@@ -174,7 +174,7 @@ app.get('/top_items', (req, res) => {
     const time_range = req.query.time_range;
     axios.get(SPOTIFY_BASE_URL + `/me/top/${type}`, {
             params: {
-                limit: 50,
+                limit: 20,
                 time_range: time_range
             },
             headers: {
