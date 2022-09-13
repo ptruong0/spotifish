@@ -1,0 +1,77 @@
+p {
+    margin: 0px;
+}
+
+h5 {
+    margin: 0px;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.info-container {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translate(-50%, -10%);
+    min-width: 40vw;
+    max-width: 80vw;
+    border-radius: 25px;
+    background-color: #31C598;
+    animation: fadeIn 0.5s ease-in;
+}
+
+.row-start {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+    color: white;
+}
+
+.row-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+}
+
+.info-text {
+    min-height: 75px;
+}
+
+.artist-rank {
+    font-size: 30px;
+}
+
+.artist-name {
+    font-size: 30px;
+    padding-bottom: 5px;
+}
+
+.artist-pic {
+    border-radius: 50%;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.white-box {
+    background-color: white;
+    min-height: 100px;
+    margin: 20px;
+    border-radius: 20px;
+}
+
+.green-text {
+    color: #31C598;
+}
+
+.expanded-info-container {}

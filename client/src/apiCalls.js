@@ -53,11 +53,25 @@ export const refreshToken = (rToken, setToken, setRToken) => {
 
 
 export const getTopTracks = (token, setTopTracks) => {
+    let result = [];
     const options = {
         params: {
             access_token: token,
             type: 'tracks',
-            time_range: 'medium_term'
+            time_range: 'medium_term',
+            limit: 50
+        },
+        headers: {
+            "Content-Type": "application/json"
+        },
+    };
+    const options2 = {
+        params: {
+            access_token: token,
+            type: 'tracks',
+            time_range: 'medium_term',
+            limit: 50,
+            offset: 50
         },
         headers: {
             "Content-Type": "application/json"
@@ -65,13 +79,33 @@ export const getTopTracks = (token, setTopTracks) => {
     };
     axios.get(BASE_URL + '/top_items', options)
         .then(res => {
+            console.log(res)
             console.log(res.data.items);
-            setTopTracks(res.data.items);
+            result.push(...res.data.items);
+
+            axios.get(BASE_URL + '/top_items', options2)
+                .then(res => {
+                    console.log(res)
+                    console.log(res.data.items);
+                    result.push(...res.data.items);
+
+                })
+                .catch(err => {
+                    console.log(err);
+                    alert('Server error')
+                })
+
         })
         .catch(err => {
             console.log(err);
             alert('Server error')
         })
+
+
+
+    setTopTracks(result);
+    console.log(result);
+
 }
 
 export const getTopArtists = (token, setTopArtists) => {
@@ -79,7 +113,8 @@ export const getTopArtists = (token, setTopArtists) => {
         params: {
             access_token: token,
             type: 'artists',
-            time_range: 'medium_term'
+            time_range: 'medium_term',
+            limit: 20
         },
         headers: {
             "Content-Type": "application/json"

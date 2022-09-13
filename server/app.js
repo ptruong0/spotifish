@@ -172,10 +172,15 @@ app.get('/top_items', (req, res) => {
     const accessToken = req.query.access_token;
     const type = req.query.type; // tracks or artists
     const time_range = req.query.time_range;
+    const limit = req.query.limit;
+    const offset = req.query.offset ? req.query.offset : 0;
+    console.log('offset', offset);
+    console.log('limit', limit);
     axios.get(SPOTIFY_BASE_URL + `/me/top/${type}`, {
             params: {
-                limit: 20,
-                time_range: time_range
+                limit: limit,
+                time_range: time_range,
+                offset: offset
             },
             headers: {
                 "Authorization": `Bearer ${accessToken}`,
