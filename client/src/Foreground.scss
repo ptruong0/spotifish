@@ -1,3 +1,8 @@
+.overflow-hidden {
+    overflow: hidden;
+    border: 3px solid red;
+}
+
 .kelp {
     position: absolute;
     bottom: 0;
@@ -7,16 +12,17 @@
 
 .seashell {
     position: absolute;
-    bottom: 0;
+    bottom: 10px;
     left: 50px;
     z-index: 3;
 }
 
 .clam {
     position: absolute;
-    bottom: 5px;
+    bottom: 10px;
     right: 50px;
     z-index: 3;
+    overflow: hidden;
 }
 
 .coral {
@@ -24,4 +30,27 @@
     bottom: 0;
     right: 0;
     z-index: 3;
+}
+
+
+@keyframes wiggle {
+    20% {
+        transform: rotate(3deg);
+    }
+    40% {
+        transform: rotate(-3deg);
+    }
+    60% {
+        transform: rotate(3deg);
+    }
+    80% {
+        transform: rotate(-3deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.wiggle {
+    animation: wiggle 1s ease-in-out 1;
 }

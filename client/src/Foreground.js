@@ -7,12 +7,20 @@ import './Foreground.scss';
 import React from 'react';
 
 const Foreground = () => {
+  const wiggle = (element) => {
+    element = '.' + element
+    document.querySelector(element).className += ' wiggle';
+    setTimeout(() => {
+      document.querySelector(element).className = document.querySelector(element).className.replace('wiggle', '');
+    }, 1500)
+  }
+
   return (
     <div>
       <img className='kelp' src={kelp} />
-      <img className='seashell' src={seashell} />
+      <img className='seashell' src={seashell} onMouseOver={() => wiggle('seashell')} onClick={()=> wiggle('seashell')}/>
       <img className='coral' src={coral} />
-      <img className='clam' src={clam} />
+      <img className='clam' src={clam} onMouseOver={() => wiggle('clam')} onClick={()=> wiggle('clam')}/>
     </div>
   )
 }

@@ -92,15 +92,14 @@ export const getTopTracks = (token, setTopTracks) => {
                 })
                 .catch(err => {
                     console.log(err);
-                    alert('Server error')
+                    // alert('Server error')
                 })
 
         })
         .catch(err => {
             console.log(err);
-            alert('Server error')
+            // alert('Server error')
         })
-
 
 
     setTopTracks(result);
@@ -121,15 +120,18 @@ export const getTopArtists = (token, setTopArtists) => {
         },
     };
 
-    axios.get(BASE_URL + '/top_items', options)
+    const artists = axios.get(BASE_URL + '/top_items', options)
         .then(res => {
             console.log(res.data.items);
             setTopArtists(res.data.items);
+            return res.data.items;
         })
         .catch(err => {
             console.log(err);
             alert('Server error')
         })
+    
+    return artists;
 }
 
 export const getArtistTopTracks = (token, artistID, setTracks)  => {
