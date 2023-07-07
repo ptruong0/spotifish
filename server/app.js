@@ -158,7 +158,7 @@ app.post('/token', (req, res) => {
             }
         })
         .then(response => {
-            console.log(response.data)
+            // console.log(response.data)
             res.json(response.data)
         })
         .catch(err => {
@@ -168,14 +168,12 @@ app.post('/token', (req, res) => {
 })
 
 app.get('/top_items', (req, res) => {
-    console.log(req.query)
     const accessToken = req.query.access_token;
     const type = req.query.type; // tracks or artists
     const time_range = req.query.time_range;
     const limit = req.query.limit;
     const offset = req.query.offset ? req.query.offset : 0;
-    console.log('offset', offset);
-    console.log('limit', limit);
+
     axios.get(SPOTIFY_BASE_URL + `/me/top/${type}`, {
             params: {
                 limit: limit,
@@ -193,13 +191,42 @@ app.get('/top_items', (req, res) => {
                 res.status(401);
                 res.send('Token expired')
             }
-            console.log(response)
+            // console.log(response)
             res.json(response.data)
         })
         .catch(err => {
             res.status(500);
             console.log(err);
         })
+})
+
+app.get('/artist_top_tracks', (req, res) => {
+    const accessToken = req.query.access_token;
+    const market = req.query.market;
+    const id = req.query.id;
+    axios.get(SPOTIFY_BASE_URL + `/artists/${id}/top-tracks`, {
+        params: {
+            market: market
+        },
+        headers: {
+            "Authorization": `Bearer ${accessToken}`,
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        }
+    })
+    .then(response => {
+        console.log(response.data.error)
+        if (response.statusCode >= 400) {
+            res.status(401);
+            res.send('Token expired')
+        }
+        // console.log(response)
+        res.json(response.data)
+    })
+    .catch(err => {
+        res.status(500);
+        console.log(err);
+    })
 })
 
 console.log('Listening on 5000');

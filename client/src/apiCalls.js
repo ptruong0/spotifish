@@ -131,3 +131,27 @@ export const getTopArtists = (token, setTopArtists) => {
             alert('Server error')
         })
 }
+
+export const getArtistTopTracks = (token, artistID, setTracks)  => {
+    const options = {
+        params: {
+            access_token: token,
+            id: artistID,
+            market: 'US'
+        },
+        headers: {
+            "Content-Type": "application/json"
+        },
+    };
+    const n = 5;
+    axios.get(BASE_URL + '/artist_top_tracks', options)
+        .then(res => {
+            console.log(res.data);
+            const result = res.data.tracks.length > n ? res.data.tracks.slice(0, n) : res.data.tracks;
+            setTracks(result);
+        })
+        .catch(err => {
+            console.log(err);
+            alert('Server error')
+        })
+}

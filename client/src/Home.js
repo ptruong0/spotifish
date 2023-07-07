@@ -55,7 +55,7 @@ const Home = (props) => {
           }))
         }</div>
 
-        <Info info={info} show={showInfo} tracks={topTracks}/>
+        <Info info={info} show={showInfo} tracks={topTracks} {...props}/>
         
       </div>
     </div>

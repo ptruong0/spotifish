@@ -1,5 +1,6 @@
 
 import './Info.scss';
+import { getArtistTopTracks } from './apiCalls';
 import upArrow from './assets/up-arrow.png';
 import downArrow from './assets/down-arrow.png';
 
@@ -7,6 +8,8 @@ import React, { useState, useEffect } from 'react';
 
 const Info = (props) => {
   const [expanded, setExpanded] = useState(false);
+  const [mostPopularSongs, setMostPopularSongs] = useState(null);
+
   const findTopTrackOfArtist = (id) => {
     // console.log(id);
     for (let track of props.tracks) {
@@ -21,9 +24,20 @@ const Info = (props) => {
     return '';
   }
 
+  const findArtistTopTracks = () => {
+    console.log(props.info)
+    if (props.info) {
+      getArtistTopTracks(props.token, props.info.id, setMostPopularSongs);
+    } else {
+      console.log('no song selected yet')
+    }
+  }
+
   const toggle = () => {
     setExpanded(!expanded);
   }
+
+  useEffect(findArtistTopTracks, [props.show])
 
   const arrayToString = (arr) => {
     let result = '';
@@ -55,21 +69,31 @@ const Info = (props) => {
             <p className='artist-name'>{props.show && props.info.name}</p>
             <p className='song-name'>{props.show && `Your Top Song: ${findTopTrackOfArtist(props.info.id)}`}</p>
           </div>
-          
+
       </div>
       <img src={upArrow} onClick={toggle}/> 
+
       </div>
       <div className='white-box'>
-        <div className='row-between'>
-          <div>
-          <h5 className='green-text'>Genre</h5>
-          <p className='green-text'>{arrayToString(props.info.genres)}</p>
-          <br />
-          <h5 className='green-text'>Popularity</h5>
-          <p className='green-text'>{props.info.popularity}/100</p>
+        <div className='row-grid'>
+          <div className='col'>
+            <h3 className='green-text'>Genre</h3>
+            <p className='green-text'>{arrayToString(props.info.genres)}</p>
+            <br />
+            <h3 className='green-text'>Popularity</h3>
+            <p className='green-text'>{props.info.popularity}/100</p>
           </div>
-          <div>
-            <h5 className='green-text'>Most Popular Songs</h5>
+          <div className='col'>
+            <h3 className='green-text'>Most Popular Songs</h3>
+            <div>             
+               { mostPopularSongs && 
+                mostPopularSongs.map((track, i) => {
+                  return <p className='green-text'>
+                    {i+1}. {track.name.length > 20 ? track.name.substring(0, 20) + '...'  : track.name}
+                    </p>
+                })
+              }
+            </div>
           </div>
         </div>
         </div>
