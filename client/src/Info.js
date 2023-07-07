@@ -37,7 +37,7 @@ const Info = (props) => {
     setExpanded(!expanded);
   }
 
-  useEffect(findArtistTopTracks, [props.show])
+  useEffect(findArtistTopTracks, [props.show, props.info])
 
   const arrayToString = (arr) => {
     let result = '';

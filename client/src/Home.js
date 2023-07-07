@@ -107,6 +107,7 @@ const Home = (props) => {
       setShowInfo(true);
     }
     
+    console.log(artistInfo)
     setInfo(artistInfo);
   }
 
