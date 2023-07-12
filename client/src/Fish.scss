@@ -16,11 +16,13 @@
 
 .fish {
     position: fixed;
+    visibility: hidden;
     text-align: center;
     min-width: 300px;
     max-width: 500px;
     min-height: 200px;
     max-height: 300px;
+    z-index: 2;
     // animation: 10s ease-in 0s infinite running swim;
 }
 

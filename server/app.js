@@ -97,7 +97,6 @@ app.get('/callback', function(req, res) {
 
                 // use the access token to access the Spotify Web API
                 request.get(options, function(error, response, body) {
-                    console.log(body);
                 });
 
                 // we can also pass the token to the browser to make requests from there
@@ -143,8 +142,6 @@ app.get('/refresh_token', function(req, res) {
 });
 
 app.post('/token', (req, res) => {
-    console.log(req.body.redirect_uri)
-
     axios.post('https://accounts.spotify.com/api/token', null, {
             params: {
                 code: req.body.code,
@@ -215,12 +212,30 @@ app.get('/artist_top_tracks', (req, res) => {
         }
     })
     .then(response => {
-        console.log(response.data.error)
         if (response.statusCode >= 400) {
             res.status(401);
             res.send('Token expired')
         }
         // console.log(response)
+        res.json(response.data)
+    })
+    .catch(err => {
+        res.status(500);
+        console.log(err);
+    })
+})
+
+app.get('/user', (req, res) => {
+    const accessToken = req.query.access_token;
+
+    axios.get(SPOTIFY_BASE_URL + `/me`, {
+        headers: {
+            "Authorization": `Bearer ${accessToken}`,
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        }
+    })
+    .then(response => {
         res.json(response.data)
     })
     .catch(err => {

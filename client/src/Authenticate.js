@@ -23,9 +23,8 @@ const Authenticate = (props) => {
       {
         token ? <Home token={token} refreshToken={refreshToken} setT={setToken} setRT={setRefreshToken}/>
         :
-      
       <h2>Loading...</h2>
-}
+    }
       
     </div>
   );

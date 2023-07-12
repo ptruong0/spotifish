@@ -52,14 +52,14 @@ export const refreshToken = (rToken, setToken, setRToken) => {
 }
 
 
-export const getTopTracks = (token, setTopTracks) => {
+export const getTopTracks = async (token, setTopTracks) => {
     let result = [];
     const options = {
         params: {
             access_token: token,
             type: 'tracks',
             time_range: 'medium_term',
-            limit: 50
+            limit: 50,
         },
         headers: {
             "Content-Type": "application/json"
@@ -77,18 +77,21 @@ export const getTopTracks = (token, setTopTracks) => {
             "Content-Type": "application/json"
         },
     };
-    axios.get(BASE_URL + '/top_items', options)
-        .then(res => {
+
+    await axios.get(BASE_URL + '/top_items', options)
+        .then(async res => {
             console.log(res)
             console.log(res.data.items);
             result.push(...res.data.items);
 
-            axios.get(BASE_URL + '/top_items', options2)
+            await axios.get(BASE_URL + '/top_items', options2)
                 .then(res => {
                     console.log(res)
                     console.log(res.data.items);
                     result.push(...res.data.items);
 
+                    setTopTracks(result);
+                    console.log(result);
                 })
                 .catch(err => {
                     console.log(err);
@@ -100,10 +103,6 @@ export const getTopTracks = (token, setTopTracks) => {
             console.log(err);
             // alert('Server error')
         })
-
-
-    setTopTracks(result);
-    console.log(result);
 
 }
 
@@ -156,4 +155,24 @@ export const getArtistTopTracks = (token, artistID, setTracks)  => {
             console.log(err);
             alert('Server error')
         })
+}
+
+export const getUser = async (token, setUser) => {
+    const options = {
+        params: {
+            access_token: token,
+        },
+        headers: {
+            "Content-Type": "application/json"
+        },
+    };
+    await axios.get(BASE_URL + '/user', options)
+    .then(res => {
+        console.log(res.data);
+        setUser(res.data);
+    })
+    .catch(err => {
+        console.log(err);
+        alert('Server error')
+    })
 }

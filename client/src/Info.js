@@ -3,6 +3,7 @@ import './Info.scss';
 import { getArtistTopTracks } from './apiCalls';
 import upArrow from './assets/up-arrow.png';
 import downArrow from './assets/down-arrow.png';
+import closeIcon from './assets/close-icon.png';
 
 import React, { useState, useEffect } from 'react';
 
@@ -21,7 +22,7 @@ const Info = (props) => {
         }
       }
     }
-    return '';
+    return 'N/A';
   }
 
   const findArtistTopTracks = () => {
@@ -50,13 +51,18 @@ const Info = (props) => {
     return result;
   }
 
+  const closeMenu = () => {
+    setExpanded(false);
+    props.closeInfo();
+  }
+
   return (
-    <div className={props.show ? 'transition' : 'hidden'}>
+    <div className={props.show ? 'info-all' : 'hidden'}>
     {props.show && 
     (expanded ?
 
     <div className='info-container expanded-info-container' >
-      <div className='row-between'> 
+      <div className='info-row-between'> 
         <div className='row-start'>
           <p className='artist-rank'>#{props.show && props.info.rank + 1}</p>
           {props.info.images && props.info.images.length > 0 ? 
@@ -71,9 +77,13 @@ const Info = (props) => {
           </div>
 
       </div>
-      <img src={upArrow} onClick={toggle}/> 
-
+      <div class='row-between menu-controls'>
+        <img src={upArrow} onClick={toggle}/> 
+        <span className='gap'></span>
+        <img src={closeIcon} height="40" width="40" onClick={closeMenu}/>
       </div>
+      </div>
+
       <div className='white-box'>
         <div className='row-grid'>
           <div className='col'>
@@ -101,7 +111,7 @@ const Info = (props) => {
     
     :
 <div className='info-container' >
-      <div className='row-between'> 
+      <div className='info-row-between'> 
         <div className='row-start'>
           <p className='artist-rank'>#{props.show && props.info.rank + 1}</p>
           {props.info.images && props.info.images.length > 0 ? 
@@ -117,7 +127,9 @@ const Info = (props) => {
           
       </div>
       <img src={downArrow} onClick={toggle}/> 
+
       </div>
+
       <div>
         
 
@@ -125,6 +137,7 @@ const Info = (props) => {
     </div>
     )
   }
+
   </div>
   
   )

@@ -4,7 +4,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    z-index: 1;
+    z-index: -1;
 }
 
 @keyframes light {
@@ -21,6 +21,21 @@
 
 .light1 {
     animation: 6s ease-in 0s infinite running light;
+}
+
+.bubble-container {
+    overflow: hidden;
+}
+
+.bubble {
+    position: fixed;
+    overflow: hidden;
+    opacity: 20%;
+    z-index: 2;
+    bottom: -20%;
+    border-radius: 50%;
+    border: 3px solid rgba(120, 224, 255, 0.7);
+    background-color: rgb(218, 243, 252);
 }
 
 .light2 {

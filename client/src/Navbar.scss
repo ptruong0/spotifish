@@ -1,6 +1,7 @@
 .navbar {
     width: 100vw;
     height: 10vh;
+    z-index: 5;
 }
 
 .row-between {
@@ -19,6 +20,13 @@
 .log-out-btn {
     background-color: #FF8080;
     padding: 5px 15px;
-    margin: 0 20px;
+    margin: 0 1em;
     border-radius: 20px;
+}
+
+.profile-pic {
+    border-radius: 50%;
+    padding: 0 0.5em;
+    height: 2.5em;
+    width: 2.5em;
 }
