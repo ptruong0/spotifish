@@ -9,26 +9,23 @@ export const login = () => {
         .then()
         .catch(err => {
             console.log(err);
-            alert('Server error')
         })
 }
 
-export const getToken = (code, setToken, setRefreshToken) => {
-    axios.post(
+export const getToken = async (code, setToken, setRefreshToken) => {
+    await axios.post(
             BASE_URL + '/token', {
                 code: code,
                 redirect_uri: 'http://localhost:3000/home'
             }
         )
         .then(res => {
-            console.log(res);
             setToken(res.data.access_token);
             setRefreshToken(res.data.refresh_token);
-
+            return res;
         })
         .catch(err => {
             console.log(err);
-            alert('Server error')
         })
 }
 
@@ -41,13 +38,11 @@ export const refreshToken = (rToken, setToken, setRToken) => {
             }
         )
         .then(res => {
-            console.log(res);
             setToken(res.data.access_token);
             setRToken(res.data.refresh_token);
         })
         .catch(err => {
             console.log(err);
-            alert('Server error')
         })
 }
 
@@ -80,28 +75,21 @@ export const getTopTracks = async (token, setTopTracks) => {
 
     await axios.get(BASE_URL + '/top_items', options)
         .then(async res => {
-            console.log(res)
-            console.log(res.data.items);
             result.push(...res.data.items);
 
             await axios.get(BASE_URL + '/top_items', options2)
                 .then(res => {
-                    console.log(res)
-                    console.log(res.data.items);
                     result.push(...res.data.items);
 
                     setTopTracks(result);
-                    console.log(result);
                 })
                 .catch(err => {
                     console.log(err);
-                    // alert('Server error')
                 })
 
         })
         .catch(err => {
             console.log(err);
-            // alert('Server error')
         })
 
 }
@@ -112,7 +100,7 @@ export const getTopArtists = (token, setTopArtists) => {
             access_token: token,
             type: 'artists',
             time_range: 'medium_term',
-            limit: 20
+            limit: 30
         },
         headers: {
             "Content-Type": "application/json"
@@ -121,13 +109,11 @@ export const getTopArtists = (token, setTopArtists) => {
 
     const artists = axios.get(BASE_URL + '/top_items', options)
         .then(res => {
-            console.log(res.data.items);
             setTopArtists(res.data.items);
             return res.data.items;
         })
         .catch(err => {
             console.log(err);
-            alert('Server error')
         })
     
     return artists;
@@ -147,13 +133,11 @@ export const getArtistTopTracks = (token, artistID, setTracks)  => {
     const n = 5;
     axios.get(BASE_URL + '/artist_top_tracks', options)
         .then(res => {
-            console.log(res.data);
             const result = res.data.tracks.length > n ? res.data.tracks.slice(0, n) : res.data.tracks;
             setTracks(result);
         })
         .catch(err => {
             console.log(err);
-            alert('Server error')
         })
 }
 
@@ -168,11 +152,9 @@ export const getUser = async (token, setUser) => {
     };
     await axios.get(BASE_URL + '/user', options)
     .then(res => {
-        console.log(res.data);
         setUser(res.data);
     })
     .catch(err => {
         console.log(err);
-        alert('Server error')
     })
 }

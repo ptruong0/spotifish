@@ -1,8 +1,8 @@
-import fish1 from './assets/fish1.png';
-import fish2 from './assets/fish2.png';
-import fish3 from './assets/fish3.png';
-import fish4 from './assets/fish4.png';
-import fish5 from './assets/fish5.png';
+import fish1 from '../assets/fish1.png';
+import fish2 from '../assets/fish2.png';
+import fish3 from '../assets/fish3.png';
+import fish4 from '../assets/fish4.png';
+import fish5 from '../assets/fish5.png';
 
 import './Fish.scss';
 
@@ -12,8 +12,8 @@ import styled, { keyframes, css } from 'styled-components';
 const NUM_FISH_SHAPES = 5;
 const NUM_COLORS = 10;
 
-const MIN_SPEED = 16;   // higher is slower
-const MAX_SPEED = 28;
+const MIN_SPEED = 15;   // higher is slower
+const MAX_SPEED = 35;
 const MAX_DELAY = 5;
 
 
@@ -48,6 +48,29 @@ const modToColor = {
   9: 'invert(62%) sepia(44%) saturate(316%) hue-rotate(314deg) brightness(103%) contrast(94%)', 
 }
 
+  // horizontal movement animation
+  var swimRight = keyframes`
+    0% { left: -30%; visibility: visible; }
+    100% { left: 100%; visibility: visible; }
+  `;
+
+  var swimLeft = keyframes`
+    0% { left: 100%; visibility: visible; }
+    100% { left: -30%; visibility: visible; }
+  `;
+
+const FishContainer = styled.div`
+    left: ${props => props.leftPos};
+    top: ${props => props.topPos};
+    animation: ${props => props.speed}s ease-out ${props => props.delay}s infinite running ${props => props.flip > 0 ? swimLeft : swimRight};
+  `;
+
+  const FishImg = styled.img`
+    filter: ${props => props.color};
+    transform: scaleX(${props => props.flip}) translate(${props => -50 * props.flip}%, -50%);
+  `;
+
+
 const Fish = (props) => {
 
   // randomly choose speed
@@ -66,38 +89,19 @@ const Fish = (props) => {
   const leftPos =  Math.floor(Math.random() * 70).toString() + '%';
   const topPos =  Math.floor((Math.random() * 70) + 2).toString() + '%';
 
-  // horizontal movement animation
-  var swimRight = keyframes`
-    0% { left: -20%; visibility: visible; }
-    100% { left: 100%; visibility: visible; }
-  `;
-
-  var swimLeft = keyframes`
-    0% { left: 100%; visibility: visible; }
-    100% { left: -20%; visibility: visible; }
-  `;
-
   const containerCSS = {
     left: leftPos,
     top: topPos
   }
 
-  const FishContainer = styled.div`
-    left: ${leftPos};
-    top: ${topPos};
-    animation: ${speed}s ease-out ${delay}s infinite running ${flip > 0 ? swimLeft : swimRight};
-  `;
-
-  const FishImg = styled.img`
-    filter: ${color};
-    transform: scaleX(${flip}) translate(${-50 * flip}%, -50%);
-  `;
-
   return (
     <div className='outer'>
-    <FishContainer className='fish' style={containerCSS}>
+    <FishContainer className='fish' style={containerCSS} leftPos={leftPos} topPos={topPos} speed={speed} delay={delay} flip={flip}>
       {/* render fish image */}
-      <FishImg className='fish-img' src={imgSrc} onMouseUp={() => {props.clickHandler(props.rank, props.artist)}} />
+      <FishImg className='fish-img' src={imgSrc} 
+        color={color} flip={flip}
+        onMouseUp={() => {props.clickHandler(props.rank, props.artist)}} 
+      />
       
       <p className='fish-text'>{props.artist.name}</p>
     </FishContainer>

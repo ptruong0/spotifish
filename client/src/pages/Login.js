@@ -1,12 +1,10 @@
-import './index.css';
+import '../index.css';
 import './Login.scss';
-import { login } from './apiCalls';
 
-import spotifyLogo from './assets/spotify-logo.png';
+import spotifyLogo from '../assets/spotify-logo.png';
 
-import React from 'react';
-import Foreground from './Foreground';
-import Background from './Background';
+import Foreground from '../ui/Foreground';
+import Background from '../ui/Background';
 
 
 const Login = () => {

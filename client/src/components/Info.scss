@@ -51,6 +51,10 @@ h3 {
 
 .info-text {
     min-height: 75px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
 }
 
 .artist-rank {
@@ -99,4 +103,15 @@ h3 {
 
 .gap {
     margin: 0 0.3em;
+}
+
+.dropdown-arrow {
+    max-height: 1em;
+    max-width: 2em;
+}
+
+
+.close-dropdown-btn {
+    max-height: 2em;
+    max-width: 2em;
 }

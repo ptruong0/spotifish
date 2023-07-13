@@ -1,0 +1,56 @@
+$sidebarColor: #A3A7FF;
+
+.sidebar {
+  width: 16vw;
+  height: 86vh;
+  border-radius: 2em;
+  z-index: 5;
+  background-color: $sidebarColor;
+  position: absolute;
+  right: 15px;
+  padding: 0em 2em 0.5em 3em;
+  animation: fadeIn 0.5s ease-in;
+  overflow: scroll;
+}
+
+.close-sidebar-btn {
+  position: absolute;
+  top: 1.3em;
+  right: 0.3em;
+  width: 2em;
+  height: 2em;
+}
+
+.sidebar-title {
+  color: white;
+}
+
+.sidebar-row-text {
+  color: white;
+  font-size: 1.2em;
+}
+
+/* custom scrollbar */
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a8bbbf;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+
+  }

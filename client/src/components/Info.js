@@ -1,9 +1,9 @@
 
 import './Info.scss';
-import { getArtistTopTracks } from './apiCalls';
-import upArrow from './assets/up-arrow.png';
-import downArrow from './assets/down-arrow.png';
-import closeIcon from './assets/close-icon.png';
+import { getArtistTopTracks } from '../utils/apiCalls';
+import upArrow from '../assets/up-arrow.png';
+import downArrow from '../assets/down-arrow.png';
+import closeIcon from '../assets/close-icon.png';
 
 import React, { useState, useEffect } from 'react';
 
@@ -56,6 +56,8 @@ const Info = (props) => {
     props.closeInfo();
   }
 
+  const topSong = props.info && findTopTrackOfArtist(props.info.id)
+
   return (
     <div className={props.show ? 'info-all' : 'hidden'}>
     {props.show && 
@@ -73,14 +75,14 @@ const Info = (props) => {
           }
           <div className='info-text'>
             <p className='artist-name'>{props.show && props.info.name}</p>
-            <p className='song-name'>{props.show && `Your Top Song: ${findTopTrackOfArtist(props.info.id)}`}</p>
+            {topSong !== 'N/A' && <p className='song-name'>{props.show && `Your Top Song: ${topSong}`}</p>}
           </div>
 
       </div>
       <div class='row-between menu-controls'>
-        <img src={upArrow} onClick={toggle}/> 
+        <img src={upArrow} className='dropdown-arrow' onClick={toggle}/> 
         <span className='gap'></span>
-        <img src={closeIcon} height="40" width="40" onClick={closeMenu}/>
+        <img src={closeIcon} className='close-dropdown-btn' onClick={closeMenu}/>
       </div>
       </div>
 
@@ -126,7 +128,7 @@ const Info = (props) => {
           </div>
           
       </div>
-      <img src={downArrow} onClick={toggle}/> 
+      <img src={downArrow} className='dropdown-arrow' onClick={toggle}/> 
 
       </div>
 

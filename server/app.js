@@ -37,6 +37,9 @@ app.use(express.json())
 app.use(cors());
 
 
+/**
+ * Request to login to Spotify, returns redirect to Spotify login page
+ */
 app.get('/login', function(req, res) {
 
     var state = generateRandomString(16);
@@ -54,11 +57,13 @@ app.get('/login', function(req, res) {
         }));
 });
 
+/**
+ * Get access and refresh tokens
+ */
 app.get('/callback', function(req, res) {
 
     // your application requests refresh and access tokens
     // after checking the state parameter
-
     var code = req.query.code || null;
     var state = req.query.state || null;
     var storedState = req.cookies ? req.cookies[stateKey] : null;
@@ -115,6 +120,10 @@ app.get('/callback', function(req, res) {
     }
 });
 
+
+/**
+ * Given a refresh token, request another access token to replace an expired one 
+ */
 app.get('/refresh_token', function(req, res) {
 
     // requesting access token from refresh token
@@ -141,7 +150,11 @@ app.get('/refresh_token', function(req, res) {
     });
 });
 
+/**
+ * Request an access token
+ */
 app.post('/token', (req, res) => {
+    console.log(req.body.code)
     axios.post('https://accounts.spotify.com/api/token', null, {
             params: {
                 code: req.body.code,
@@ -164,6 +177,9 @@ app.post('/token', (req, res) => {
         })
 })
 
+/**
+ * Get the current user's top items (tracks or artists specified in query type)
+ */
 app.get('/top_items', (req, res) => {
     const accessToken = req.query.access_token;
     const type = req.query.type; // tracks or artists
@@ -197,6 +213,9 @@ app.get('/top_items', (req, res) => {
         })
 })
 
+/**
+ * Get an artist's top n tracks, given the artist ID
+ */
 app.get('/artist_top_tracks', (req, res) => {
     const accessToken = req.query.access_token;
     const market = req.query.market;
@@ -225,6 +244,9 @@ app.get('/artist_top_tracks', (req, res) => {
     })
 })
 
+/**
+ * Get information about the currently logged in user
+ */
 app.get('/user', (req, res) => {
     const accessToken = req.query.access_token;
 

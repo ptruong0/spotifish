@@ -11,7 +11,7 @@ const Navbar = (props) => {
           {props.user && props.user["images"].length > 0 && 
           <img src={props.user["images"][0]["url"]} className='profile-pic'
           />}
-          <p>{props.user && props.user["display_name"]}</p>
+          <p className='display-name'>{props.user && props.user["display_name"]}</p>
           <a className='log-out-btn'>Log Out</a>
         </div>
       </div>
