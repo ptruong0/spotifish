@@ -23,9 +23,9 @@ h3 {
 
 .info-container {
     position: fixed;
-    bottom: 30px;
+    bottom: 1.5em;
     left: 50%;
-    transform: translate(-50%, -10%);
+    transform: translate(-50%, -1.5em);
     min-width: 50vw;
     max-width: 80vw;
     border-radius: 25px;
@@ -74,18 +74,36 @@ h3 {
     visibility: hidden;
 }
 
+@keyframes menuExpand {
+    0% {
+        transform: scaleY(0);
+        height: 0;
+        opacity: 0%;
+    }
+    80% {
+        transform: scaleY(1);
+        height: 100px;
+        opacity: 0%;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+
 .white-box {
     background-color: white;
-    min-height: 100px;
-    margin: 20px;
+    margin: 0 20px 20px 20px;
     border-radius: 20px;
+    animation: menuExpand 0.3s ease-out;
 }
 
 .green-text {
     color: #31C598;
 }
 
-.expanded-info-container {}
+.expanded-info-container {
+    // animation: expand 2s ease-in;
+}
 
 .row-grid {
     display: grid;
@@ -102,7 +120,7 @@ h3 {
 }
 
 .gap {
-    margin: 0 0.3em;
+    margin: 0 0.4em;
 }
 
 .dropdown-arrow {
@@ -114,4 +132,10 @@ h3 {
 .close-dropdown-btn {
     max-height: 2em;
     max-width: 2em;
+}
+
+.new-tab-btn {
+    max-width: 1em;
+    max-height: 1em;
+    margin: 0 0.5em;
 }

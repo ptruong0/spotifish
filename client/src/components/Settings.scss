@@ -1,0 +1,43 @@
+$settingColor: #F5B586;
+
+.settings {
+  min-width: 16vw;
+  height: 30vh;
+  border-radius: 2em;
+  z-index: 5;
+  background-color: $settingColor;
+  position: absolute;
+  left: 1em;
+  bottom: 1.4em;
+  padding: 0.5em 2em;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.close-settings-btn {
+  position: absolute;
+  top: 2em;
+  right: 1.5em;
+  width: 2em;
+  height: 2em;
+}
+
+.settings-title {
+  color: white;
+}
+
+.setting-label {
+  color: white;
+  font-size: 1.2em;
+  padding-right: 1.5em;
+}
+
+.Dropdown-control {
+  border-radius: 0.5em;
+}
+
+select {
+  border: 1px solid white;
+  border-radius: 0.3em;
+  padding: 0.1em 0.3em;
+  font-size: 1.1em;
+}

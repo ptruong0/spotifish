@@ -47,13 +47,13 @@ export const refreshToken = (rToken, setToken, setRToken) => {
 }
 
 
-export const getTopTracks = async (token, setTopTracks) => {
+export const getTopTracks = async (token, timeRange, setTopTracks) => {
     let result = [];
     const options = {
         params: {
             access_token: token,
             type: 'tracks',
-            time_range: 'medium_term',
+            time_range: timeRange,
             limit: 50,
         },
         headers: {
@@ -64,7 +64,7 @@ export const getTopTracks = async (token, setTopTracks) => {
         params: {
             access_token: token,
             type: 'tracks',
-            time_range: 'medium_term',
+            time_range: timeRange,
             limit: 50,
             offset: 50
         },
@@ -94,13 +94,13 @@ export const getTopTracks = async (token, setTopTracks) => {
 
 }
 
-export const getTopArtists = (token, setTopArtists) => {
+export const getTopArtists = (token, numArtists, timeRange, setTopArtists) => {
     const options = {
         params: {
             access_token: token,
             type: 'artists',
-            time_range: 'medium_term',
-            limit: 30
+            time_range: timeRange,
+            limit: numArtists
         },
         headers: {
             "Content-Type": "application/json"

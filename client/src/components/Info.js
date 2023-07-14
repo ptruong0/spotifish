@@ -4,6 +4,7 @@ import { getArtistTopTracks } from '../utils/apiCalls';
 import upArrow from '../assets/up-arrow.png';
 import downArrow from '../assets/down-arrow.png';
 import closeIcon from '../assets/close-icon.png';
+import newTabIcon from '../assets/new-tab-icon.png';
 
 import React, { useState, useEffect } from 'react';
 
@@ -66,7 +67,7 @@ const Info = (props) => {
     <div className='info-container expanded-info-container' >
       <div className='info-row-between'> 
         <div className='row-start'>
-          <p className='artist-rank'>#{props.show && props.info.rank + 1}</p>
+          <p className='artist-rank'>#{props.info.rank + 1}</p>
           {props.info.images && props.info.images.length > 0 ? 
           <img className='artist-pic' src={props.info.images[props.info.images.length - 1].url} width='65' height='65'/>
           
@@ -74,7 +75,13 @@ const Info = (props) => {
           <div style={{width: '65px', height: '65px', borderRadius: '50%', backgroundColor: 'white'}}></div>
           }
           <div className='info-text'>
-            <p className='artist-name'>{props.show && props.info.name}</p>
+            <span className='row-between'>
+              <p className='artist-name'>{props.show && props.info.name} </p>  
+              <a href={props.info.external_urls.spotify} target="_blank">
+                <img src={newTabIcon} className='new-tab-btn' /> 
+               </a>            
+            </span>
+           
             {topSong !== 'N/A' && <p className='song-name'>{props.show && `Your Top Song: ${topSong}`}</p>}
           </div>
 
@@ -89,7 +96,7 @@ const Info = (props) => {
       <div className='white-box'>
         <div className='row-grid'>
           <div className='col'>
-            <h3 className='green-text'>Genre</h3>
+            <h3 className='green-text'>Genres</h3>
             <p className='green-text'>{arrayToString(props.info.genres)}</p>
             <br />
             <h3 className='green-text'>Popularity</h3>
@@ -124,7 +131,7 @@ const Info = (props) => {
           }
           <div className='info-text'>
             <p className='artist-name'>{props.show && props.info.name}</p>
-            <p className='song-name'>{props.show && `Your Top Song: ${findTopTrackOfArtist(props.info.id)}`}</p>
+            {topSong !== 'N/A' && <p className='song-name'>{props.show && `Your Top Song: ${topSong}`}</p>}
           </div>
           
       </div>

@@ -18,7 +18,12 @@ const Foreground = (props) => {
   const clickClam = () => {
     if (props.toggleSidebar) {
       props.toggleSidebar();
-      console.log('hhh')
+    }
+  }
+
+  const clickSeashell = () => {
+    if (props.toggleSettings) {
+      props.toggleSettings();
     }
   }
 
@@ -26,7 +31,7 @@ const Foreground = (props) => {
     <div>
       <img className='kelp' src={kelp} />
 
-      <div className='seashell-container' onMouseOver={() => wiggle('seashell-container')}>
+      <div className='seashell-container' onMouseOver={() => wiggle('seashell-container')} onClick={clickSeashell}>
         <img className='seashell' src={seashell} />
         {
           props.allowMenus && 
