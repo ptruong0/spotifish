@@ -11,10 +11,10 @@ $spotify-green: #1ED660;
   align-items: center;
 }
 
-
 .loading-text {
   color: white;
   z-index: 3;
+
 }
 
 .link {
@@ -23,4 +23,8 @@ $spotify-green: #1ED660;
   color: white;
   text-decoration: none;
   padding: 4px 12px 6px 12px;
+}
+
+.try-again-text {
+  transition: opacity 2s ease-in-out;
 }

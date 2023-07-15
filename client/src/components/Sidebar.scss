@@ -10,12 +10,13 @@ $sidebarColor: #A3A7FF;
   right: 15px;
   padding: 0em 1em 0.5em 3em;
   animation: fadeIn 0.5s ease-in;
+  overflow: hidden;
 }
 
 .close-sidebar-btn {
   position: absolute;
   top: 1.5em;
-  right: 1em;
+  right: 1.2em;
   width: 2em;
   height: 2em;
 }

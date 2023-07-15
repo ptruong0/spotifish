@@ -10,10 +10,10 @@ import './Home.scss';
 import Fish from '../components/Fish';
 import Sidebar from '../components/Sidebar';
 import Settings from '../components/Settings';
+import { DEFAULT_OPTIONS } from '../constants/settings';
+import { getThemeTextColor } from '../constants/colorThemes';
 
 
-const DEFAULT_NUMFISH = 30;
-const DEFAULT_TIMERANGE = 'medium_term'
 
 const Home = (props) => {
   const [topArtists, setTopArtists] = useState(null);
@@ -26,8 +26,9 @@ const Home = (props) => {
   const [info, setInfo] = useState(null);
   const [user, setUser] = useState(null);
 
-  const [numFish, setNumFish] = useState(DEFAULT_NUMFISH);
-  const [timeRange, setTimeRange] = useState(DEFAULT_TIMERANGE);
+  const [numFish, setNumFish] = useState(DEFAULT_OPTIONS.numFish);
+  const [timeRange, setTimeRange] = useState(DEFAULT_OPTIONS.timeRange);
+  const [theme, setTheme] = useState(DEFAULT_OPTIONS.theme);
 
 
   const getTopAll = () => {
@@ -58,17 +59,18 @@ const Home = (props) => {
     setShowSettings(!showSettings)
   }
 
-  useEffect(() => { console.log(showSidebar) }, [showSidebar])
+  // useEffect(() => { console.log(theme) }, [theme])
 
   const fishes = React.useMemo(() => {
+    console.log(getThemeTextColor(theme))
     return (<div className='fish-container'>
       {
         topArtists &&
         (topArtists.map((artist, index) => {
-          return <Fish artist={artist} rank={index} numFish={numFish} clickHandler={toggleInfo} />;
+          return <Fish artist={artist} rank={index} numFish={numFish} theme={theme} clickHandler={toggleInfo}/>;
         }))
       }</div>)
-  }, [topArtists])
+  }, [topArtists, theme])
 
   return (
     <div className='home-page'>
@@ -94,6 +96,7 @@ const Home = (props) => {
               <Settings toggleSettings={toggleSettings} 
               numFish={numFish} setNumFish={setNumFish}
               timeRange={timeRange} setTimeRange={setTimeRange}
+              theme={theme} setTheme={setTheme}
                />
             }
 

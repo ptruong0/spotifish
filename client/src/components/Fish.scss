@@ -23,7 +23,7 @@
     min-height: 200px;
     max-height: 300px;
     z-index: 2;
-    // animation: 10s ease-in 0s infinite running swim;
+    filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.1));
 }
 
 .fish-img {
@@ -33,11 +33,10 @@
     transform: translate(-50%, -50%);
     max-width: 100%;
     max-height: 100%;
-    // filter: opacity(0.5) drop-shadow(0 0 0 blue) saturate(1000%);
 }
 
 .fish-text {
-    color: white;
+    // color: white;
     position: absolute;
     top: 50%;
     left: 50%;

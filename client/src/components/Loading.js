@@ -9,7 +9,7 @@ const Loading = () => {
     <Foreground />
     <div className='loading-container'>
       <h1 className='loading-text'>Loading...</h1>
-      <p className='loading-text'>If not loading, <a href="http://localhost:5000/login" className='link'>log in</a> again</p>
+      <p className='loading-text try-again-text'>If not loading, <a href="http://localhost:5000/login" className='link'>log in</a> again</p>
     </div>
 </div>
   );

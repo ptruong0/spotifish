@@ -1,20 +1,14 @@
 import './Settings.scss'
 import closeIcon from '../assets/close-icon.png'
-import { CDropdown, CDropdownToggle, CDropdownMenu, CDropdownItem } from '@coreui/react';
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
+import { NUM_FISH_OPTIONS, TIME_RANGE_OPTIONS } from '../constants/settings';
+import { THEME_OPTIONS } from '../constants/colorThemes';
 
-const numFishOptions = [
-  10, 20, 30, 50
-];
-
-const termOptions = {
-  'short_term': 'Past Month',
-  'medium_term': 'Past 6 Months',
-  'long_term': 'Past Years'
-}
 
 const Settings = (props) => {
+
+  /**
+   * form change handlers
+   */
   const onNumFishSelect = () => {
     const option = parseInt(document.querySelector('#num-fish').value)
     props.setNumFish(option)
@@ -23,6 +17,11 @@ const Settings = (props) => {
   const onTermSelect = () => {
     const option = document.querySelector('#term').value
     props.setTimeRange(option)
+  }
+
+  const onThemeSelect = () => {
+    const option = document.querySelector('#theme').value
+    props.setTheme(option)
   }
 
   return (
@@ -34,7 +33,7 @@ const Settings = (props) => {
         <div className='row-between'>
           <p class='setting-label'>Number of Fish</p>
           <select id='num-fish' value={props.numFish} onChange={onNumFishSelect}>
-            {numFishOptions.map((opt) => {
+            {NUM_FISH_OPTIONS.map((opt) => {
               return <option value={opt}>{opt}</option>
             })}
           </select>
@@ -46,7 +45,7 @@ const Settings = (props) => {
         <div className='row-between'>
           <p class='setting-label'>Time Range</p>
           <select id='term' value={props.timeRange} onChange={onTermSelect}>
-            {Object.entries(termOptions).map(([opt, optName]) => {
+            {Object.entries(TIME_RANGE_OPTIONS).map(([opt, optName]) => {
               return <option value={opt}>{optName}</option>
             })}
           </select>
@@ -57,8 +56,10 @@ const Settings = (props) => {
         {/* color scheme */}
         <div className='row-between'>
           <p class='setting-label'>Color Palette</p>
-          <select id='theme' defaultValue='Default'>
-            <option value="Default">Default</option>
+          <select id='theme' value={props.theme} onChange={onThemeSelect}>
+            {THEME_OPTIONS.map((opt) => {
+              return <option value={opt}>{opt}</option>
+            })}
           </select>
         </div>
 

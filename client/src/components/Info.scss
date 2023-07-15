@@ -68,6 +68,12 @@ h3 {
 
 .artist-pic {
     border-radius: 50%;
+    width: 65px;
+    height: 65px;
+}
+
+.empty-pic {
+    background-color: white;
 }
 
 .hidden {
@@ -80,29 +86,26 @@ h3 {
         height: 0;
         opacity: 0%;
     }
-    80% {
-        transform: scaleY(1);
-        height: 100px;
-        opacity: 0%;
+    60% {
+        opacity: 20%;
     }
     100% {
+        height: 100px;
+        transform: scaleY(1);
         opacity: 100%;
     }
 }
+
 
 .white-box {
     background-color: white;
     margin: 0 20px 20px 20px;
     border-radius: 20px;
-    animation: menuExpand 0.3s ease-out;
+    animation: menuExpand 0.1s ease-in-out;
 }
 
 .green-text {
     color: #31C598;
-}
-
-.expanded-info-container {
-    // animation: expand 2s ease-in;
 }
 
 .row-grid {
@@ -137,5 +140,6 @@ h3 {
 .new-tab-btn {
     max-width: 1em;
     max-height: 1em;
-    margin: 0 0.5em;
+    margin: 0.5em 0.5em 0em 0.5em;
+    text-align: center;
 }
