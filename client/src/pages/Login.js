@@ -17,7 +17,11 @@ const Login = () => {
 
       <div className='container'>
         
+        <div className='text-container'>
         <h1 className='header'>Spotifish</h1>
+        <h2 className='subtext'>Dive right in!</h2>
+        </div>
+        
         <a className='login-btn' href='http://localhost:5000/login'>
           <span className='row-around'>
             <p className='login-text'>Log in with Spotify</p>

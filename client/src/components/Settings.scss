@@ -1,8 +1,17 @@
 $settingColor: #F5B586;
 
+
+@keyframes expandSettings {
+  0% {
+    height: 0;
+  } 100% {
+    height: 30vh;
+  }
+}
+
 .settings {
-  min-width: 16vw;
-  height: 30vh;
+  min-width: 20vw;
+  height: 28vh;
   border-radius: 2em;
   z-index: 5;
   background-color: $settingColor;
@@ -10,7 +19,10 @@ $settingColor: #F5B586;
   left: 1em;
   bottom: 1.4em;
   padding: 0.5em 2em;
-  animation: fadeIn 0.5s ease-in;
+  overflow: hidden;
+  // animation: fadeIn 0.5s ease-in;
+  animation: expandSettings 0.3s ease-in;
+
 }
 
 .close-settings-btn {

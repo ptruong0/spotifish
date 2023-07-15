@@ -39,6 +39,55 @@ export const THEMES = {
 
     ],
     textColor: '#000000'
+  },
+  'spongebob': {
+    colors: [ 
+      // fff31d
+      'invert(91%) sepia(40%) saturate(1478%) hue-rotate(334deg) brightness(105%) contrast(108%)',
+      // fe9285
+      'invert(54%) sepia(73%) saturate(419%) hue-rotate(315deg) brightness(115%) contrast(106%)',
+      // b8dfd1
+      'invert(100%) sepia(51%) saturate(624%) hue-rotate(77deg) brightness(92%) contrast(88%)',
+      // f94a45
+      'invert(47%) sepia(67%) saturate(6031%) hue-rotate(340deg) brightness(113%) contrast(96%)',
+      // #ad7d4b
+      'invert(50%) sepia(44%) saturate(448%) hue-rotate(350deg) brightness(95%) contrast(95%)'
+    ],
+    textColor: '#000000'
+  },
+  'pastel': {
+    colors: [
+      // ffadad
+      'invert(100%) sepia(84%) saturate(6021%) hue-rotate(290deg) brightness(99%) contrast(104%)',
+      // ffd6a5
+      'invert(87%) sepia(51%) saturate(4834%) hue-rotate(296deg) brightness(108%) contrast(103%)',
+      // fdffb6
+      'invert(90%) sepia(27%) saturate(392%) hue-rotate(14deg) brightness(104%) contrast(107%)',
+      // caffbf
+      'invert(95%) sepia(6%) saturate(1673%) hue-rotate(52deg) brightness(99%) contrast(106%)',
+      // 9bf6ff
+      'invert(84%) sepia(37%) saturate(547%) hue-rotate(156deg) brightness(103%) contrast(102%)',
+      // a0c4ff
+      'invert(83%) sepia(14%) saturate(7287%) hue-rotate(186deg) brightness(105%) contrast(103%)',
+      // bdb2ff
+      'invert(68%) sepia(12%) saturate(5375%) hue-rotate(204deg) brightness(112%) contrast(109%)'
+    ], 
+    textColor: '#000000'
+  },
+  'vintage': {
+    colors: [ 
+      // cb997e
+      'invert(68%) sepia(9%) saturate(1374%) hue-rotate(337deg) brightness(96%) contrast(82%)',
+      // ddbea9
+      'invert(80%) sepia(13%) saturate(506%) hue-rotate(341deg) brightness(97%) contrast(88%)',
+      // ffe8d6
+      'invert(99%) sepia(27%) saturate(1989%) hue-rotate(296deg) brightness(104%) contrast(102%)',
+      // b7b7a4
+      'invert(92%) sepia(9%) saturate(411%) hue-rotate(22deg) brightness(81%) contrast(84%)',
+      // a5a58d
+      'invert(70%) sepia(19%) saturate(263%) hue-rotate(22deg) brightness(91%) contrast(86%)'
+    ],
+    textColor: '#301f0d'
   }
 }
 // filter code generated through https://codepen.io/sosuke/pen/Pjoqqp

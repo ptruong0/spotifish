@@ -1,15 +1,24 @@
 $sidebarColor: #A3A7FF;
 
+
+@keyframes expandSidebar {
+  0% {
+    height: 0;
+  } 100% {
+    height: 87vh;
+  }
+}
 .sidebar {
-  width: 16vw;
+  min-width: 20vw;
   height: 87vh;
   border-radius: 2em;
   z-index: 5;
   background-color: $sidebarColor;
   position: absolute;
-  right: 15px;
+  right: 1em;
+  bottom: 1.4em;
   padding: 0em 1em 0.5em 3em;
-  animation: fadeIn 0.5s ease-in;
+  animation: expandSidebar 0.3s ease-in;
   overflow: hidden;
 }
 
@@ -21,14 +30,28 @@ $sidebarColor: #A3A7FF;
   height: 2em;
 }
 
-.top-artist-list {
-  height: 90%;
-  overflow: scroll;
+.tab-group {
+  display: flex;
+  justify-content: space-between;
+  margin: 3em 3em 1.5em 0;
+}
 
+.sidebar-tab {
+  font-size: 1.5em;
+  cursor: pointer;
+  background: none;
+  color: white;
+  outline: 0;
+}
+
+.top-artist-list {
+  height: 85%;
+  overflow: scroll;
 }
 
 .sidebar-title {
   color: white;
+  margin-bottom: 0.5em;
 }
 
 .sidebar-row-text {

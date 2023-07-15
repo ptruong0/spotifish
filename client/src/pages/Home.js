@@ -62,12 +62,17 @@ const Home = (props) => {
   // useEffect(() => { console.log(theme) }, [theme])
 
   const fishes = React.useMemo(() => {
-    console.log(getThemeTextColor(theme))
     return (<div className='fish-container'>
       {
         topArtists &&
         (topArtists.map((artist, index) => {
-          return <Fish artist={artist} rank={index} numFish={numFish} theme={theme} clickHandler={toggleInfo}/>;
+          return <Fish
+            artist={artist}
+            rank={index}
+            numFish={numFish}
+            theme={theme}
+            clickHandler={toggleInfo}
+          />;
         }))
       }</div>)
   }, [topArtists, theme])
@@ -75,37 +80,48 @@ const Home = (props) => {
   return (
     <div className='home-page'>
 
-          <span>
-            {/* ocean assets (water + bubbles) */}
-            <Background />
-            {/* ocean floor assets (shells, sand, etc) */}
-            <Foreground allowMenus={true} toggleSidebar={toggleSidebar} toggleSettings={toggleSettings}/>
+      <span>
+        {/* ocean assets (water + bubbles) */}
+        <Background />
+        {/* ocean floor assets (shells, sand, etc) */}
+        <Foreground allowMenus={true} toggleSidebar={toggleSidebar} toggleSettings={toggleSettings} />
 
-            <div className='main-container'>
-              <Navbar user={user} />
-              {/* <button onClick={() => refreshToken(props.refreshToken, props.setT, props.setRT)}>Refresh</button> */}
+        <div className='main-container'>
+          <Navbar user={user} />
 
-              {fishes}
+          {fishes}
 
-              <Info info={info} show={showInfo} tracks={topTracks} closeInfo={closeInfo} {...props} />
+          <Info
+            info={info}
+            show={showInfo}
+            tracks={topTracks}
+            closeInfo={closeInfo}
+            {...props} 
+          />
 
-            </div>
+        </div>
 
-            {
-              showSettings && 
-              <Settings toggleSettings={toggleSettings} 
-              numFish={numFish} setNumFish={setNumFish}
-              timeRange={timeRange} setTimeRange={setTimeRange}
-              theme={theme} setTheme={setTheme}
-               />
-            }
+        {
+          showSettings &&
+          <Settings
+            toggleSettings={toggleSettings}
+            numFish={numFish} setNumFish={setNumFish}
+            timeRange={timeRange} setTimeRange={setTimeRange}
+            theme={theme} setTheme={setTheme}
+          />
+        }
 
-            {
-              showSidebar && 
-              <Sidebar toggleSidebar={toggleSidebar} topArtists={topArtists} toggleInfo={toggleInfo}/>
-            }
-            
-          </span>
+        {
+          showSidebar &&
+          <Sidebar
+            toggleSidebar={toggleSidebar}
+            topArtists={topArtists}
+            topTracks={topTracks}
+            toggleInfo={toggleInfo}
+          />
+        }
+
+      </span>
     </div>
   );
 }

@@ -45,7 +45,7 @@ const Foreground = (props) => {
         <img className='clam' src={clam} />
         {
           props.allowMenus && 
-          <h2 className='clam-text'>Top Artists</h2>
+          <h2 className='clam-text'>Rankings</h2>
         }
       </div>
     </div>

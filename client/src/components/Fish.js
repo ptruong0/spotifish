@@ -36,8 +36,7 @@ const Fish = (props) => {
   const numColors = getNumThemeColors(props.theme);
   const color = modToColor(props.rank % numColors, props.theme);
   const textColor = getThemeTextColor(props.theme);
-  console.log(textColor)
-
+  
 
   return (
     <div className='outer'>

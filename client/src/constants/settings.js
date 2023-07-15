@@ -1,5 +1,5 @@
 export const DEFAULT_OPTIONS = {
-  numFish: 30,
+  numFish: 20,
   timeRange: 'medium_term',
   theme: 'classic'
 }

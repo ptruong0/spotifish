@@ -87,12 +87,12 @@ const Info = (props) => {
               {
                 expanded ?
                 <div class='row-between menu-controls'>
-                <img src={upArrow} className='dropdown-arrow' onClick={expandMenu} />
+                <img src={downArrow} className='dropdown-arrow' onClick={expandMenu} />
                     <span className='gap'></span>
                     <img src={closeIcon} className='close-dropdown-btn' onClick={closeMenu} />
                   </div>
                   :
-                  <img src={downArrow} className='dropdown-arrow' onClick={expandMenu} />
+                  <img src={upArrow} className='dropdown-arrow' onClick={expandMenu} />
               }
           </div>
 
