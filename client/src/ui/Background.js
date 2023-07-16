@@ -40,8 +40,8 @@ const Background = () => {
     <span>
       {/* ocean graphics */}
       <img className='background' src={oceanBG} />
-      <img className='bg-mid' src={bgMid}/>
-      <img className='bg-bottom' src={bgBottom}/>
+      <img className='background bg-mid' src={bgMid}/>
+      <img className='background bg-bottom' src={bgBottom}/>
 
       {/* sun ray graphics */}
       <img className='background light1' src={light1} />

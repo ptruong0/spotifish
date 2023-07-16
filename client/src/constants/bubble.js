@@ -2,7 +2,7 @@ import styled, { css, keyframes } from 'styled-components';
 
 
 export const BUBBLE_SETTINGS = {
-  numBubbles: 30,
+  numBubbles: 20,
   minSize: 20,
   maxSize: 70,
   minSpeed: 12,
@@ -16,19 +16,20 @@ export const floatUp = keyframes`
   100% { bottom: 120%; }
   `;
 
-export const Bubble = styled.span`
-  left: ${props => props.leftPos};
-  height: ${props => props.size};
-  width: ${props => props.size};
-  animation: ${props => props.animation};
-`;
+// export const Bubble = styled.span`
+//   left: ${props => props.leftPos};
+//   height: ${props => props.size};
+//   width: ${props => props.size};
+//   animation: ${props => props.animation};
+// `;
 
-// export const Bubble = styled.span.attrs(props => ({
-//   style: {
-//     left: props.leftPos,
-//     height: props.size,
-//     width: props.size,
+export const Bubble = styled.span.attrs(props => ({
+  style: {
+    left: props.leftPos,
+    height: props.size,
+    width: props.size,
     
-//     animation: props.animation
-//   }
-// }))``
+    animationDuration: `${props.speed}s`,
+    animationDelay: `${props.delays}`
+  }
+}))``;

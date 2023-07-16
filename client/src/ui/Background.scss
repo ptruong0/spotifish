@@ -12,9 +12,11 @@
     0% {
         top: 0;
     }
+
     50% {
         top: 3%;
     }
+
     100% {
         top: 0;
     }
@@ -44,9 +46,11 @@
     0% {
         opacity: 100%;
     }
+
     50% {
         opacity: 20%;
     }
+
     100% {
         opacity: 100%;
     }
@@ -60,6 +64,16 @@
     overflow: hidden;
 }
 
+
+@keyframes floatUp {
+    0% {
+        bottom: -20%;
+    }
+    100% {
+        bottom: 120%;
+    }
+}
+
 .bubble {
     position: fixed;
     overflow: hidden;
@@ -69,6 +83,9 @@
     border-radius: 50%;
     border: 3px solid rgba(120, 224, 255, 0.7);
     background-color: rgb(218, 243, 252);
+    animation-name: floatUp;
+    animation-timing-function: ease-out;
+    animation-iteration-count: infinite;
 }
 
 .light2 {
