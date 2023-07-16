@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { getTopTracks, getTopArtists, getUser } from '../utils/apiCalls';
+import { getTopTracks, getTopArtists, getUser, getArtist } from '../utils/apiCalls';
+import { toggleMenu } from '../utils/functions';
 import Foreground from '../ui/Foreground';
 import Background from '../ui/Background';
 import Navbar from '../ui/Navbar';
@@ -10,25 +11,31 @@ import './Home.scss';
 import Fish from '../components/Fish';
 import Sidebar from '../components/Sidebar';
 import Settings from '../components/Settings';
-import { DEFAULT_OPTIONS } from '../constants/settings';
-import { getThemeTextColor } from '../constants/colorThemes';
+import { DEFAULT_OPTIONS, DEFAULT_SHOW, MOBILE_WIDTH, RESOLUTIONS, TABLET_WIDTH } from '../constants/settings';
 
 
 
 const Home = (props) => {
+  // main data
   const [topArtists, setTopArtists] = useState(null);
   const [topTracks, setTopTracks] = useState(null);
 
-  const [showInfo, setShowInfo] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
+  // toggles for menus
+  const [show, setShow] = useState(DEFAULT_SHOW)
 
+  // info component
   const [info, setInfo] = useState(null);
+
+  // user name and pic
   const [user, setUser] = useState(null);
 
+  // settings
   const [numFish, setNumFish] = useState(DEFAULT_OPTIONS.numFish);
   const [timeRange, setTimeRange] = useState(DEFAULT_OPTIONS.timeRange);
   const [theme, setTheme] = useState(DEFAULT_OPTIONS.theme);
+
+  // const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [resolution, setResolution] = useState(window.innerWidth < MOBILE_WIDTH ? RESOLUTIONS.mobile : (window.innerWidth < TABLET_WIDTH ? RESOLUTIONS.tablet : RESOLUTIONS.desktop));
 
 
   const getTopAll = () => {
@@ -39,27 +46,55 @@ const Home = (props) => {
 
   useEffect(getTopAll, [numFish, timeRange])
 
-  const toggleInfo = (rank, artistInfo) => {
+  const openInfo = (rank, artistInfo) => {
     artistInfo['rank'] = rank;
 
-    setInfo(artistInfo);
+    if (artistInfo['name'] == null) {
+      getArtist(props.token, artistInfo['id'], setInfo)
+    } else {
+      setInfo(artistInfo);
+    }
 
-    setShowInfo(true);
+    toggle('info');
   }
 
-  const closeInfo = () => {
-    setShowInfo(false);
+  const toggle = (component) => {
+    toggleMenu(component, show[component], resolution, setShow)
   }
 
-  const toggleSidebar = () => {
-    setShowSidebar(!showSidebar)
+  const handleWindowSizeChange = () => {
+    if (window.innerWidth < MOBILE_WIDTH) {
+      if (resolution !== RESOLUTIONS.mobile) {
+        setResolution(RESOLUTIONS.mobile);
+      }
+    } else if (window.innerWidth < TABLET_WIDTH) {
+      if (resolution !== RESOLUTIONS.tablet) {
+        setResolution(RESOLUTIONS.tablet);
+      }
+    } else {
+      if (resolution !== RESOLUTIONS.desktop) {
+        setResolution(RESOLUTIONS.desktop);
+      }
+    }
   }
 
-  const toggleSettings = () => {
-    setShowSettings(!showSettings)
-  }
+  useEffect(() => {
+      window.addEventListener('resize', handleWindowSizeChange);
+      return () => {
+          window.removeEventListener('resize', handleWindowSizeChange);
+      }
+  }, []);
 
-  // useEffect(() => { console.log(theme) }, [theme])
+  useEffect(() => {
+    if (resolution === RESOLUTIONS.mobile) {
+      setShow({
+        info: false,
+        sidebar: false,
+        settings: false
+      });
+    }
+  }, [resolution])
+
 
   const fishes = React.useMemo(() => {
     return (<div className='fish-container'>
@@ -71,7 +106,7 @@ const Home = (props) => {
             rank={index}
             numFish={numFish}
             theme={theme}
-            clickHandler={toggleInfo}
+            clickHandler={openInfo}
           />;
         }))
       }</div>)
@@ -84,7 +119,7 @@ const Home = (props) => {
         {/* ocean assets (water + bubbles) */}
         <Background />
         {/* ocean floor assets (shells, sand, etc) */}
-        <Foreground allowMenus={true} toggleSidebar={toggleSidebar} toggleSettings={toggleSettings} />
+        <Foreground allowMenus={true} toggle={toggle} />
 
         <div className='main-container'>
           <Navbar user={user} />
@@ -93,18 +128,19 @@ const Home = (props) => {
 
           <Info
             info={info}
-            show={showInfo}
+            show={show.info}
+            setInfo={setInfo}
             tracks={topTracks}
-            closeInfo={closeInfo}
+            toggle={toggle}
             {...props} 
           />
 
         </div>
 
         {
-          showSettings &&
+          show.settings &&
           <Settings
-            toggleSettings={toggleSettings}
+            toggle={toggle}
             numFish={numFish} setNumFish={setNumFish}
             timeRange={timeRange} setTimeRange={setTimeRange}
             theme={theme} setTheme={setTheme}
@@ -112,12 +148,12 @@ const Home = (props) => {
         }
 
         {
-          showSidebar &&
+          show.sidebar &&
           <Sidebar
-            toggleSidebar={toggleSidebar}
+            toggle={toggle}
             topArtists={topArtists}
             topTracks={topTracks}
-            toggleInfo={toggleInfo}
+            openInfo={openInfo}
           />
         }
 

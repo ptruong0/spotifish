@@ -53,3 +53,13 @@ select {
   padding: 0.1em 0.3em;
   font-size: 1.1em;
 }
+
+@media screen and (max-width: 768px) {
+  .settings {
+    width: 80vw;
+  }
+
+  .setting-label {
+    font-size: 1.3em;
+  }
+}

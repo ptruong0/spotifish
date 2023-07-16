@@ -34,6 +34,7 @@ $sidebarColor: #A3A7FF;
   display: flex;
   justify-content: space-between;
   margin: 3em 3em 1.5em 0;
+  min-width: 15vw;
 }
 
 .sidebar-tab {
@@ -42,7 +43,9 @@ $sidebarColor: #A3A7FF;
   background: none;
   color: white;
   outline: 0;
+  margin: 0 0.5em;
 }
+
 
 .top-artist-list {
   height: 85%;
@@ -56,7 +59,7 @@ $sidebarColor: #A3A7FF;
 
 .sidebar-row-text {
   color: white;
-  font-size: 1.2em;
+  font-size: 1.3em;
 }
 
 .hover-underline:hover {
@@ -89,4 +92,20 @@ $sidebarColor: #A3A7FF;
 ::-webkit-scrollbar-corner {
   background-color: transparent;
 
+  }
+
+  @media screen and (max-width: 768px) {
+    .sidebar {
+      width: 80vw;
+    }
+
+    .sidebar-row-text {
+      font-size: 1.3em;
+    }
+
+    .tab-group {
+      display: flex;
+      justify-content: space-around;
+    }
+    
   }

@@ -26,7 +26,7 @@ const Settings = (props) => {
 
   return (
     <div className='settings'>
-      <img src={closeIcon} className='close-settings-btn' onClick={props.toggleSettings}/>
+      <img src={closeIcon} className='close-settings-btn' onClick={() => props.toggle('settings')}/>
       <h2 className='settings-title'>Settings</h2>
       <div>
         {/* number of fish */}

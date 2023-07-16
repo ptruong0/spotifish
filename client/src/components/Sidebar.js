@@ -1,7 +1,8 @@
 import './Sidebar.scss'
 import closeIcon from '../assets/close-icon.png'
-import styled from 'styled-components';
+import { truncate } from '../utils/functions';
 
+import styled from 'styled-components';
 import { useState } from 'react';
 
 
@@ -22,15 +23,29 @@ const tabLabels = ['Top Artists', 'Top Songs']
 const Sidebar = (props) => {
   const [activeTabb, setActiveTab] = useState(tabLabels[0]);
 
+  const getArtistInfoFromId = (artistId) => {
+    if (props.topArtists) {
+      console.log(props.topArtists)
+      for (let i = 0; i < props.topArtists.length; i++) {
+        if (props.topArtists[i].id === artistId) {
+          return [i, props.topArtists[i]];
+        }
+      }
+    }
+    return [null, { id: artistId }];
+  }
+
+  const clickTrack = (track) => {
+    const [rank, artistInfo] = getArtistInfoFromId(track.artists[0].id);
+    props.openInfo(rank, artistInfo);
+  }
+
   return (
     <div className='sidebar'>
       {/* close button */}
-      <img src={closeIcon} className='close-sidebar-btn' onClick={props.toggleSidebar} />
+      <img src={closeIcon} className='close-sidebar-btn' onClick={() => props.toggle('sidebar')} />
 
       {/* title */}
-      {/* <h2 className='sidebar-title'>Your Rankings</h2> */}
-
-
 
       <div className='tab-group'>
         {tabLabels.map(type => (
@@ -53,7 +68,7 @@ const Sidebar = (props) => {
               props.topArtists &&
               (props.topArtists.map((artist, index) => {
                 return <p className='sidebar-row-text'>{index + 1}.{" "}
-                  <a onClick={() => props.toggleInfo(index, artist)} className='hover-underline'>
+                  <a onClick={() => props.openInfo(index, artist)} className='hover-underline'>
                     {artist.name}
                   </a>
                 </p>
@@ -62,21 +77,19 @@ const Sidebar = (props) => {
             <br />
           </div>
           :
-          // <div className='top-artist-list'>
+          <div className='top-artist-list'>
 
-          // {
-          //   props.topTracks &&
-          //   (props.topTracks.map((track, index) => {
-          //     return <p className='sidebar-row-text'>{index + 1}.{" "}
-          //     {track.name}
-          //       {/* <a onClick={() => props.toggleInfo(index, artist)} className='hover-underline'>
-          //         {artist.name}
-          //       </a> */}
-          //     </p>
-          //   }))
-          // }
-          // </div>
-          null
+          {
+            props.topTracks &&
+            (props.topTracks.map((track, index) => {
+              return <p className='sidebar-row-text'>{index + 1}.{" "}
+                <a onClick={() => clickTrack(track)} className='hover-underline'>
+                  {truncate(track.name, 30)}
+                </a>
+              </p>
+            }))
+          }
+          </div>
       }
 
     </div>

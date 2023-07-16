@@ -14,20 +14,15 @@ const Authenticate = (props) => {
   const navigate = useNavigate();
 
 
-  useEffect( () => {
+  useEffect(() => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const code = urlParams.get('code');
-    console.log('getting token');
-    console.log(code);
+
     if (!code) {
       navigate('/login')
     }
     getToken(code, setToken, setRefreshToken)
-    // console.log(error)
-    // if (error) {
-    //   navigate('/')
-    // }
 
   }, [])
 
@@ -38,15 +33,14 @@ const Authenticate = (props) => {
     // }
   }, [token])
 
-  
+
   return (
     <div >
       {
-        token ? <Home token={token} refreshToken={refreshToken} setT={setToken} setRT={setRefreshToken}/>
-        :
-        <Loading />
-    }
-      
+        token ? <Home token={token} refreshToken={refreshToken} setT={setToken} setRT={setRefreshToken} />
+          :
+          <Loading />
+      }
     </div>
   );
 }

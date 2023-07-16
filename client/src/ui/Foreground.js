@@ -16,14 +16,14 @@ const Foreground = (props) => {
   }
 
   const clickClam = () => {
-    if (props.toggleSidebar) {
-      props.toggleSidebar();
+    if (props.toggle) {
+      props.toggle('sidebar');
     }
   }
 
   const clickSeashell = () => {
-    if (props.toggleSettings) {
-      props.toggleSettings();
+    if (props.toggle) {
+      props.toggle('settings');
     }
   }
 

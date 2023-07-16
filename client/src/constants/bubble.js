@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 
 export const BUBBLE_SETTINGS = {
@@ -11,14 +11,24 @@ export const BUBBLE_SETTINGS = {
   maxDelay: 12
 }
 
-const floatUp = keyframes`
-0% { bottom: -20%; }
-100% { bottom: 120%; }
-`;
+export const floatUp = keyframes`
+  0% { bottom: -20%; }
+  100% { bottom: 120%; }
+  `;
 
 export const Bubble = styled.span`
   left: ${props => props.leftPos};
   height: ${props => props.size};
   width: ${props => props.size};
-  animation: ${floatUp} ${props => props.speed}s ease-out ${props => props.delay}s infinite running ;
+  animation: ${props => props.animation};
 `;
+
+// export const Bubble = styled.span.attrs(props => ({
+//   style: {
+//     left: props.leftPos,
+//     height: props.size,
+//     width: props.size,
+    
+//     animation: props.animation
+//   }
+// }))``

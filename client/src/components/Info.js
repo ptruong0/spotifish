@@ -1,7 +1,7 @@
 
 import './Info.scss';
 import { getArtistTopTracks } from '../utils/apiCalls';
-import { arrayToString, findMyTopTrackForArtist } from '../utils/functions';
+import { arrayToString, findMyTopTrackForArtist, truncate } from '../utils/functions';
 import upArrow from '../assets/up-arrow.png';
 import downArrow from '../assets/down-arrow.png';
 import closeIcon from '../assets/close-icon.png';
@@ -29,7 +29,8 @@ const Info = (props) => {
 
   const closeMenu = () => {
     setExpanded(false);
-    props.closeInfo();
+    // props.closeInfo();
+    props.toggle('info')
   }
 
 
@@ -41,9 +42,7 @@ const Info = (props) => {
   const findArtistTopTracks = () => {
     if (props.info) {
       getArtistTopTracks(props.token, props.info.id, setMostPopularSongs);
-    } else {
-      console.log('no song selected yet')
-    }
+    } 
   }
 
   // on load, get an artist's top tracks
@@ -60,7 +59,7 @@ const Info = (props) => {
           <div className='info-row-between'>
             <div className='row-start'>
               {/* artist rank for user */}
-              <p className='artist-rank'>#{props.info.rank + 1}</p>
+              {props.info.rank !== undefined && <p className='artist-rank'>#{props.info.rank + 1}</p>}
               {/* artist photo */}
               {props.info.images && props.info.images.length > 0 ?
                 <img className='artist-pic' src={props.info.images[props.info.images.length - 1].url} />
@@ -119,7 +118,7 @@ const Info = (props) => {
                     {mostPopularSongs &&
                       mostPopularSongs.map((track, i) => {
                         return <p className='green-text'>
-                          {i + 1}. {track.name.length > 20 ? track.name.substring(0, 20) + '...' : track.name}
+                          {i + 1}. {truncate(track.name, 25)}
                         </p>
                       })
                     }
@@ -130,33 +129,6 @@ const Info = (props) => {
             </div>
           }
         </div>
-
-        // <div className='info-container' >
-        //   <div className='info-row-between'>
-        //     <div className='row-start'>
-        //       <p className='artist-rank'>#{props.show && props.info.rank + 1}</p>
-        //       {props.info.images && props.info.images.length > 0 ?
-        //         <img className='artist-pic' src={props.info.images[props.info.images.length - 1].url} width='65' height='65' />
-
-        //         :
-        //         <div style={{ width: '65px', height: '65px', borderRadius: '50%', backgroundColor: 'white' }}></div>
-        //       }
-        //       <div className='info-text'>
-        //         <p className='artist-name'>{props.show && props.info.name}</p>
-        //         {topSong !== 'N/A' && <p className='song-name'>{props.show && `Your Top Song: ${topSong}`}</p>}
-        //       </div>
-
-        //     </div>
-        //     <img src={downArrow} className='dropdown-arrow' onClick={expandMenu} />
-
-        //   </div>
-
-        //   <div>
-
-
-        //   </div>
-        // </div>
-
       }
 
     </div>

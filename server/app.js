@@ -245,6 +245,33 @@ app.get('/artist_top_tracks', (req, res) => {
 })
 
 /**
+ * Get an artist's information
+ */
+app.get('/artist', (req, res) => {
+    const accessToken = req.query.access_token;
+    const id = req.query.id;
+    axios.get(SPOTIFY_BASE_URL + `/artists/${id}`, {
+        headers: {
+            "Authorization": `Bearer ${accessToken}`,
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        }
+    })
+    .then(response => {
+        if (response.statusCode >= 400) {
+            res.status(401);
+            res.send('Token expired')
+        }
+        // console.log(response)
+        res.json(response.data)
+    })
+    .catch(err => {
+        res.status(500);
+        console.log(err);
+    })
+})
+
+/**
  * Get information about the currently logged in user
  */
 app.get('/user', (req, res) => {

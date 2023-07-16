@@ -26,7 +26,7 @@ h3 {
     bottom: 1.5em;
     left: 50%;
     transform: translate(-50%, -1.5em);
-    min-width: 40vw;
+    min-width: 550px;
     max-width: 80vw;
     border-radius: 25px;
     background-color: #31C598;
@@ -143,3 +143,9 @@ h3 {
     margin: 0.5em 0.5em 0em 0.5em;
     text-align: center;
 }
+
+@media screen and (max-width: 768px) {
+    .info-container {
+      min-width: 90vw;
+    }
+  }

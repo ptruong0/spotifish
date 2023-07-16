@@ -24,6 +24,9 @@
     max-height: 300px;
     z-index: 2;
     filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.1));
+    :hover {
+        cursor: pointer;
+    }
 }
 
 .fish-img {

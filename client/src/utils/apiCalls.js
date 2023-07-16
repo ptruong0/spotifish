@@ -133,8 +133,28 @@ export const getArtistTopTracks = (token, artistID, setTracks)  => {
     const n = 5;
     axios.get(BASE_URL + '/artist_top_tracks', options)
         .then(res => {
-            const result = res.data.tracks.length > n ? res.data.tracks.slice(0, n) : res.data.tracks;
-            setTracks(result);
+            const topTracks = res.data.tracks.length > n ? res.data.tracks.slice(0, n) : res.data.tracks;
+            setTracks(topTracks);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
+export const getArtist = (token, artistID, setInfo) => {
+    const options = {
+        params: {
+            access_token: token,
+            id: artistID,
+        },
+        headers: {
+            "Content-Type": "application/json"
+        },
+    };
+    axios.get(BASE_URL + '/artist', options)
+        .then(res => {
+            console.log(res.data);
+            setInfo(res.data);
         })
         .catch(err => {
             console.log(err);

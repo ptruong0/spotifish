@@ -36,16 +36,16 @@ const Fish = (props) => {
   const numColors = getNumThemeColors(props.theme);
   const color = modToColor(props.rank % numColors, props.theme);
   const textColor = getThemeTextColor(props.theme);
-  
+
 
   return (
     <div className='outer'>
-      <FishContainer className='fish' leftPos={leftPos} topPos={topPos} speed={speed} delay={delay} flip={flip}>
+      <FishContainer className='fish' leftPos={leftPos} topPos={topPos} speed={speed} delay={delay} flip={flip} 
+      onMouseUp={() => { props.clickHandler(props.rank, props.artist) }}>
 
         {/* render fish image */}
         <FishImg className='fish-img' src={imgSrc}
           color={color} flip={flip}
-          onMouseUp={() => { props.clickHandler(props.rank, props.artist) }}
         />
 
         {/* <p className='fish-text'>{props.artist.name}</p> */}
