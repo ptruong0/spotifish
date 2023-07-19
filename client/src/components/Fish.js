@@ -6,7 +6,7 @@ import fish5 from '../assets/fish5.png';
 
 import './Fish.scss';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { modToColor, getNumThemeColors, getThemeTextColor } from '../constants/colorThemes';
 import { FISH_SETTINGS, FishContainer, FishImg, FishText } from '../constants/fish'
 
@@ -14,6 +14,7 @@ import { FISH_SETTINGS, FishContainer, FishImg, FishText } from '../constants/fi
 const fishImages = [fish1, fish2, fish3, fish4, fish5]
 
 const Fish = (props) => {
+  const [showImg, setShowImg]=  useState(false);
 
   // randomly choose speed
   const speed = Math.floor((Math.random() * (FISH_SETTINGS.maxSpeed - FISH_SETTINGS.minSpeed)) + FISH_SETTINGS.minSpeed);
@@ -49,7 +50,17 @@ const Fish = (props) => {
         />
 
         {/* <p className='fish-text'>{props.artist.name}</p> */}
-        <FishText className='fish-text' textColor={textColor}>{props.artist.name}</FishText>
+        {
+          showImg ? 
+          (props.artist.images && props.artist.images.length > 0 ?
+            <img className='artist-pic fish-pic' src={props.artist.images[props.artist.images.length - 1].url} />
+            :
+            <div className='artist-pic empty-pic fish-pic'></div>
+          )
+          :
+          <FishText className='fish-text' textColor={textColor}>{props.artist.name}</FishText>
+        }
+        
       </FishContainer>
     </div>
   )

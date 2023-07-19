@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 
 export const FISH_SETTINGS = {
   numFishShapes: 5,
-  minSpeed: 18,
+  minSpeed: window.innerWidth / 75,
   maxSpeed: 35,
   minDelay: 0,
   maxDelay: 5

@@ -8,6 +8,7 @@
     overflow: hidden;
 }
 
+
 @keyframes wave-bob {
     0% {
         top: 0;
@@ -41,6 +42,8 @@
     overflow: hidden;
     animation: wave-bob 8s infinite ease-in-out;
 }
+
+
 
 @keyframes light {
     0% {

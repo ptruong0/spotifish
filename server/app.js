@@ -11,6 +11,8 @@ var client_secret = process.env.SPOTIFY_SECRET; // Your secret
 var redirect_uri = 'http://localhost:3000/home'; // Your redirect uri
 
 const SPOTIFY_BASE_URL = 'https://api.spotify.com/v1';
+const CHARTMETRIC_BASE_URL = 'https://api.chartmetric.com/api';
+
 
 /**
  * Generates a random string containing numbers and letters
@@ -243,6 +245,34 @@ app.get('/artist_top_tracks', (req, res) => {
         console.log(err);
     })
 })
+
+
+/**
+ * Get an artist's top n tracks, given the artist ID
+ */
+app.get('/similar_artists', (req, res) => {
+    const accessToken = req.query.access_token;
+    const id = req.query.id;
+    axios.get(SPOTIFY_BASE_URL + `/artists/${id}/related-artists`, {
+        headers: {
+            "Authorization": `Bearer ${accessToken}`,
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        }
+    })
+    .then(response => {
+        if (response.statusCode >= 400) {
+            res.status(401);
+            res.send('Token expired')
+        }
+        res.json(response.data.artists.slice(0, 5))
+    })
+    .catch(err => {
+        res.status(500);
+        console.log(err);
+    })
+})
+
 
 /**
  * Get an artist's information

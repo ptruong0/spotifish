@@ -23,7 +23,6 @@ const Authenticate = (props) => {
       navigate('/login')
     }
     getToken(code, setToken, setRefreshToken)
-
   }, [])
 
   useEffect(() => {

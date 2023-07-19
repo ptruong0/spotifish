@@ -26,7 +26,7 @@ h3 {
     bottom: 1.5em;
     left: 50%;
     transform: translate(-50%, -1.5em);
-    min-width: 550px;
+    min-width: 650px;
     max-width: 80vw;
     border-radius: 25px;
     background-color: #31C598;
@@ -110,7 +110,7 @@ h3 {
 
 .row-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 1fr;
     padding: 1em;
     .col {
         padding-right: 0.5em;
@@ -144,8 +144,24 @@ h3 {
     text-align: center;
 }
 
+.artist-rank,.artist-name {
+    font-size: 2.1em;
+}
+
+.song-name, .green-text {
+    font-size: 1.1em;
+}
+
 @media screen and (max-width: 768px) {
     .info-container {
       min-width: 90vw;
+    }
+
+    .artist-rank,.artist-name {
+        font-size: 2.5em;
+    }
+
+    .song-name, .green-text {
+        font-size: 1.3em;
     }
   }

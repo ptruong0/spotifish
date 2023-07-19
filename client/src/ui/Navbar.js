@@ -12,7 +12,7 @@ const Navbar = (props) => {
           <img src={props.user["images"][0]["url"]} className='profile-pic'
           />}
           <p className='display-name'>{props.user && props.user["display_name"]}</p>
-          <a className='log-out-btn'>Log Out</a>
+          <a className='log-out-btn' href='/login'>Log Out</a>
         </div>
       </div>
     </div>

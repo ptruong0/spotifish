@@ -2,7 +2,7 @@ import styled, { css, keyframes } from 'styled-components';
 
 
 export const BUBBLE_SETTINGS = {
-  numBubbles: 20,
+  numBubbles: 18,
   minSize: 20,
   maxSize: 70,
   minSpeed: 12,
@@ -30,6 +30,6 @@ export const Bubble = styled.span.attrs(props => ({
     width: props.size,
     
     animationDuration: `${props.speed}s`,
-    animationDelay: `${props.delays}`
+    animationDelay: `${props.delay}s`
   }
 }))``;

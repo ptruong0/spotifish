@@ -1,3 +1,4 @@
+import sand from '../assets/sand.png';
 import kelp from '../assets/kelp.png';
 import seashell from '../assets/seashell.png';
 import coral from '../assets/coral.png';
@@ -29,6 +30,7 @@ const Foreground = (props) => {
 
   return (
     <div>
+      <img className='sand' src={sand} />
       <img className='kelp' src={kelp} />
 
       <div className='seashell-container' onMouseOver={() => wiggle('seashell-container')} onClick={clickSeashell}>

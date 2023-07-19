@@ -34,7 +34,6 @@ const Home = (props) => {
   const [timeRange, setTimeRange] = useState(DEFAULT_OPTIONS.timeRange);
   const [theme, setTheme] = useState(DEFAULT_OPTIONS.theme);
 
-  // const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [resolution, setResolution] = useState(window.innerWidth < MOBILE_WIDTH ? RESOLUTIONS.mobile : (window.innerWidth < TABLET_WIDTH ? RESOLUTIONS.tablet : RESOLUTIONS.desktop));
 
 
@@ -55,7 +54,9 @@ const Home = (props) => {
       setInfo(artistInfo);
     }
 
-    toggle('info');
+    if (!show.info) {
+      toggle('info');
+    }
   }
 
   const toggle = (component) => {
@@ -107,6 +108,7 @@ const Home = (props) => {
             numFish={numFish}
             theme={theme}
             clickHandler={openInfo}
+            key={index}
           />;
         }))
       }</div>)

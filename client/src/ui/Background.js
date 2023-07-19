@@ -25,7 +25,7 @@ const generateBubbles = () => {
       const animation = css`${floatUp} ${speed}s ease-out ${delay}s infinite running`
 
       container.push(
-        <Bubble className='bubble' leftPos={leftPos} size={size} speed={speed} delay={delay} animation={animation}/>
+        <Bubble className='bubble' leftPos={leftPos} size={size} speed={speed} delay={delay} key={i}/>
       );
     }
 

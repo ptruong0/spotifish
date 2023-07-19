@@ -46,3 +46,19 @@
     transform: translate(-50%, -50%);
     margin: 0px;
 }
+
+.fish-pic {
+    position: absolute;
+    height: 5vw;
+    width: 5vw;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 768px) {
+    .fish-pic {
+        height: 10vw;
+        width: 10vw;
+    }
+}

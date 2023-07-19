@@ -141,6 +141,25 @@ export const getArtistTopTracks = (token, artistID, setTracks)  => {
         })
 }
 
+export const getSimilarArtists = (token, artistID, setSimilarArtists)  => {
+    const options = {
+        params: {
+            access_token: token,
+            id: artistID,
+        },
+        headers: {
+            "Content-Type": "application/json"
+        },
+    };
+    axios.get(BASE_URL + '/similar_artists', options)
+        .then(res => {
+            setSimilarArtists(res.data)
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
 export const getArtist = (token, artistID, setInfo) => {
     const options = {
         params: {

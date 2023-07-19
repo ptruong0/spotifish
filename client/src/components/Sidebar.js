@@ -67,8 +67,11 @@ const Sidebar = (props) => {
             {
               props.topArtists &&
               (props.topArtists.map((artist, index) => {
-                return <p className='sidebar-row-text'>{index + 1}.{" "}
-                  <a onClick={() => props.openInfo(index, artist)} className='hover-underline'>
+                return <p className='sidebar-row-text'>
+                  {/* artist rank */}
+                  {index + 1}.{" "}
+                  {/* artist name */}
+                  <a onClick={() => props.openInfo(index, artist)} className='hover-underline' key={index}>
                     {artist.name}
                   </a>
                 </p>
@@ -82,7 +85,10 @@ const Sidebar = (props) => {
           {
             props.topTracks &&
             (props.topTracks.map((track, index) => {
-              return <p className='sidebar-row-text'>{index + 1}.{" "}
+              return <p className='sidebar-row-text' key={index}>
+                {/* track rank */}
+                {index + 1}.{index + 1 < 10 ? " " : ""}&nbsp;
+                {/* tarck name */}
                 <a onClick={() => clickTrack(track)} className='hover-underline'>
                   {truncate(track.name, 30)}
                 </a>

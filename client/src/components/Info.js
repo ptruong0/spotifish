@@ -1,6 +1,6 @@
 
 import './Info.scss';
-import { getArtistTopTracks } from '../utils/apiCalls';
+import { getArtistTopTracks, getSimilarArtists } from '../utils/apiCalls';
 import { arrayToString, findMyTopTrackForArtist, truncate } from '../utils/functions';
 import upArrow from '../assets/up-arrow.png';
 import downArrow from '../assets/down-arrow.png';
@@ -18,6 +18,7 @@ const Info = (props) => {
   const [expanded, setExpanded] = useState(false);
   // artist's top songs
   const [mostPopularSongs, setMostPopularSongs] = useState(null);
+  const [similarArtists, setSimilarArtists] = useState(null);
 
   /**
    * toggle state
@@ -29,7 +30,6 @@ const Info = (props) => {
 
   const closeMenu = () => {
     setExpanded(false);
-    // props.closeInfo();
     props.toggle('info')
   }
 
@@ -42,13 +42,16 @@ const Info = (props) => {
   const findArtistTopTracks = () => {
     if (props.info) {
       getArtistTopTracks(props.token, props.info.id, setMostPopularSongs);
-    } 
+      getSimilarArtists(props.token, props.info.id, setSimilarArtists);
+    }
   }
 
   // on load, get an artist's top tracks
   useEffect(findArtistTopTracks, [props.show, props.info])
 
   const topSong = props.info && findMyTopTrackForArtist(props.info.id, props.tracks)
+
+  const truncateLen = window.innerWidth < 768 ? 25 : 30
 
 
   return (
@@ -82,17 +85,17 @@ const Info = (props) => {
               </div>
             </div>
 
-              {/* controls to expand and close menu */}
-              {
-                expanded ?
+            {/* controls to expand and close menu */}
+            {
+              expanded ?
                 <div class='row-between menu-controls'>
-                <img src={downArrow} className='dropdown-arrow' onClick={expandMenu} />
-                    <span className='gap'></span>
-                    <img src={closeIcon} className='close-dropdown-btn' onClick={closeMenu} />
-                  </div>
-                  :
-                  <img src={upArrow} className='dropdown-arrow' onClick={expandMenu} />
-              }
+                  <img src={downArrow} className='dropdown-arrow' onClick={expandMenu} />
+                  <span className='gap'></span>
+                  <img src={closeIcon} className='close-dropdown-btn' onClick={closeMenu} />
+                </div>
+                :
+                <img src={upArrow} className='dropdown-arrow' onClick={expandMenu} />
+            }
           </div>
 
           {
@@ -107,18 +110,30 @@ const Info = (props) => {
                   <p className='green-text'>{arrayToString(props.info.genres)}</p>
                   <br />
 
-                  <h3 className='green-text'>Popularity</h3>
-                  <p className='green-text'>{props.info.popularity}/100</p>
-                </div>
-
-                <div className='col'>
-                  {/* list of top 5 songs from artist */}
                   <h3 className='green-text'>Most Popular Songs</h3>
                   <div>
                     {mostPopularSongs &&
                       mostPopularSongs.map((track, i) => {
                         return <p className='green-text'>
-                          {i + 1}. {truncate(track.name, 25)}
+                          {i + 1}. {truncate(track.name, truncateLen)}
+                        </p>
+                      })
+                    }
+                  </div>
+                </div>
+
+                <div className='col'>
+                  <h3 className='green-text'>Popularity</h3>
+                  <p className='green-text'>{props.info.popularity}/100</p>
+                  <br />
+                  {/* list of top 5 songs from artist */}
+                  
+                  <div>
+                    <h3 className='green-text'>Similar Artists</h3>
+                    {similarArtists &&
+                      similarArtists.map((artist, i) => {
+                        return <p className='green-text'>
+                          {i + 1}. {truncate(artist.name, 20)}
                         </p>
                       })
                     }
