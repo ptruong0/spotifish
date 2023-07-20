@@ -31,10 +31,10 @@ const Settings = (props) => {
       <div>
         {/* number of fish */}
         <div className='row-between'>
-          <p class='setting-label'>Number of Fish</p>
+          <p className='setting-label'>Number of Fish</p>
           <select id='num-fish' value={props.numFish} onChange={onNumFishSelect}>
-            {NUM_FISH_OPTIONS.map((opt) => {
-              return <option value={opt}>{opt}</option>
+            {NUM_FISH_OPTIONS.map((opt, index) => {
+              return <option value={opt} key={index}>{opt}</option>
             })}
           </select>
         </div>
@@ -43,10 +43,10 @@ const Settings = (props) => {
         
         {/* short term, medium term, or long term */}
         <div className='row-between'>
-          <p class='setting-label'>Time Range</p>
+          <p className='setting-label'>Time Range</p>
           <select id='term' value={props.timeRange} onChange={onTermSelect}>
-            {Object.entries(TIME_RANGE_OPTIONS).map(([opt, optName]) => {
-              return <option value={opt}>{optName}</option>
+            {Object.entries(TIME_RANGE_OPTIONS).map(([opt, optName], index) => {
+              return <option value={opt} key={index}>{optName}</option>
             })}
           </select>
         </div>
@@ -55,10 +55,10 @@ const Settings = (props) => {
 
         {/* color scheme */}
         <div className='row-between'>
-          <p class='setting-label'>Color Palette</p>
+          <p className='setting-label'>Color Palette</p>
           <select id='theme' value={props.theme} onChange={onThemeSelect}>
-            {THEME_OPTIONS.map((opt) => {
-              return <option value={opt}>{opt}</option>
+            {THEME_OPTIONS.map((opt, index) => {
+              return <option value={opt} key={index}>{opt}</option>
             })}
           </select>
         </div>

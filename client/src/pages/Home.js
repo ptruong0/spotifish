@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { getTopTracks, getTopArtists, getUser, getArtist } from '../utils/apiCalls';
+import React, { useEffect, useState, useRef } from 'react';
+import { getTopTracks, getTopArtists, getUser, getArtist, getAllArtistMetadata } from '../utils/apiCalls';
 import { toggleMenu } from '../utils/functions';
 import Foreground from '../ui/Foreground';
 import Background from '../ui/Background';
@@ -19,6 +19,7 @@ const Home = (props) => {
   // main data
   const [topArtists, setTopArtists] = useState(null);
   const [topTracks, setTopTracks] = useState(null);
+  const [artistMetadata, setArtistMetadata] = useState(null); // from musicbrainz
 
   // toggles for menus
   const [show, setShow] = useState(DEFAULT_SHOW)
@@ -34,16 +35,29 @@ const Home = (props) => {
   const [timeRange, setTimeRange] = useState(DEFAULT_OPTIONS.timeRange);
   const [theme, setTheme] = useState(DEFAULT_OPTIONS.theme);
 
+  // window size classification (mobile, tablet, desktop)
   const [resolution, setResolution] = useState(window.innerWidth < MOBILE_WIDTH ? RESOLUTIONS.mobile : (window.innerWidth < TABLET_WIDTH ? RESOLUTIONS.tablet : RESOLUTIONS.desktop));
 
 
-  const getTopAll = () => {
-    getTopArtists(props.token, numFish, timeRange, setTopArtists);
-    getTopTracks(props.token, timeRange, setTopTracks);
-    getUser(props.token, setUser);
+  /**
+   * 
+   */
+  const fetchTopArtists = () => {
+    getTopArtists(props.token, numFish, timeRange)
+      .then(res => {
+        setTopArtists(res)
+      });
   }
 
-  useEffect(getTopAll, [numFish, timeRange])
+  const fetchTopTracks = () => {
+    getTopTracks(props.token, timeRange)
+      .then(res => setTopTracks(res));
+  }
+
+  const fetchUser = () => {
+    getUser(props.token)
+      .then(res => setUser(res));
+  }
 
   const openInfo = (rank, artistInfo) => {
     artistInfo['rank'] = rank;
@@ -63,6 +77,9 @@ const Home = (props) => {
     toggleMenu(component, show[component], resolution, setShow)
   }
 
+  /**
+   * Update device classification when window changes size
+   */
   const handleWindowSizeChange = () => {
     if (window.innerWidth < MOBILE_WIDTH) {
       if (resolution !== RESOLUTIONS.mobile) {
@@ -79,13 +96,50 @@ const Home = (props) => {
     }
   }
 
+  const fetchMetadata = async () => {
+    await getAllArtistMetadata(topArtists)
+      .then(res => {
+        console.log(res);
+        setArtistMetadata({
+          'artists': res,
+          'time_range': timeRange
+        });
+      });
+  }
+
+  /**
+   * On initial page load, retrieve user data and their top items
+   */
   useEffect(() => {
-      window.addEventListener('resize', handleWindowSizeChange);
-      return () => {
-          window.removeEventListener('resize', handleWindowSizeChange);
-      }
+    fetchTopArtists();
+    fetchTopTracks();
+    fetchUser();
+
+    // set listener for window size changes
+    window.addEventListener('resize', handleWindowSizeChange);
+    return () => {
+      window.removeEventListener('resize', handleWindowSizeChange);
+    }
   }, []);
 
+  /**
+   * If settings change, re-fetch top artists/tracks
+   */
+  useEffect(() => {
+    if (topArtists) {
+      fetchTopArtists();
+    }
+  }, [numFish]);
+  useEffect(() => {
+    if (topArtists) {
+      fetchTopArtists();
+      fetchTopTracks();
+    }
+  }, [timeRange])
+
+  /**
+   * When resolution shrinks to mobile, hide all opened components
+   */
   useEffect(() => {
     if (resolution === RESOLUTIONS.mobile) {
       setShow({
@@ -96,6 +150,38 @@ const Home = (props) => {
     }
   }, [resolution])
 
+  /**
+   * When artist data changes, fetch metadata or read it from the cache
+   */
+  useEffect(() => {
+    if (topArtists) {
+      const cachedMetadata = JSON.parse(localStorage.getItem('metadata'));
+      console.log(cachedMetadata ? cachedMetadata.artists.length : null);
+      console.log(numFish)
+      if (!cachedMetadata || cachedMetadata.time_range != timeRange || cachedMetadata.artists.length != numFish) {
+        fetchMetadata();
+      } else {
+        console.log('using cache for metadata');
+        setArtistMetadata(cachedMetadata);
+      }
+    }
+  }, [topArtists]);
+
+
+  useEffect(() => { 
+    if (artistMetadata) {
+      const metadataStr = JSON.stringify(artistMetadata);
+      if (metadataStr.length != localStorage.getItem('metadata').length) {
+        localStorage.setItem('metadata', metadataStr);
+        console.log('setting new cache')
+      }
+      
+    } else {
+      const cachedMetadata = JSON.parse(localStorage.getItem('metadata'));
+      setArtistMetadata(cachedMetadata);
+    }
+    
+  }, [artistMetadata])
 
   const fishes = React.useMemo(() => {
     return (<div className='fish-container'>
@@ -134,7 +220,7 @@ const Home = (props) => {
             setInfo={setInfo}
             tracks={topTracks}
             toggle={toggle}
-            {...props} 
+            {...props}
           />
 
         </div>

@@ -29,8 +29,8 @@ export const getToken = async (code, setToken, setRefreshToken) => {
         })
 }
 
-export const refreshToken = (rToken, setToken, setRToken) => {
-    axios.get(
+export const refreshToken = async (rToken, setToken, setRToken) => {
+    await axios.get(
             BASE_URL + '/refresh_token', {
                 params: {
                     'refresh_token': rToken
@@ -47,8 +47,8 @@ export const refreshToken = (rToken, setToken, setRToken) => {
 }
 
 
-export const getTopTracks = async (token, timeRange, setTopTracks) => {
-    let result = [];
+export const getTopTracks = async (token, timeRange) => {
+    // let result = [];
     const options = {
         params: {
             access_token: token,
@@ -60,33 +60,33 @@ export const getTopTracks = async (token, timeRange, setTopTracks) => {
             "Content-Type": "application/json"
         },
     };
-    const options2 = {
-        params: {
-            access_token: token,
-            type: 'tracks',
-            time_range: timeRange,
-            limit: 50,
-            offset: 50
-        },
-        headers: {
-            "Content-Type": "application/json"
-        },
-    };
+    // not allowed to get the next 50 tracks
+    // const options2 = {
+    //     params: {
+    //         access_token: token,
+    //         type: 'tracks',
+    //         time_range: timeRange,
+    //         limit: 50,
+    //         offset: 50
+    //     },
+    //     headers: {
+    //         "Content-Type": "application/json"
+    //     },
+    // };
 
-    await axios.get(BASE_URL + '/top_items', options)
+    return axios.get(BASE_URL + '/top_items', options)
         .then(async res => {
-            result.push(...res.data.items);
+            return res.data.items;
 
-            await axios.get(BASE_URL + '/top_items', options2)
-                .then(res => {
-                    result.push(...res.data.items);
-
-                    setTopTracks(result);
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-
+            // return await axios.get(BASE_URL + '/top_items', options2)
+            //     .then(res => {
+            //         result.push(...res.data.items);
+            //         console.log(res.data.items)
+            //         return result
+            //     })
+            //     .catch(err => {
+            //         console.log(err);
+            //     })
         })
         .catch(err => {
             console.log(err);
@@ -94,7 +94,7 @@ export const getTopTracks = async (token, timeRange, setTopTracks) => {
 
 }
 
-export const getTopArtists = (token, numArtists, timeRange, setTopArtists) => {
+export const getTopArtists = async (token, numArtists, timeRange) => {
     const options = {
         params: {
             access_token: token,
@@ -109,7 +109,7 @@ export const getTopArtists = (token, numArtists, timeRange, setTopArtists) => {
 
     const artists = axios.get(BASE_URL + '/top_items', options)
         .then(res => {
-            setTopArtists(res.data.items);
+            // setTopArtists(res.data.items);
             return res.data.items;
         })
         .catch(err => {
@@ -119,7 +119,7 @@ export const getTopArtists = (token, numArtists, timeRange, setTopArtists) => {
     return artists;
 }
 
-export const getArtistTopTracks = (token, artistID, setTracks)  => {
+export const getArtistTopTracks = async (token, artistID, setTracks)  => {
     const options = {
         params: {
             access_token: token,
@@ -131,7 +131,7 @@ export const getArtistTopTracks = (token, artistID, setTracks)  => {
         },
     };
     const n = 5;
-    axios.get(BASE_URL + '/artist_top_tracks', options)
+    await axios.get(BASE_URL + '/artist_top_tracks', options)
         .then(res => {
             const topTracks = res.data.tracks.length > n ? res.data.tracks.slice(0, n) : res.data.tracks;
             setTracks(topTracks);
@@ -141,7 +141,7 @@ export const getArtistTopTracks = (token, artistID, setTracks)  => {
         })
 }
 
-export const getSimilarArtists = (token, artistID, setSimilarArtists)  => {
+export const getSimilarArtists = async (token, artistID, setSimilarArtists)  => {
     const options = {
         params: {
             access_token: token,
@@ -151,13 +151,49 @@ export const getSimilarArtists = (token, artistID, setSimilarArtists)  => {
             "Content-Type": "application/json"
         },
     };
-    axios.get(BASE_URL + '/similar_artists', options)
+    await axios.get(BASE_URL + '/similar_artists', options)
         .then(res => {
             setSimilarArtists(res.data)
         })
         .catch(err => {
             console.log(err);
         })
+}
+
+export const getArtistMetadata = async (artistName, index) => {
+    const options = {
+        params: {
+            artist: artistName,
+        },
+        headers: {
+            "Content-Type": "application/json"
+        },
+    }
+
+    // to stay under request limit 
+    return setTimeout(async () => {
+        try {
+            const res = await axios.get(BASE_URL + '/artist_metadata', options);
+            console.log(res.data);
+            return res.data;
+        } catch (err) {
+            console.log(err);
+        }
+    }, index * 500)
+
+    
+}
+
+export const getAllArtistMetadata = async (artists) => {
+    return Promise.all(artists.map((artist, index) => {
+        return getArtistMetadata(artist.name, index)
+    }))
+    .then((values) => {
+        return values;
+    })
+    .catch(err => {
+        console.log(err);
+    })
 }
 
 export const getArtist = (token, artistID, setInfo) => {
@@ -180,7 +216,7 @@ export const getArtist = (token, artistID, setInfo) => {
         })
 }
 
-export const getUser = async (token, setUser) => {
+export const getUser = async (token) => {
     const options = {
         params: {
             access_token: token,
@@ -189,11 +225,11 @@ export const getUser = async (token, setUser) => {
             "Content-Type": "application/json"
         },
     };
-    await axios.get(BASE_URL + '/user', options)
-    .then(res => {
-        setUser(res.data);
-    })
-    .catch(err => {
-        console.log(err);
-    })
+    return axios.get(BASE_URL + '/user', options)
+        .then(res => {
+            return res.data;
+        })
+        .catch(err => {
+            console.log(err);
+        })
 }

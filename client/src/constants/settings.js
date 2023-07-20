@@ -1,11 +1,11 @@
 export const DEFAULT_OPTIONS = {
-  numFish: 20,
+  numFish: 10,
   timeRange: 'medium_term',
   theme: 'classic'
 }
 
 export const NUM_FISH_OPTIONS = [
-  10, 20, 30, 50
+  5, 10, 20, 25// 30, 50
 ];
 
 export const TIME_RANGE_OPTIONS = {

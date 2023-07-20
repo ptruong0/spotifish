@@ -11,7 +11,7 @@ var client_secret = process.env.SPOTIFY_SECRET; // Your secret
 var redirect_uri = 'http://localhost:3000/home'; // Your redirect uri
 
 const SPOTIFY_BASE_URL = 'https://api.spotify.com/v1';
-const CHARTMETRIC_BASE_URL = 'https://api.chartmetric.com/api';
+const MUSICBRAINZ_BASE_URL = 'https://musicbrainz.org/ws/2';
 
 
 /**
@@ -266,6 +266,37 @@ app.get('/similar_artists', (req, res) => {
             res.send('Token expired')
         }
         res.json(response.data.artists.slice(0, 5))
+    })
+    .catch(err => {
+        res.status(500);
+        console.log(err);
+    })
+})
+
+app.get('/artist_metadata', (req, res) => {
+    const artistName = req.query.artist;
+    axios.get(MUSICBRAINZ_BASE_URL + `/artist/`, {
+        params: {
+            query: `artist:${artistName}`,
+            fmt: 'json'
+        },
+        headers: {
+            "User-Agent": "Spotifish/1.1.0 ( philtr928@gmail.com )",
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        }
+    })
+    .then(response => {
+        if (response.statusCode >= 400) {
+            res.status(401);
+            res.send('Token expired')
+        }
+        if (response.data.artists.length == 0) {
+            res.status(404);
+            res.send('No artist found')
+        }
+        // console.log(response)
+        res.json(response.data.artists[0])
     })
     .catch(err => {
         res.status(500);
