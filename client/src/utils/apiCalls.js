@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:5000';
+import { SERVER_BASE_URL } from '../constants/server';
 
 export const login = () => {
     axios.get(
-            BASE_URL + '/login'
+            SERVER_BASE_URL + '/login'
         )
         .then()
         .catch(err => {
@@ -14,7 +14,7 @@ export const login = () => {
 
 export const getToken = async (code, setToken, setRefreshToken) => {
     await axios.post(
-            BASE_URL + '/token', {
+            SERVER_BASE_URL + '/token', {
                 code: code,
                 redirect_uri: 'http://localhost:3000/home'
             }
@@ -31,7 +31,7 @@ export const getToken = async (code, setToken, setRefreshToken) => {
 
 export const refreshToken = async (rToken, setToken, setRToken) => {
     await axios.get(
-            BASE_URL + '/refresh_token', {
+            SERVER_BASE_URL + '/refresh_token', {
                 params: {
                     'refresh_token': rToken
                 }
@@ -74,11 +74,11 @@ export const getTopTracks = async (token, timeRange) => {
     //     },
     // };
 
-    return axios.get(BASE_URL + '/top_items', options)
+    return axios.get(SERVER_BASE_URL + '/top_items', options)
         .then(async res => {
             return res.data.items;
 
-            // return await axios.get(BASE_URL + '/top_items', options2)
+            // return await axios.get(SERVER_BASE_URL + '/top_items', options2)
             //     .then(res => {
             //         result.push(...res.data.items);
             //         console.log(res.data.items)
@@ -107,7 +107,7 @@ export const getTopArtists = async (token, numArtists, timeRange) => {
         },
     };
 
-    const artists = axios.get(BASE_URL + '/top_items', options)
+    const artists = axios.get(SERVER_BASE_URL + '/top_items', options)
         .then(res => {
             // setTopArtists(res.data.items);
             return res.data.items;
@@ -131,7 +131,7 @@ export const getArtistTopTracks = async (token, artistID, setTracks)  => {
         },
     };
     const n = 5;
-    await axios.get(BASE_URL + '/artist_top_tracks', options)
+    await axios.get(SERVER_BASE_URL + '/artist_top_tracks', options)
         .then(res => {
             const topTracks = res.data.tracks.length > n ? res.data.tracks.slice(0, n) : res.data.tracks;
             setTracks(topTracks);
@@ -151,7 +151,7 @@ export const getSimilarArtists = async (token, artistID, setSimilarArtists)  => 
             "Content-Type": "application/json"
         },
     };
-    await axios.get(BASE_URL + '/similar_artists', options)
+    await axios.get(SERVER_BASE_URL + '/similar_artists', options)
         .then(res => {
             setSimilarArtists(res.data)
         })
@@ -160,36 +160,20 @@ export const getSimilarArtists = async (token, artistID, setSimilarArtists)  => 
         })
 }
 
-export const getArtistMetadata = async (artistName, index) => {
+export const getArtistChartData = async (artists) => {
     const options = {
         params: {
-            artist: artistName,
+            artists: artists.map(a => a.name).join(','),
         },
         headers: {
             "Content-Type": "application/json"
         },
     }
-
-    // to stay under request limit 
-    return setTimeout(async () => {
-        try {
-            const res = await axios.get(BASE_URL + '/artist_metadata', options);
-            console.log(res.data);
-            return res.data;
-        } catch (err) {
-            console.log(err);
-        }
-    }, index * 500)
-
     
-}
-
-export const getAllArtistMetadata = async (artists) => {
-    return Promise.all(artists.map((artist, index) => {
-        return getArtistMetadata(artist.name, index)
-    }))
-    .then((values) => {
-        return values;
+    return axios.get(SERVER_BASE_URL + '/artist_charts', options)
+    .then(res => {
+        console.log(res.data);        
+        return res.data;
     })
     .catch(err => {
         console.log(err);
@@ -206,7 +190,7 @@ export const getArtist = (token, artistID, setInfo) => {
             "Content-Type": "application/json"
         },
     };
-    axios.get(BASE_URL + '/artist', options)
+    axios.get(SERVER_BASE_URL + '/artist', options)
         .then(res => {
             console.log(res.data);
             setInfo(res.data);
@@ -225,7 +209,7 @@ export const getUser = async (token) => {
             "Content-Type": "application/json"
         },
     };
-    return axios.get(BASE_URL + '/user', options)
+    return axios.get(SERVER_BASE_URL + '/user', options)
         .then(res => {
             return res.data;
         })

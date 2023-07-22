@@ -5,10 +5,9 @@ import light1 from '../assets/light1.png';
 import light2 from '../assets/light2.png';
 import light3 from '../assets/light3.png';
 import './Background.scss';
+import { BUBBLE_SETTINGS, Bubble } from '../constants/bubble';
 
-import { BUBBLE_SETTINGS, Bubble, floatUp } from '../constants/bubble';
-import { css } from 'styled-components';
-
+import { useMemo } from 'react';
 
 
 const generateBubbles = () => {
@@ -22,8 +21,6 @@ const generateBubbles = () => {
       const speed = Math.floor((Math.random() * (BUBBLE_SETTINGS.maxSpeed - BUBBLE_SETTINGS.minSpeed)) + BUBBLE_SETTINGS.minSpeed).toString();
       const delay = Math.floor((Math.random() * (BUBBLE_SETTINGS.maxDelay - BUBBLE_SETTINGS.minDelay)) + BUBBLE_SETTINGS.minDelay).toString();
 
-      const animation = css`${floatUp} ${speed}s ease-out ${delay}s infinite running`
-
       container.push(
         <Bubble className='bubble' leftPos={leftPos} size={size} speed={speed} delay={delay} key={i}/>
       );
@@ -34,7 +31,9 @@ const generateBubbles = () => {
 
 
 const Background = () => {
-  const bubbleContainer = generateBubbles();
+  // generate list of bubbles to be rendered in DOM
+  // memoize to avoid recalculation
+  const bubbleContainer = useMemo(() => generateBubbles(), []);
 
   return (
     <span>

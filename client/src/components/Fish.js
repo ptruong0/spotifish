@@ -17,7 +17,7 @@ const Fish = (props) => {
   const [showImg, setShowImg]=  useState(false);
 
   // randomly choose speed
-  const speed = Math.floor((Math.random() * (FISH_SETTINGS.maxSpeed - FISH_SETTINGS.minSpeed)) + FISH_SETTINGS.minSpeed);
+  const speed = Math.floor((Math.random() * (FISH_SETTINGS.maxDuration - FISH_SETTINGS.minDuration)) + FISH_SETTINGS.minDuration);
   const delay = Math.floor((Math.random() * (FISH_SETTINGS.maxDelay - FISH_SETTINGS.minDelay)) + FISH_SETTINGS.minDelay);
 
   // randomly choose starting point (left or right)

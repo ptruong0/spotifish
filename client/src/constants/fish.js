@@ -3,8 +3,8 @@ import styled, { keyframes } from 'styled-components';
 
 export const FISH_SETTINGS = {
   numFishShapes: 5,
-  minSpeed: window.innerWidth / 75,
-  maxSpeed: 35,
+  minDuration: window.innerWidth / 120, 
+  maxDuration: window.innerWidth / 70,   // larger means longer duration = slower
   minDelay: 0,
   maxDelay: 5
 }
@@ -28,7 +28,7 @@ const swimLeft = keyframes`
 export const FishContainer = styled.div`
       left: ${props => props.leftPos};
       top: ${props => props.topPos};
-      animation: ${props => props.speed}s ease-out ${props => props.delay}s infinite running ${props => props.flip > 0 ? swimLeft : swimRight};
+      animation: ${props => props.speed}s linear ${props => props.delay}s infinite running ${props => props.flip > 0 ? swimLeft : swimRight};
     `;
 
 // for fish appearance (color and mirroring)

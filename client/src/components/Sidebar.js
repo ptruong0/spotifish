@@ -1,9 +1,10 @@
 import './Sidebar.scss'
-import closeIcon from '../assets/close-icon.png'
+import closeIcon from '../assets/close-icon.png';
+import Charts from './Charts';
 import { truncate } from '../utils/functions';
 
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 const Tab = styled.button`
@@ -21,7 +22,7 @@ const tabLabels = ['Top Artists', 'Top Songs']
 
 
 const Sidebar = (props) => {
-  const [activeTabb, setActiveTab] = useState(tabLabels[0]);
+  const [activeTab, setActiveTab] = useState(tabLabels[0]);
 
   const getArtistInfoFromId = (artistId) => {
     if (props.topArtists) {
@@ -40,6 +41,8 @@ const Sidebar = (props) => {
     props.openInfo(rank, artistInfo);
   }
 
+
+
   return (
     <div className='sidebar'>
       {/* close button */}
@@ -52,7 +55,7 @@ const Sidebar = (props) => {
           <Tab
             key={type}
             className='sidebar-tab'
-            activeTab={activeTabb === type}
+            activeTab={activeTab === type}
             onClick={() => setActiveTab(type)}
           >
             {type}
@@ -60,44 +63,47 @@ const Sidebar = (props) => {
         ))}
       </div>
 
-      {
-        activeTabb === 'Top Artists' ?
-          <div className='top-artist-list'>
-            {/* list of artist names and ranks */}
-            {
-              props.topArtists &&
-              (props.topArtists.map((artist, index) => {
-                return <p className='sidebar-row-text'>
-                  {/* artist rank */}
-                  {index + 1}.{" "}
-                  {/* artist name */}
-                  <a onClick={() => props.openInfo(index, artist)} className='hover-underline' key={index}>
-                    {artist.name}
-                  </a>
-                </p>
-              }))
-            }
-            <br />
-          </div>
-          :
-          <div className='top-artist-list'>
+      <div className='tab-body'>
+        {
+          activeTab === 'Top Artists' ?
+            <div className='top-artist-list'>
+              {/* list of artist names and ranks */}
+              {
+                props.topArtists &&
+                (props.topArtists.map((artist, index) => {
+                  return <p className='sidebar-row-text' key={index}>
+                    {/* artist rank */}
+                    {index + 1}.{" "}
+                    {/* artist name */}
+                    <a onClick={() => props.openInfo(index, artist)} className='hover-underline'>
+                      {artist.name}
+                    </a>
+                  </p>
+                }))
+              }
+              <br />
+            </div>
+            :
+            <div className='top-artist-list'>
 
-          {
-            props.topTracks &&
-            (props.topTracks.map((track, index) => {
-              return <p className='sidebar-row-text' key={index}>
-                {/* track rank */}
-                {index + 1}.{index + 1 < 10 ? " " : ""}&nbsp;
-                {/* tarck name */}
-                <a onClick={() => clickTrack(track)} className='hover-underline'>
-                  {truncate(track.name, 30)}
-                </a>
-              </p>
-            }))
-          }
-          </div>
-      }
+              {
+                props.topTracks &&
+                (props.topTracks.map((track, index) => {
+                  return <p className='sidebar-row-text' key={index}>
+                    {/* track rank */}
+                    {index + 1}.{index + 1 < 10 ? " " : ""}&nbsp;
+                    {/* track name */}
+                    <a onClick={() => clickTrack(track)} className='hover-underline'>
+                      {truncate(track.name, 30)}
+                    </a>
+                  </p>
+                }))
+              }
+            </div>
+        }
 
+        <Charts {...props} />
+      </div>
     </div>
   );
 }

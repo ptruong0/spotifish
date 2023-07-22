@@ -1,3 +1,5 @@
+$coralColor: #EEA7A7;
+
 .navbar {
     width: 100vw;
     height: 10vh;
@@ -19,7 +21,7 @@
 }
 
 .log-out-btn {
-    background-color: #FF8080;
+    background-color: $coralColor;
     padding: 5px 15px;
     margin: 0 1em;
     border-radius: 20px;

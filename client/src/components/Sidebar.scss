@@ -46,10 +46,10 @@ $sidebarColor: #9397ED;
   margin: 0 0.5em;
 }
 
-
-.top-artist-list {
-  height: 85%;
+.tab-body {
   overflow: scroll;
+  max-height: 85%;
+
 }
 
 .sidebar-title {
