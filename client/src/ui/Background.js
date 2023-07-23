@@ -7,7 +7,7 @@ import light3 from '../assets/light3.png';
 import './Background.scss';
 import { BUBBLE_SETTINGS, Bubble } from '../constants/bubble';
 
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 
 
 const generateBubbles = () => {
@@ -30,7 +30,7 @@ const generateBubbles = () => {
 }
 
 
-const Background = () => {
+const Background = memo(() => {
   // generate list of bubbles to be rendered in DOM
   // memoize to avoid recalculation
   const bubbleContainer = useMemo(() => generateBubbles(), []);
@@ -53,6 +53,6 @@ const Background = () => {
       </span>
     </span>
   )
-}
+})
 
 export default Background;

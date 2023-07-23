@@ -1,6 +1,6 @@
 import { RESOLUTIONS, MOBILE_WIDTH, TABLET_WIDTH } from "../constants/settings";
 
-export const toggleMenu = (component, currentState, resolution, setShow) => {
+export const toggleMenu = (component, currentState, resolution, setShow, forceTrue) => {
   // for mobile resolution, showing one component hides all other components
   if (resolution === RESOLUTIONS.mobile && !currentState) {
       let newShow = {
@@ -28,9 +28,10 @@ export const toggleMenu = (component, currentState, resolution, setShow) => {
     }
   } else {
     // flip the show switch for just the select component
+    //
     setShow((prevState) => ({
       ...prevState,
-      [component]: !prevState[component]
+      [component]: forceTrue ? true : !prevState[component]
     }))
   }
 }

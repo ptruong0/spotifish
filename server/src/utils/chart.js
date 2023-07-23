@@ -6,7 +6,6 @@ const generateChart = (artists) => {
   let types = {}
   artists.forEach((artist) => {
     if (artist) {
-      console.log(artist)
       if (artist.gender) {
         if (genders[artist.gender]) {
           genders[artist.gender] += 1;

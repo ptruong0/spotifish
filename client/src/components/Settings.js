@@ -3,13 +3,11 @@ import './Settings.scss';
 import closeIcon from '../assets/close-icon.png'
 import { NUM_FISH_OPTIONS, TIME_RANGE_OPTIONS } from '../constants/settings';
 import { THEME_OPTIONS } from '../constants/colorThemes';
-import { useEffect, useState } from 'react';
+import { memo } from 'react';
 
 
 
-const Settings = (props) => {
-  const [labels, setLabels] = useState(null);
-  const [series, setSeries] = useState(null);
+const Settings = memo((props) => {
 
   /**
    * form change handlers
@@ -71,72 +69,6 @@ const Settings = (props) => {
       </div>
     </div>
   );
-
-  // const processArtistMetadata = () => {
-  //   const genders = {}
-  //   if (props.metadata) {
-  //     props.metadata.forEach((artist) => {
-  //       console.log(artist)
-  //       if (artist.gender) {
-  //         if (genders[artist.gender]) {
-  //           genders[artist.gender] += 1;
-  //         } else {
-  //           genders[artist.gender] = 1;
-  //         }
-  //       }
-  //     })
-  //     setLabels(Object.keys(genders));
-  //     setSeries(Object.values(genders))
-  //   }
-  // }
-
-  // useEffect(processArtistMetadata, [props.metadata])
-
-  // var options = {
-  // labels: labels,
-  // responsive: [{
-  //   breakpoint: 480,
-  //   options: {
-  //     chart: {
-  //       width: 200
-  //     },
-  //     legend: {
-  //       position: 'bottom'
-  //     }
-  //   }
-  // }]
-  // };
-
-  // // const series = [44, 55, 13, 43, 22];
-
-  // // {
-  // //   gender: {
-  // //     series: [],
-  // //     labels: []
-  // //   },
-  // //   country: {
-  // //     series: [],
-  // //     labels: []
-  // //   },
-  // // }
-
-  // return (
-    
-  //   <div>
-  //     {
-  //       props.metadata && series ? 
-  //       <Chart
-  //         options={options}
-  //         series={series}
-  //         type="pie"
-  //         width="500"
-  //       />
-  //     :
-  //     <p>Loading...</p>
-  //     }
-      
-  //   </div>
-  // );
-}
+})
 
 export default Settings;

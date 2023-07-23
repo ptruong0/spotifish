@@ -8,6 +8,7 @@ import closeIcon from '../assets/close-icon.png';
 import newTabIcon from '../assets/new-tab-icon.png';
 
 import React, { useState, useEffect } from 'react';
+import { MOBILE_WIDTH } from '../constants/settings';
 
 const Info = (props) => {
   /**
@@ -19,33 +20,38 @@ const Info = (props) => {
   // artist's top songs
   const [mostPopularSongs, setMostPopularSongs] = useState(null);
   const [similarArtists, setSimilarArtists] = useState(null);
+  const [myTopSong, setMyTopSong] = useState(null);
 
   /**
    * toggle state
    */
-
   const expandMenu = () => {
     setExpanded(!expanded);
   }
-
   const closeMenu = () => {
     setExpanded(false);
     props.toggle('info')
   }
-
 
   /**
    * fetch from server
    */
 
   // fetch artist's top songs
-  const findArtistTopTracks = () => {
+  const additionalArtistData = async () => {
     if (props.info) {
-      getArtistTopTracks(props.token, props.info.id, setMostPopularSongs);
-      getSimilarArtists(props.token, props.info.id, setSimilarArtists);
+      // get artist's top tracks and similar artists from server
+      getArtistTopTracks(props.token, props.info.id)
+        .then(res => setMostPopularSongs(res));
+      getSimilarArtists(props.token, props.info.id)
+        .then(res => setSimilarArtists(res));
+
+      // from user's top tracks list, get the top song for this artist
+      setMyTopSong(findMyTopTrackForArtist(props.info.id, props.tracks))
     }
   }
 
+  // re-open info component with new artist
   const clickSimilarArtist = (artist) => {
     const [rank, artistInfo] = getArtistInfoFromId(props.topArtists, artist.id);
 
@@ -53,16 +59,15 @@ const Info = (props) => {
   }
 
   // on load, get an artist's top tracks
-  useEffect(findArtistTopTracks, [props.show, props.info])
+  useEffect(() => {
+    additionalArtistData()
+  }, [props.info])
 
-  const topSong = props.info && findMyTopTrackForArtist(props.info.id, props.tracks)
-
-  const truncateLen = window.innerWidth < 768 ? 25 : 30
-
+  const truncateLen = window.innerWidth < MOBILE_WIDTH ? 25 : 30
 
   return (
-    <div className={props.show ? 'info-all' : 'hidden'}>
-      {props.show &&
+    <div className={'info-all'}>
+      {
 
         <div className={'info-container ' + (expanded ? 'expanded-info-container' : '')} >
           <div className='info-row-between'>
@@ -79,7 +84,7 @@ const Info = (props) => {
               <div className='info-text'>
                 <span className='row-between'>
                   {/* artist name */}
-                  <p className='artist-name'>{props.show && props.info.name} </p>
+                  <p className='artist-name'>{props.info.name} </p>
                   {/* external link to artist spotify page */}
                   <a href={props.info.external_urls.spotify} target="_blank">
                     <img src={newTabIcon} className='new-tab-btn' />
@@ -87,14 +92,14 @@ const Info = (props) => {
                 </span>
 
                 {/* top song of artist for user */}
-                {topSong !== 'N/A' && <p className='song-name'>{props.show && `Your Top Song: ${topSong}`}</p>}
+                {myTopSong !== 'N/A' && <p className='song-name'>{`Your Top Song: ${myTopSong}`}</p>}
               </div>
             </div>
 
             {/* controls to expand and close menu */}
             {
               expanded ?
-                <div class='row-between menu-controls'>
+                <div className='row-between menu-controls'>
                   <img src={downArrow} className='dropdown-arrow' onClick={expandMenu} />
                   <span className='gap'></span>
                   <img src={closeIcon} className='close-dropdown-btn' onClick={closeMenu} />
@@ -120,7 +125,7 @@ const Info = (props) => {
                   <div>
                     {mostPopularSongs &&
                       mostPopularSongs.map((track, i) => {
-                        return <p className='green-text'>
+                        return <p className='green-text' key={i}>
                           {i + 1}. {truncate(track.name, truncateLen)}
                         </p>
                       })
@@ -133,13 +138,13 @@ const Info = (props) => {
                   <p className='green-text'>{props.info.popularity}/100</p>
                   <br />
                   {/* list of top 5 songs from artist */}
-                  
+
                   <div>
                     <h3 className='green-text green-label'>Similar Artists</h3>
                     {similarArtists &&
                       similarArtists.map((artist, i) => {
-                        return <p className='green-text'>
-                          {i + 1}. 
+                        return <p className='green-text' key={i}>
+                          {i + 1}.
                           <a onClick={() => clickSimilarArtist(artist)} className='hover-underline'>
                             {truncate(artist.name, 20)}
                           </a>
@@ -148,13 +153,11 @@ const Info = (props) => {
                     }
                   </div>
                 </div>
-
               </div>
             </div>
           }
         </div>
       }
-
     </div>
 
   )

@@ -6,4 +6,11 @@
 
 .charts-title {
   color: white;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.chart {
+  padding: 0.8em 0;
+  border-bottom: 3px solid white;
 }

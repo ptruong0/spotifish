@@ -14,8 +14,6 @@ import { FISH_SETTINGS, FishContainer, FishImg, FishText } from '../constants/fi
 const fishImages = [fish1, fish2, fish3, fish4, fish5]
 
 const Fish = (props) => {
-  const [showImg, setShowImg]=  useState(false);
-
   // randomly choose speed
   const speed = Math.floor((Math.random() * (FISH_SETTINGS.maxDuration - FISH_SETTINGS.minDuration)) + FISH_SETTINGS.minDuration);
   const delay = Math.floor((Math.random() * (FISH_SETTINGS.maxDelay - FISH_SETTINGS.minDelay)) + FISH_SETTINGS.minDelay);
@@ -48,18 +46,7 @@ const Fish = (props) => {
         <FishImg className='fish-img' src={imgSrc}
           color={color} flip={flip}
         />
-
-        {/* <p className='fish-text'>{props.artist.name}</p> */}
-        {
-          showImg ? 
-          (props.artist.images && props.artist.images.length > 0 ?
-            <img className='artist-pic fish-pic' src={props.artist.images[props.artist.images.length - 1].url} />
-            :
-            <div className='artist-pic empty-pic fish-pic'></div>
-          )
-          :
           <FishText className='fish-text' textColor={textColor}>{props.artist.name}</FishText>
-        }
         
       </FishContainer>
     </div>

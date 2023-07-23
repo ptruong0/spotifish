@@ -83,7 +83,7 @@ const Home = (props) => {
   const fetchArtistCharts = () => {
     const cachedArtistCharts = JSON.parse(localStorage.getItem('artistCharts'));
 
-    if (!cachedArtistCharts || timeRange != localStorage.getItem('timeRange') || cachedArtistCharts.Popularity?.categories?.length != numFish ) {
+    if (!cachedArtistCharts || timeRange != localStorage.getItem('timeRange') || cachedArtistCharts.Popularity?.categories?.length != numFish) {
       getArtistChartData(topArtists)
         .then(res => {
           // include spotify metadata
@@ -102,9 +102,9 @@ const Home = (props) => {
     }
   }
 
-/**
- * Get info (name and profile pic) about the currently logged in user
- */
+  /**
+   * Get info (name and profile pic) about the currently logged in user
+   */
   const fetchUser = () => {
     getUser(props.token)
       .then(res => setUser(res));
@@ -121,14 +121,15 @@ const Home = (props) => {
 
     // fetch singular artist if it is not part of the top artists list
     if (artistInfo['name'] == null) {
-      getArtist(props.token, artistInfo['id'], setInfo)
+      getArtist(props.token, artistInfo['id'])
+      .then(res => setInfo(res))
     } else {
       setInfo(artistInfo);
     }
 
     // display component
     if (!show.info) {
-      toggle('info');
+      toggle('info', true);
     }
   }
 
@@ -136,8 +137,8 @@ const Home = (props) => {
    * Show/hide the select component 
    * @param {string} component info, settings, or sidebar
    */
-  const toggle = (component) => {
-    toggleMenu(component, show[component], resolution, setShow)
+  const toggle = (component, forceTrue=false) => {
+    toggleMenu(component, show[component], resolution, setShow, forceTrue)
   }
 
   /**
@@ -178,7 +179,7 @@ const Home = (props) => {
     (async () => {
       if (topArtists) {
         await Promise.all([fetchTopArtists(), fetchTopTracks()])
-  
+
         // wait for fetches to finish before caching new time range
         localStorage.setItem('timeRange', timeRange);
       }
@@ -220,11 +221,10 @@ const Home = (props) => {
         (topArtists.map((artist, index) => {
           return <Fish
             artist={artist}
-            rank={index}
+            rank={index} key={index}
             numFish={numFish}
             theme={theme}
             clickHandler={openInfo}
-            key={index}
           />;
         }))
       }</div>)
@@ -245,14 +245,15 @@ const Home = (props) => {
 
           {fishes}
 
-          <Info
-            info={info}
-            show={show.info}
-            openInfo={openInfo}
-            tracks={topTracks}
-            toggle={toggle}
-            {...props}
-          />
+          {show.info &&
+            <Info
+              toggle={toggle}         // menu control functions
+              info={info}             // content
+              openInfo={openInfo}     // for artist links
+              tracks={topTracks} topArtists={topArtists}
+            />
+          }
+
         </div>
 
         {

@@ -2,11 +2,14 @@ import axios from 'axios';
 
 import { SERVER_BASE_URL } from '../constants/server';
 
+const headers = {
+    "Content-Type": "application/json"
+};
+
 export const login = () => {
     axios.get(
             SERVER_BASE_URL + '/login'
         )
-        .then()
         .catch(err => {
             console.log(err);
         })
@@ -56,9 +59,7 @@ export const getTopTracks = async (token, timeRange) => {
             time_range: timeRange,
             limit: 50,
         },
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: headers
     };
     // not allowed to get the next 50 tracks
     // const options2 = {
@@ -69,9 +70,7 @@ export const getTopTracks = async (token, timeRange) => {
     //         limit: 50,
     //         offset: 50
     //     },
-    //     headers: {
-    //         "Content-Type": "application/json"
-    //     },
+    //     headers: headers
     // };
 
     return axios.get(SERVER_BASE_URL + '/top_items', options)
@@ -102,9 +101,7 @@ export const getTopArtists = async (token, numArtists, timeRange) => {
             time_range: timeRange,
             limit: numArtists
         },
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: headers
     };
 
     const artists = axios.get(SERVER_BASE_URL + '/top_items', options)
@@ -119,41 +116,37 @@ export const getTopArtists = async (token, numArtists, timeRange) => {
     return artists;
 }
 
-export const getArtistTopTracks = async (token, artistID, setTracks)  => {
+export const getArtistTopTracks = async (token, artistID)  => {
     const options = {
         params: {
             access_token: token,
             id: artistID,
             market: 'US'
         },
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: headers
     };
     const n = 5;
-    await axios.get(SERVER_BASE_URL + '/artist_top_tracks', options)
+    return axios.get(SERVER_BASE_URL + '/artist_top_tracks', options)
         .then(res => {
             const topTracks = res.data.tracks.length > n ? res.data.tracks.slice(0, n) : res.data.tracks;
-            setTracks(topTracks);
+            return topTracks;
         })
         .catch(err => {
             console.log(err);
         })
 }
 
-export const getSimilarArtists = async (token, artistID, setSimilarArtists)  => {
+export const getSimilarArtists = async (token, artistID)  => {
     const options = {
         params: {
             access_token: token,
             id: artistID,
         },
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: headers
     };
-    await axios.get(SERVER_BASE_URL + '/similar_artists', options)
+    return axios.get(SERVER_BASE_URL + '/similar_artists', options)
         .then(res => {
-            setSimilarArtists(res.data)
+            return res.data
         })
         .catch(err => {
             console.log(err);
@@ -165,9 +158,7 @@ export const getArtistChartData = async (artists) => {
         params: {
             artists: artists.map(a => a.name).join(','),
         },
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: headers
     }
     
     return axios.get(SERVER_BASE_URL + '/artist_charts', options)
@@ -180,20 +171,17 @@ export const getArtistChartData = async (artists) => {
     })
 }
 
-export const getArtist = (token, artistID, setInfo) => {
+export const getArtist = async (token, artistID) => {
     const options = {
         params: {
             access_token: token,
             id: artistID,
         },
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: headers
     };
-    axios.get(SERVER_BASE_URL + '/artist', options)
+    return axios.get(SERVER_BASE_URL + '/artist', options)
         .then(res => {
-            console.log(res.data);
-            setInfo(res.data);
+            return res.data
         })
         .catch(err => {
             console.log(err);
@@ -205,9 +193,7 @@ export const getUser = async (token) => {
         params: {
             access_token: token,
         },
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: headers
     };
     return axios.get(SERVER_BASE_URL + '/user', options)
         .then(res => {

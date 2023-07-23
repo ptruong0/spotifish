@@ -24,7 +24,6 @@ export const getChartOptions = (title, labels, type) => {
         fontSize: '14px',
         fontFamily: 'ZenKakuGothicAntique-Bold',
         fontWeight: 'bold',
-
       },
     },
     legend: {
@@ -64,8 +63,7 @@ export const getChartOptions = (title, labels, type) => {
         }
       },
       dataLabels: {
-        colors: ['#FFFFFF'],
-        enabled: true,
+        enabled: false,
       },
       legend: {
         position: labels && labels.length >= 5 ? 'bottom' : 'right',
@@ -81,7 +79,7 @@ export const getChartOptions = (title, labels, type) => {
         categories: labels,
         labels: {
           style: {
-            colors: ['#FFFFFF','#FFFFFF','#FFFFFF','#FFFFFF','#FFFFFF'],
+            colors: labels ? Array(labels.length).fill('#FFFFFF') : [],
             fontSize: '14px',
           fontFamily: 'ZenKakuGothicAntique-Bold',
           }
@@ -101,10 +99,15 @@ export const getChartOptions = (title, labels, type) => {
 
 export const extendChartStats = (artists, chartData) => {
   let popularities = {}
+  let followers = {}
   let genres = {}
   artists.forEach(artist => {
+    console.log(artist)
     if (artist.popularity) {
       popularities[artist.name] = artist.popularity;
+    }
+    if (artist.followers) {
+      followers[artist.name] = artist.followers.total;
     }
 
     if (artist.genres) {
@@ -130,4 +133,5 @@ export const extendChartStats = (artists, chartData) => {
     }],
     categories: Object.keys(popularities).sort((a, b) => popularities[a] - popularities[b])
   };
+
 }

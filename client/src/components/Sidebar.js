@@ -51,6 +51,7 @@ const Sidebar = (props) => {
       <div className='tab-body'>
         {
           activeTab === 'Top Artists' ?
+          <span>  
             <div className='top-artist-list'>
               {/* list of artist names and ranks */}
               {
@@ -68,6 +69,9 @@ const Sidebar = (props) => {
               }
               <br />
             </div>
+            <Charts {...props} />
+
+            </span>
             :
             <div className='top-artist-list'>
 
@@ -87,7 +91,6 @@ const Sidebar = (props) => {
             </div>
         }
 
-        <Charts {...props} />
       </div>
     </div>
   );
