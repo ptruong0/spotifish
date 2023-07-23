@@ -1,7 +1,7 @@
 
 import './Info.scss';
 import { getArtistTopTracks, getSimilarArtists } from '../utils/apiCalls';
-import { arrayToString, findMyTopTrackForArtist, truncate } from '../utils/functions';
+import { arrayToString, findMyTopTrackForArtist, getArtistInfoFromId, truncate } from '../utils/functions';
 import upArrow from '../assets/up-arrow.png';
 import downArrow from '../assets/down-arrow.png';
 import closeIcon from '../assets/close-icon.png';
@@ -44,6 +44,12 @@ const Info = (props) => {
       getArtistTopTracks(props.token, props.info.id, setMostPopularSongs);
       getSimilarArtists(props.token, props.info.id, setSimilarArtists);
     }
+  }
+
+  const clickSimilarArtist = (artist) => {
+    const [rank, artistInfo] = getArtistInfoFromId(props.topArtists, artist.id);
+
+    props.openInfo(rank, artistInfo)
   }
 
   // on load, get an artist's top tracks
@@ -106,11 +112,11 @@ const Info = (props) => {
 
                 <div className='col'>
                   {/* info about artist's genres and popularity */}
-                  <h3 className='green-text'>Genres</h3>
+                  <h3 className='green-text green-label'>Genres</h3>
                   <p className='green-text'>{arrayToString(props.info.genres)}</p>
                   <br />
 
-                  <h3 className='green-text'>Most Popular Songs</h3>
+                  <h3 className='green-text green-label'>Most Popular Songs</h3>
                   <div>
                     {mostPopularSongs &&
                       mostPopularSongs.map((track, i) => {
@@ -123,17 +129,20 @@ const Info = (props) => {
                 </div>
 
                 <div className='col'>
-                  <h3 className='green-text'>Popularity</h3>
+                  <h3 className='green-text green-label'>Popularity</h3>
                   <p className='green-text'>{props.info.popularity}/100</p>
                   <br />
                   {/* list of top 5 songs from artist */}
                   
                   <div>
-                    <h3 className='green-text'>Similar Artists</h3>
+                    <h3 className='green-text green-label'>Similar Artists</h3>
                     {similarArtists &&
                       similarArtists.map((artist, i) => {
                         return <p className='green-text'>
-                          {i + 1}. {truncate(artist.name, 20)}
+                          {i + 1}. 
+                          <a onClick={() => clickSimilarArtist(artist)} className='hover-underline'>
+                            {truncate(artist.name, 20)}
+                          </a>
                         </p>
                       })
                     }

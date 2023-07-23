@@ -1,11 +1,10 @@
 import './Sidebar.scss'
 import closeIcon from '../assets/close-icon.png';
 import Charts from './Charts';
-import { truncate } from '../utils/functions';
+import { truncate, getArtistInfoFromId } from '../utils/functions';
 
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-
 
 const Tab = styled.button`
   opacity: 0.6;
@@ -24,24 +23,10 @@ const tabLabels = ['Top Artists', 'Top Songs']
 const Sidebar = (props) => {
   const [activeTab, setActiveTab] = useState(tabLabels[0]);
 
-  const getArtistInfoFromId = (artistId) => {
-    if (props.topArtists) {
-      console.log(props.topArtists)
-      for (let i = 0; i < props.topArtists.length; i++) {
-        if (props.topArtists[i].id === artistId) {
-          return [i, props.topArtists[i]];
-        }
-      }
-    }
-    return [null, { id: artistId }];
-  }
-
   const clickTrack = (track) => {
-    const [rank, artistInfo] = getArtistInfoFromId(track.artists[0].id);
+    const [rank, artistInfo] = getArtistInfoFromId(props.topArtists, track.artists[0].id);
     props.openInfo(rank, artistInfo);
   }
-
-
 
   return (
     <div className='sidebar'>

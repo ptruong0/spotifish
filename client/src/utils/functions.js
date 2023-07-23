@@ -23,3 +23,15 @@ export const findMyTopTrackForArtist = (artistID, myTopTracks) => {
 export const truncate = (str, maxLen) => {
   return str.length > maxLen ? str.substring(0, maxLen) + '...' : str;
 }
+
+export const getArtistInfoFromId = (topArtists, artistId) => {
+  if (topArtists) {
+    console.log(topArtists)
+    for (let i = 0; i < topArtists.length; i++) {
+      if (topArtists[i].id === artistId) {
+        return [i, topArtists[i]];
+      }
+    }
+  }
+  return [null, { id: artistId }];
+}

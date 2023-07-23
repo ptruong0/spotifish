@@ -3,11 +3,14 @@ import kelp from '../assets/kelp.png';
 import seashell from '../assets/seashell.png';
 import coral from '../assets/coral.png';
 import clam from '../assets/clam.png';
+import clamOpen from '../assets/clam-open.png';
 import './Foreground.scss';
 
-import {useMemo} from 'react';
+import { useMemo, useState } from 'react';
 
 const Foreground = (props) => {
+  const [clamSrc, setClamSrc] = useState(clam);
+
   const wiggle = (element) => {
     element = '.' + element
     document.querySelector(element).className += ' wiggle';
@@ -20,6 +23,7 @@ const Foreground = (props) => {
     if (props.toggle) {
       props.toggle('sidebar');
     }
+    setClamSrc(clamSrc === clam ? clamOpen : clam)
   }
 
   const clickSeashell = () => {
@@ -27,37 +31,41 @@ const Foreground = (props) => {
       props.toggle('settings');
     }
   }
-  
-    return (
-      <div>
-        {/* memoize static images */}
-        {useMemo(() => {
-          return <span>
-            <img className='sand' src={sand} />
-            <img className='kelp' src={kelp} />
-            <img className='coral' src={coral} />
 
-            <div className='seashell-container' onMouseOver={() => wiggle('seashell-container')} onClick={clickSeashell}>
-              <img className='seashell' src={seashell} />
-              {
-                props.allowMenus && 
-                <h2 className='seashell-text'>Settings</h2>
-              }
-            </div>
-    
-          <div className='clam-container' onMouseOver={() => wiggle('clam-container')} onClick={clickClam}>
-            <img className='clam' src={clam} />
+  return (
+    <div>
+      {/* memoize static images */}
+      {useMemo(() => {
+        return <span>
+          <img className='sand' src={sand} />
+          <img className='kelp' src={kelp} />
+          <img className='coral' src={coral} />
+
+          <div className='seashell-container' onMouseOver={() => wiggle('seashell-container')} onClick={clickSeashell}>
+            <img className='seashell' src={seashell} />
             {
-              props.allowMenus && 
+              props.allowMenus &&
+              <h2 className='seashell-text'>Settings</h2>
+            }
+          </div>
+        </span>
+      }, [])}
+
+      {useMemo(() => {
+        return <span>
+          <div className='clam-container' onMouseOver={() => wiggle('clam-container')} onClick={clickClam}>
+            <img className='clam' src={clamSrc} />
+            {
+              props.allowMenus &&
               <h2 className='clam-text'>Rankings</h2>
             }
           </div>
-          </span>
-        }, [])}
-  
-        
-      </div>
-    )
+        </span>
+      }, [clamSrc])}
+
+
+    </div>
+  )
 }
 
 export default Foreground;

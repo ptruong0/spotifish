@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { getTopTracks, getTopArtists, getUser, getArtist, getArtistChartData } from '../utils/apiCalls';
 import { toggleMenu, determineResolution } from '../utils/responsiveness';
+import { extendChartStats } from '../utils/charts';
 import Foreground from '../ui/Foreground';
 import Background from '../ui/Background';
 import Navbar from '../ui/Navbar';
@@ -82,11 +83,12 @@ const Home = (props) => {
   const fetchArtistCharts = () => {
     const cachedArtistCharts = JSON.parse(localStorage.getItem('artistCharts'));
 
-    if (!cachedArtistCharts || cachedArtistCharts.length != numFish || timeRange != localStorage.getItem('timeRange')) {
+    if (!cachedArtistCharts || timeRange != localStorage.getItem('timeRange') || cachedArtistCharts.Popularity?.categories?.length != numFish ) {
       getArtistChartData(topArtists)
         .then(res => {
+          // include spotify metadata
+          extendChartStats(topArtists, res);
           console.log(res);
-          // include spotify chart data
 
           setChartData(res);
           localStorage.setItem('artistCharts', JSON.stringify(res));
@@ -246,7 +248,7 @@ const Home = (props) => {
           <Info
             info={info}
             show={show.info}
-            setInfo={setInfo}
+            openInfo={openInfo}
             tracks={topTracks}
             toggle={toggle}
             {...props}
