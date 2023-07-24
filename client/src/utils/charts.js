@@ -1,4 +1,5 @@
 import { MOBILE_WIDTH } from '../constants/settings';
+import { excludeSingleCounts } from './functions';
 
 export const getChartOptions = (title, labels, type) => {
   const titleOptions = {
@@ -7,7 +8,7 @@ export const getChartOptions = (title, labels, type) => {
     margin: 3,
     floating: false,
     style: {
-      fontSize: '16px',
+      fontSize: '20px',
       fontWeight: 'bold',
       fontFamily: 'ZenKakuGothicAntique-Bold',
       color: '#FFFFFF'
@@ -25,6 +26,11 @@ export const getChartOptions = (title, labels, type) => {
         fontFamily: 'ZenKakuGothicAntique-Bold',
         fontWeight: 'bold',
       },
+    },
+    layout: {
+      padding: {
+        top: 20
+      }
     },
     legend: {
       position: labels && labels.length >= 5 ? 'bottom' : 'right',
@@ -66,6 +72,7 @@ export const getChartOptions = (title, labels, type) => {
         enabled: false,
       },
       legend: {
+        show: labels.length < 25,
         position: labels && labels.length >= 5 ? 'bottom' : 'right',
         verticalAlign: 'center',
         fontSize: '14px',
@@ -81,7 +88,7 @@ export const getChartOptions = (title, labels, type) => {
           style: {
             colors: labels ? Array(labels.length).fill('#FFFFFF') : [],
             fontSize: '14px',
-          fontFamily: 'ZenKakuGothicAntique-Bold',
+            fontFamily: 'ZenKakuGothicAntique-Bold',
           }
         },
       },
@@ -90,33 +97,25 @@ export const getChartOptions = (title, labels, type) => {
           style: {
             colors: ['#FFFFFF'],
             fontSize: '14px',
-          fontFamily: 'ZenKakuGothicAntique-Bold',
+            fontFamily: 'ZenKakuGothicAntique-Bold',
           }
         }
       }
     }
 }
 
-export const extendChartStats = (artists, chartData) => {
+export const generateArtistChartStats = (artists, chartData) => {
   let popularities = {}
-  let followers = {}
   let genres = {}
   artists.forEach(artist => {
-    console.log(artist)
     if (artist.popularity) {
       popularities[artist.name] = artist.popularity;
-    }
-    if (artist.followers) {
-      followers[artist.name] = artist.followers.total;
     }
 
     if (artist.genres) {
       artist.genres.forEach((genre) => {
-        if (genres[genre]) {
-          genres[genre] += 1.0 / artist.genres.length;
-        } else {
-          genres[genre] = 1.0 / artist.genres.length;
-        }
+        const val = 1.0 / artist.genres.length
+        genres[genre] = genres[genre] ? genres[genre] + val : val;
       })
     }
 
@@ -133,5 +132,73 @@ export const extendChartStats = (artists, chartData) => {
     }],
     categories: Object.keys(popularities).sort((a, b) => popularities[a] - popularities[b])
   };
+}
 
+export const generateTrackChartStats = (tracks) => {
+  let popularities = {}
+  let artists = {}
+  let albums = {}
+  let durations = {}
+  let explicits = {}
+  tracks.forEach(track => {
+    if (track.popularity) {
+      popularities[track.name] = track.popularity;
+    }
+
+    if (track.artists) {
+      track.artists.forEach((artist) => {
+        artists[artist.name] = artists[artist.name] ? artists[artist.name] + 1 : 1;
+      })
+    }
+
+    if (track.album) {
+      albums[track.album.name] = albums[track.album.name] ? albums[track.album.name] + 1 : 1;
+    }
+
+    if (track.duration_ms) {
+      durations[track.name] = Math.round(track.duration_ms / 1000.0 / 60 * 100) / 100   // in minutes
+    }
+
+    if (track.explicit !== null) {
+      const val = track.explicit ? 'Yes' : 'No'
+      explicits[val] = explicits[val] ? explicits[val] + 1 : 1;
+    }
+
+  });
+
+  artists = excludeSingleCounts(artists);
+  albums = excludeSingleCounts(albums);
+
+  let chartData = {}
+
+  chartData.Artists = {
+    series: Object.values(artists).sort().reverse(),
+    labels: Object.keys(artists).sort((a, b) => artists[b] - artists[a])
+  };
+
+  chartData.Albums = {
+    series: Object.values(albums).sort().reverse(),
+    labels: Object.keys(albums).sort((a, b) => albums[b] - albums[a])
+  };
+
+  chartData.Popularity = {
+    series: [{
+      data: Object.values(popularities).sort()
+    }],
+    categories: Object.keys(popularities).sort((a, b) => popularities[a] - popularities[b])
+  };
+
+  chartData.Duration = {
+    series: [{
+      data: Object.values(durations).sort()
+    }],
+    categories: Object.keys(durations).sort((a, b) => durations[a] - durations[b])
+  };
+
+  chartData.Explicit = {
+    series: Object.values(explicits),
+    labels: Object.keys(explicits)
+  };
+
+  return chartData;
 }

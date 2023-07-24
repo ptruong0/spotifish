@@ -5,6 +5,7 @@ import coral from '../assets/coral.png';
 import clam from '../assets/clam.png';
 import clamOpen from '../assets/clam-open.png';
 import './Foreground.scss';
+import Footer from './Footer';
 
 import { useMemo, useState } from 'react';
 
@@ -48,6 +49,7 @@ const Foreground = (props) => {
               <h2 className='seashell-text'>Settings</h2>
             }
           </div>
+          {/* <Footer /> */}
         </span>
       }, [])}
 

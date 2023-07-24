@@ -9,14 +9,14 @@ $sidebarColor: #9397ED;
   }
 }
 .sidebar {
-  min-width: 20vw;
+  min-width: 40vw;
   height: 87vh;
   border-radius: 2em;
   z-index: 5;
   background-color: $sidebarColor;
   position: absolute;
   right: 1em;
-  bottom: 1.4em;
+  bottom: 1em;
   padding: 0em 1em 0.5em 3em;
   animation: expandSidebar 0.3s ease-in;
   overflow: hidden;
@@ -97,10 +97,15 @@ $sidebarColor: #9397ED;
   @media screen and (max-width: 768px) {
     .sidebar {
       width: 80vw;
+      left: 50%; transform: translate(-50%,0);
     }
 
     .sidebar-row-text {
       font-size: 1.3em;
+    }
+
+    .sidebar-tab {
+      font-size: 2em;
     }
 
     .tab-group {

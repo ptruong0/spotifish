@@ -35,3 +35,7 @@ export const getArtistInfoFromId = (topArtists, artistId) => {
   }
   return [null, { id: artistId }];
 }
+
+export const excludeSingleCounts = (obj) => {
+  return Object.fromEntries(Object.entries(obj).filter(([_, cnt]) => cnt > 1))
+}

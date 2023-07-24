@@ -7,29 +7,17 @@ const generateChart = (artists) => {
   artists.forEach((artist) => {
     if (artist) {
       if (artist.gender) {
-        if (genders[artist.gender]) {
-          genders[artist.gender] += 1;
-        } else {
-          genders[artist.gender] = 1;
-        }
+        genders[artist.gender] = genders[artist.gender] ? genders[artist.gender] + 1 : 1;
       } else {
         // no gender data
       }
 
       if (artist.country) {
-        if (countries[artist.country]) {
-          countries[artist.country] += 1;
-        } else {
-          countries[artist.country] = 1;
-        }
+        countries[artist.country] = countries[artist.country] ? countries[artist.country] + 1 : 1;
       }
 
       if (artist.type) {
-        if (types[artist.type]) {
-          types[artist.type] += 1;
-        } else {
-          types[artist.type] = 1;
-        }
+        types[artist.type] = types[artist.type] ? types[artist.type] + 1 : 1;
       }
     }
   })

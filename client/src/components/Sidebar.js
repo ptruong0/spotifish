@@ -2,26 +2,13 @@ import './Sidebar.scss'
 import closeIcon from '../assets/close-icon.png';
 import Charts from './Charts';
 import { truncate, getArtistInfoFromId } from '../utils/functions';
+import { Tab, TAB_LABELS } from '../constants/tabs';
 
-import styled from 'styled-components';
-import { useEffect, useState } from 'react';
-
-const Tab = styled.button`
-  opacity: 0.6;
-  border: 0;
-  ${({ activeTab }) =>
-    activeTab &&
-    `
-    border-bottom: 2px solid white;
-    opacity: 1;
-  `}
-`;
-
-const tabLabels = ['Top Artists', 'Top Songs']
+import { useState } from 'react';
 
 
 const Sidebar = (props) => {
-  const [activeTab, setActiveTab] = useState(tabLabels[0]);
+  const [activeTab, setActiveTab] = useState(TAB_LABELS[0]);
 
   const clickTrack = (track) => {
     const [rank, artistInfo] = getArtistInfoFromId(props.topArtists, track.artists[0].id);
@@ -36,7 +23,7 @@ const Sidebar = (props) => {
       {/* title */}
 
       <div className='tab-group'>
-        {tabLabels.map(type => (
+        {TAB_LABELS.map(type => (
           <Tab
             key={type}
             className='sidebar-tab'
@@ -69,11 +56,12 @@ const Sidebar = (props) => {
               }
               <br />
             </div>
-            <Charts {...props} />
+            <Charts tab='artists' {...props} />
 
             </span>
             :
-            <div className='top-artist-list'>
+            <span>
+               <div className='top-artist-list'>
 
               {
                 props.topTracks &&
@@ -89,8 +77,9 @@ const Sidebar = (props) => {
                 }))
               }
             </div>
+            <Charts tab='tracks' {...props} />
+            </span>     
         }
-
       </div>
     </div>
   );

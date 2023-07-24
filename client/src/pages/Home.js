@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { getTopTracks, getTopArtists, getUser, getArtist, getArtistChartData } from '../utils/apiCalls';
 import { toggleMenu, determineResolution } from '../utils/responsiveness';
-import { extendChartStats } from '../utils/charts';
+import { generateArtistChartStats, generateTrackChartStats } from '../utils/charts';
 import Foreground from '../ui/Foreground';
 import Background from '../ui/Background';
 import Navbar from '../ui/Navbar';
@@ -19,7 +19,8 @@ const Home = (props) => {
   // main data
   const [topArtists, setTopArtists] = useState(null);
   const [topTracks, setTopTracks] = useState(null);
-  const [chartData, setChartData] = useState(null); // from musicbrainz
+  const [artistCharts, setArtistCharts] = useState(null); // from musicbrainz
+  const [trackCharts, setTrackCharts] = useState(null);
 
   // toggles for menus
   const [show, setShow] = useState(DEFAULT_SHOW)
@@ -49,9 +50,7 @@ const Home = (props) => {
       const res = await getTopArtists(props.token, numFish, timeRange);
       setTopArtists(res);
       localStorage.setItem('topArtists', JSON.stringify(res));
-      console.log('setting cache for artists')
     } else {
-      console.log('using cache for artists');
       setTopArtists(cachedArtists);
     }
 
@@ -68,9 +67,7 @@ const Home = (props) => {
       const res = await getTopTracks(props.token, timeRange);
       setTopTracks(res);
       localStorage.setItem('topTracks', JSON.stringify(res));
-      console.log('setting cache for tracks');
     } else {
-      console.log('using cache for top tracks');
       setTopTracks(cachedTracks);
     }
 
@@ -87,18 +84,26 @@ const Home = (props) => {
       getArtistChartData(topArtists)
         .then(res => {
           // include spotify metadata
-          extendChartStats(topArtists, res);
-          console.log(res);
+          generateArtistChartStats(topArtists, res);
 
-          setChartData(res);
+          setArtistCharts(res);
           localStorage.setItem('artistCharts', JSON.stringify(res));
-          console.log('setting cache for  artist charts');
         });
 
-      localStorage.setItem('timeRange', timeRange);
     } else {
-      console.log('using cache for artist charts');
-      setChartData(cachedArtistCharts);
+      setArtistCharts(cachedArtistCharts);
+    }
+  }
+
+  const getTrackCharts = () => {
+    const cachedTrackCharts = null  // JSON.parse(localStorage.getItem('trackCharts'));
+
+    if (!cachedTrackCharts || timeRange != localStorage.getItem('timeRange')) {
+      let data = generateTrackChartStats(topTracks);
+      localStorage.setItem('trackCharts', JSON.stringify(data));
+      return data;
+    } else {
+      return cachedTrackCharts;
     }
   }
 
@@ -122,7 +127,7 @@ const Home = (props) => {
     // fetch singular artist if it is not part of the top artists list
     if (artistInfo['name'] == null) {
       getArtist(props.token, artistInfo['id'])
-      .then(res => setInfo(res))
+        .then(res => setInfo(res))
     } else {
       setInfo(artistInfo);
     }
@@ -137,7 +142,7 @@ const Home = (props) => {
    * Show/hide the select component 
    * @param {string} component info, settings, or sidebar
    */
-  const toggle = (component, forceTrue=false) => {
+  const toggle = (component, forceTrue = false) => {
     toggleMenu(component, show[component], resolution, setShow, forceTrue)
   }
 
@@ -194,7 +199,6 @@ const Home = (props) => {
       fetchArtistCharts();
     }
   }, [topArtists]);
-
 
   /**
    * When resolution shrinks to mobile, hide all opened components
@@ -273,8 +277,7 @@ const Home = (props) => {
             topArtists={topArtists}
             topTracks={topTracks}
             openInfo={openInfo}
-
-            chartData={chartData}
+            artistCharts={artistCharts} getTrackCharts={getTrackCharts}
           />
         }
       </span>
