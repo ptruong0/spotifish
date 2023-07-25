@@ -1,109 +1,113 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { getTopTracks, getTopArtists, getUser, getArtist, getArtistChartData } from '../utils/apiCalls';
-import { toggleMenu, determineResolution } from '../utils/responsiveness';
-import { generateArtistChartStats, generateTrackChartStats } from '../utils/charts';
-import Foreground from '../ui/Foreground';
-import Background from '../ui/Background';
-import Navbar from '../ui/Navbar';
-import Info from '../components/Info';
+import React, { useEffect, useState, useMemo } from 'react'
+import { getTopTracks, getTopArtists, getUser, getArtist, getArtistChartData } from '../utils/apiCalls'
+import { toggleMenu, determineResolution } from '../utils/responsiveness'
+import { generateArtistChartStats, generateTrackChartStats } from '../utils/charts'
+import Foreground from '../ui/Foreground'
+import Background from '../ui/Background'
+import Navbar from '../ui/Navbar'
+import Info from '../components/Info'
 
-import '../index.css';
-import './Home.scss';
-import Fish from '../components/Fish';
-import Sidebar from '../components/Sidebar';
-import Settings from '../components/Settings';
-import { DEFAULT_OPTIONS, DEFAULT_SHOW, MOBILE_WIDTH, RESOLUTIONS, TABLET_WIDTH } from '../constants/settings';
+import '../index.css'
+import './Home.scss'
+import Fish from '../components/Fish'
+import Sidebar from '../components/Sidebar'
+import Settings from '../components/Settings'
+import { DEFAULT_OPTIONS, DEFAULT_SHOW, MOBILE_WIDTH, RESOLUTIONS, TABLET_WIDTH } from '../constants/settings'
 
 
 const Home = (props) => {
   // main data
-  const [topArtists, setTopArtists] = useState(null);
-  const [topTracks, setTopTracks] = useState(null);
-  const [artistCharts, setArtistCharts] = useState(null); // from musicbrainz
-  const [trackCharts, setTrackCharts] = useState(null);
+  const [topArtists, setTopArtists] = useState(null)
+  const [topTracks, setTopTracks] = useState(null)
+  const [artistCharts, setArtistCharts] = useState(null) // from musicbrainz
 
   // toggles for menus
   const [show, setShow] = useState(DEFAULT_SHOW)
 
   // info component
-  const [info, setInfo] = useState(null);
+  const [info, setInfo] = useState(null)
 
   // user name and pic
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null)
 
   // settings
-  const [numFish, setNumFish] = useState(localStorage.getItem('numFish') || DEFAULT_OPTIONS.numFish);
-  const [timeRange, setTimeRange] = useState(localStorage.getItem('timeRange') || DEFAULT_OPTIONS.timeRange);
-  const [theme, setTheme] = useState(DEFAULT_OPTIONS.theme);
+  const [numFish, setNumFish] = useState(parseInt(localStorage.getItem('numFish')) || DEFAULT_OPTIONS.numFish)
+  const [timeRange, setTimeRange] = useState(localStorage.getItem('timeRange') || DEFAULT_OPTIONS.timeRange)
+  const [theme, setTheme] = useState(DEFAULT_OPTIONS.theme)
 
   // window size classification (mobile, tablet, desktop)
-  const [resolution, setResolution] = useState(window.innerWidth < MOBILE_WIDTH ? RESOLUTIONS.mobile : (window.innerWidth < TABLET_WIDTH ? RESOLUTIONS.tablet : RESOLUTIONS.desktop));
+  const [resolution, setResolution] = useState(window.innerWidth < MOBILE_WIDTH ? RESOLUTIONS.mobile : (window.innerWidth < TABLET_WIDTH ? RESOLUTIONS.tablet : RESOLUTIONS.desktop))
 
 
   /**
    * Get top artists from server or cache
    */
   const fetchTopArtists = async () => {
-    const cachedArtists = JSON.parse(localStorage.getItem('topArtists'));
+    const cachedArtists = JSON.parse(localStorage.getItem('topArtists'))
 
-    if (!cachedArtists || cachedArtists.length != numFish || timeRange != localStorage.getItem('timeRange')) {
-      const res = await getTopArtists(props.token, numFish, timeRange);
-      setTopArtists(res);
-      localStorage.setItem('topArtists', JSON.stringify(res));
+    if (!cachedArtists || cachedArtists.length !== numFish || timeRange !== localStorage.getItem('timeRange')) {
+      const res = await getTopArtists(props.token, numFish, timeRange)
+      setTopArtists(res)
+      localStorage.setItem('topArtists', JSON.stringify(res))
     } else {
-      setTopArtists(cachedArtists);
+      setTopArtists(cachedArtists)
     }
 
-    return Promise.resolve();
+    return Promise.resolve()
   }
 
   /**
    * Get top tracks from server or cache
    */
   const fetchTopTracks = async () => {
-    const cachedTracks = JSON.parse(localStorage.getItem('topTracks'));
+    const cachedTracks = JSON.parse(localStorage.getItem('topTracks'))
 
-    if (!cachedTracks || timeRange != localStorage.getItem('timeRange')) {
-      const res = await getTopTracks(props.token, timeRange);
-      setTopTracks(res);
-      localStorage.setItem('topTracks', JSON.stringify(res));
+    if (!cachedTracks || timeRange !== localStorage.getItem('timeRange')) {
+      const res = await getTopTracks(props.token, timeRange)
+      setTopTracks(res)
+      localStorage.setItem('topTracks', JSON.stringify(res))
     } else {
-      setTopTracks(cachedTracks);
+      setTopTracks(cachedTracks)
     }
 
-    return Promise.resolve();
+    return Promise.resolve()
   }
 
   /**
    * Get artist chart data from server or cache
    */
   const fetchArtistCharts = () => {
-    const cachedArtistCharts = JSON.parse(localStorage.getItem('artistCharts'));
+    const cachedArtistCharts = null // JSON.parse(localStorage.getItem('artistCharts'))
+   
+    if (!cachedArtistCharts || timeRange !== localStorage.getItem('timeRange') || cachedArtistCharts.Popularity?.categories?.length !== numFish) {
+      let data = generateArtistChartStats(topArtists)
+      setArtistCharts(data)
+      console.log(data)
+      localStorage.setItem('artistCharts', JSON.stringify(data))
 
-    if (!cachedArtistCharts || timeRange != localStorage.getItem('timeRange') || cachedArtistCharts.Popularity?.categories?.length != numFish) {
-      getArtistChartData(topArtists)
+      if (numFish <= 20) {
+        getArtistChartData(topArtists)
         .then(res => {
           // include spotify metadata
-          generateArtistChartStats(topArtists, res);
-
-          setArtistCharts(res);
-          localStorage.setItem('artistCharts', JSON.stringify(res));
-        });
-
+          const combined = {...data, ...res}
+          setArtistCharts(combined)
+          localStorage.setItem('artistCharts', JSON.stringify(combined))
+        })
+      }
     } else {
-      setArtistCharts(cachedArtistCharts);
+      setArtistCharts(cachedArtistCharts)
     }
   }
 
   const getTrackCharts = () => {
-    const cachedTrackCharts = null  // JSON.parse(localStorage.getItem('trackCharts'));
+    const cachedTrackCharts = JSON.parse(localStorage.getItem('trackCharts'))
 
-    if (!cachedTrackCharts || timeRange != localStorage.getItem('timeRange')) {
-      let data = generateTrackChartStats(topTracks);
-      localStorage.setItem('trackCharts', JSON.stringify(data));
-      return data;
+    if (!cachedTrackCharts || timeRange !== localStorage.getItem('timeRange')) {
+      let data = generateTrackChartStats(topTracks)
+      localStorage.setItem('trackCharts', JSON.stringify(data))
+      return data
     } else {
-      return cachedTrackCharts;
+      return cachedTrackCharts
     }
   }
 
@@ -112,7 +116,7 @@ const Home = (props) => {
    */
   const fetchUser = () => {
     getUser(props.token)
-      .then(res => setUser(res));
+      .then(res => setUser(res))
   }
 
   /**
@@ -122,19 +126,19 @@ const Home = (props) => {
    */
   const openInfo = (rank, artistInfo) => {
     // add rank to info object
-    artistInfo['rank'] = rank;
+    artistInfo['rank'] = rank
 
     // fetch singular artist if it is not part of the top artists list
     if (artistInfo['name'] == null) {
       getArtist(props.token, artistInfo['id'])
         .then(res => setInfo(res))
     } else {
-      setInfo(artistInfo);
+      setInfo(artistInfo)
     }
 
     // display component
     if (!show.info) {
-      toggle('info', true);
+      toggle('info', true)
     }
   }
 
@@ -150,35 +154,35 @@ const Home = (props) => {
    * Update device classification when window changes size
    */
   const handleWindowSizeChange = () => {
-    determineResolution(resolution, setResolution);
+    determineResolution(resolution, setResolution)
   }
 
   /**
    * On initial page load, retrieve user data and their top items
    */
   useEffect(() => {
-    fetchTopArtists();
-    fetchTopTracks();
-    fetchUser();
+    fetchTopArtists()
+    fetchTopTracks()
+    fetchUser()
 
     // set listener for window size changes
-    window.addEventListener('resize', handleWindowSizeChange);
+    window.addEventListener('resize', handleWindowSizeChange)
     return () => {
-      window.removeEventListener('resize', handleWindowSizeChange);
+      window.removeEventListener('resize', handleWindowSizeChange)
     }
-  }, []);
+  }, [])
 
   /**
    * If settings change, re-fetch top artists/tracks
    */
   useEffect(() => {
     if (topArtists) {
-      fetchTopArtists();
+      fetchTopArtists()
 
       // cache new number of fish
-      localStorage.setItem('numFish', numFish);
+      localStorage.setItem('numFish', numFish)
     }
-  }, [numFish]);
+  }, [numFish])
 
   useEffect(() => {
     (async () => {
@@ -186,7 +190,7 @@ const Home = (props) => {
         await Promise.all([fetchTopArtists(), fetchTopTracks()])
 
         // wait for fetches to finish before caching new time range
-        localStorage.setItem('timeRange', timeRange);
+        localStorage.setItem('timeRange', timeRange)
       }
     })()
   }, [timeRange])
@@ -196,9 +200,9 @@ const Home = (props) => {
    */
   useEffect(() => {
     if (topArtists) {
-      fetchArtistCharts();
+      fetchArtistCharts()
     }
-  }, [topArtists]);
+  }, [topArtists])
 
   /**
    * When resolution shrinks to mobile, hide all opened components
@@ -209,9 +213,9 @@ const Home = (props) => {
         info: false,
         sidebar: false,
         settings: false
-      });
+      })
     }
-  }, [resolution]);
+  }, [resolution])
 
 
   /**
@@ -229,7 +233,7 @@ const Home = (props) => {
             numFish={numFish}
             theme={theme}
             clickHandler={openInfo}
-          />;
+          />
         }))
       }</div>)
   }, [topArtists, theme])
@@ -251,6 +255,7 @@ const Home = (props) => {
 
           {show.info &&
             <Info
+              token={props.token}
               toggle={toggle}         // menu control functions
               info={info}             // content
               openInfo={openInfo}     // for artist links
@@ -282,7 +287,7 @@ const Home = (props) => {
         }
       </span>
     </div>
-  );
+  )
 }
 
-export default Home;
+export default Home

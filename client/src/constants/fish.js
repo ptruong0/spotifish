@@ -3,8 +3,8 @@ import styled, { keyframes } from 'styled-components';
 
 export const FISH_SETTINGS = {
   numFishShapes: 5,
-  minDuration: window.innerWidth / 140, 
-  maxDuration: window.innerWidth / 80,   // larger means longer duration = slower
+  minDuration: window.innerWidth / 130, 
+  maxDuration: window.innerWidth / 60,   // larger means longer duration = slower
   minDelay: 0,
   maxDelay: 5
 }

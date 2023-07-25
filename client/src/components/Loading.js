@@ -1,6 +1,6 @@
 import './Loading.scss'
-import Background from '../ui/Background';
-import Foreground from '../ui/Foreground';
+import Background from '../ui/Background'
+import Foreground from '../ui/Foreground'
 
 const Loading = () => {
   return (
@@ -12,7 +12,7 @@ const Loading = () => {
       <p className='loading-text try-again-text'>If not loading, <a href="http://localhost:5000/login" className='link'>log in</a> again</p>
     </div>
 </div>
-  );
+  )
 }
 
-export default Loading;
+export default Loading

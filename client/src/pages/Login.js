@@ -1,10 +1,10 @@
-import '../index.css';
-import './Login.scss';
+import '../index.css'
+import './Login.scss'
 
-import spotifyLogo from '../assets/spotify-logo.png';
+import spotifyLogo from '../assets/spotify-logo.png'
 
-import Foreground from '../ui/Foreground';
-import Background from '../ui/Background';
+import Foreground from '../ui/Foreground'
+import Background from '../ui/Background'
 
 
 const Login = () => {
@@ -25,12 +25,12 @@ const Login = () => {
         <a className='login-btn' href='http://localhost:5000/login'>
           <span className='row-around'>
             <p className='login-text'>Log in with Spotify</p>
-            <img src={spotifyLogo}/>
+            <img src={spotifyLogo} alt='spotify logo'/>
           </span>
         </a>
       </div>
     </div>
-  );
+  )
 }
 
-export default Login;
+export default Login

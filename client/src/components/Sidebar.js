@@ -1,18 +1,18 @@
 import './Sidebar.scss'
-import closeIcon from '../assets/close-icon.png';
-import Charts from './Charts';
-import { truncate, getArtistInfoFromId } from '../utils/functions';
-import { Tab, TAB_LABELS } from '../constants/tabs';
+import closeIcon from '../assets/close-icon.png'
+import Charts from './Charts'
+import { truncate, getArtistInfoFromId } from '../utils/functions'
+import { Tab, TAB_LABELS } from '../constants/tabs'
 
-import { useState } from 'react';
+import { useState } from 'react'
 
 
 const Sidebar = (props) => {
-  const [activeTab, setActiveTab] = useState(TAB_LABELS[0]);
+  const [activeTab, setActiveTab] = useState(TAB_LABELS[0])
 
   const clickTrack = (track) => {
-    const [rank, artistInfo] = getArtistInfoFromId(props.topArtists, track.artists[0].id);
-    props.openInfo(rank, artistInfo);
+    const [rank, artistInfo] = getArtistInfoFromId(props.topArtists, track.artists[0].id)
+    props.openInfo(rank, artistInfo)
   }
 
   return (

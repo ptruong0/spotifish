@@ -1,35 +1,36 @@
 
-import './Info.scss';
-import { getArtistTopTracks, getSimilarArtists } from '../utils/apiCalls';
-import { arrayToString, findMyTopTrackForArtist, getArtistInfoFromId, truncate } from '../utils/functions';
-import upArrow from '../assets/up-arrow.png';
-import downArrow from '../assets/down-arrow.png';
-import closeIcon from '../assets/close-icon.png';
-import newTabIcon from '../assets/new-tab-icon.png';
+import './Info.scss'
+import { getArtistTopTracks, getSimilarArtists } from '../utils/apiCalls'
+import { arrayToString, findMyTopTrackForArtist, getArtistInfoFromId, truncate } from '../utils/functions'
+import upArrow from '../assets/up-arrow.png'
+import downArrow from '../assets/down-arrow.png'
+import closeIcon from '../assets/close-icon.png'
+import newTabIcon from '../assets/new-tab-icon.png'
 
-import React, { useState, useEffect } from 'react';
-import { MOBILE_WIDTH } from '../constants/settings';
+import React, { useState, useEffect } from 'react'
+import { MOBILE_WIDTH } from '../constants/settings'
 
 const Info = (props) => {
   /**
    * state
    */
-
   // info component expanded or not
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(false)
   // artist's top songs
-  const [mostPopularSongs, setMostPopularSongs] = useState(null);
-  const [similarArtists, setSimilarArtists] = useState(null);
-  const [myTopSong, setMyTopSong] = useState(null);
+  const [mostPopularSongs, setMostPopularSongs] = useState(null)
+  // similar artists
+  const [similarArtists, setSimilarArtists] = useState(null)
+  // user's top song by this artist
+  const [myTopSong, setMyTopSong] = useState(null)
 
   /**
    * toggle state
    */
   const expandMenu = () => {
-    setExpanded(!expanded);
+    setExpanded(!expanded)
   }
   const closeMenu = () => {
-    setExpanded(false);
+    setExpanded(false)
     props.toggle('info')
   }
 
@@ -42,9 +43,9 @@ const Info = (props) => {
     if (props.info) {
       // get artist's top tracks and similar artists from server
       getArtistTopTracks(props.token, props.info.id)
-        .then(res => setMostPopularSongs(res));
+        .then(res => setMostPopularSongs(res))
       getSimilarArtists(props.token, props.info.id)
-        .then(res => setSimilarArtists(res));
+        .then(res => setSimilarArtists(res))
 
       // from user's top tracks list, get the top song for this artist
       setMyTopSong(findMyTopTrackForArtist(props.info.id, props.tracks))
@@ -53,14 +54,14 @@ const Info = (props) => {
 
   // re-open info component with new artist
   const clickSimilarArtist = (artist) => {
-    const [rank, artistInfo] = getArtistInfoFromId(props.topArtists, artist.id);
+    const [rank, artistInfo] = getArtistInfoFromId(props.topArtists, artist.id)
 
     props.openInfo(rank, artistInfo)
   }
 
   // on load, get an artist's top tracks
   useEffect(() => {
-    additionalArtistData()
+    additionalArtistData();
   }, [props.info])
 
   const truncateLen = window.innerWidth < MOBILE_WIDTH ? 25 : 30
@@ -144,7 +145,7 @@ const Info = (props) => {
                     {similarArtists &&
                       similarArtists.map((artist, i) => {
                         return <p className='green-text' key={i}>
-                          {i + 1}.
+                          {i + 1}.{" "}
                           <a onClick={() => clickSimilarArtist(artist)} className='hover-underline'>
                             {truncate(artist.name, 20)}
                           </a>
@@ -161,6 +162,6 @@ const Info = (props) => {
     </div>
 
   )
-};
+}
 
-export default Info;
+export default Info

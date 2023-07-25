@@ -1,5 +1,5 @@
-import { MOBILE_WIDTH } from '../constants/settings';
-import { excludeSingleCounts } from './functions';
+import { MOBILE_WIDTH } from '../constants/settings'
+import { excludeSingleCounts } from './functions'
 
 export const getChartOptions = (title, labels, type) => {
   const titleOptions = {
@@ -13,7 +13,7 @@ export const getChartOptions = (title, labels, type) => {
       fontFamily: 'ZenKakuGothicAntique-Bold',
       color: '#FFFFFF'
     },
-  };
+  }
   const colorOptions = ['#FFB8A9', '#64D0B6', '#7CCBD6', '#F19A68', '#41B5C5']
 
   return type === 'pie' ? {
@@ -72,7 +72,7 @@ export const getChartOptions = (title, labels, type) => {
         enabled: false,
       },
       legend: {
-        show: labels.length < 25,
+        show: labels.length < 20,
         position: labels && labels.length >= 5 ? 'bottom' : 'right',
         verticalAlign: 'center',
         fontSize: '14px',
@@ -104,34 +104,37 @@ export const getChartOptions = (title, labels, type) => {
     }
 }
 
-export const generateArtistChartStats = (artists, chartData) => {
+export const generateArtistChartStats = (artists) => {
   let popularities = {}
   let genres = {}
   artists.forEach(artist => {
     if (artist.popularity) {
-      popularities[artist.name] = artist.popularity;
+      popularities[artist.name] = parseInt(artist.popularity)
     }
 
     if (artist.genres) {
       artist.genres.forEach((genre) => {
         const val = 1.0 / artist.genres.length
-        genres[genre] = genres[genre] ? genres[genre] + val : val;
+        genres[genre] = genres[genre] ? genres[genre] + val : val
       })
     }
+  })
 
-  });
+  let chartData = {}
 
   chartData.Genres = {
     series: Object.values(genres),
     labels: Object.keys(genres)
-  };
+  }
 
   chartData.Popularity = {
     series: [{
-      data: Object.values(popularities).sort()
+      data: Object.values(popularities).sort((a, b) => (+a) - (+b))
     }],
     categories: Object.keys(popularities).sort((a, b) => popularities[a] - popularities[b])
-  };
+  }
+
+  return chartData
 }
 
 export const generateTrackChartStats = (tracks) => {
@@ -142,17 +145,17 @@ export const generateTrackChartStats = (tracks) => {
   let explicits = {}
   tracks.forEach(track => {
     if (track.popularity) {
-      popularities[track.name] = track.popularity;
+      popularities[track.name] = track.popularity
     }
 
     if (track.artists) {
       track.artists.forEach((artist) => {
-        artists[artist.name] = artists[artist.name] ? artists[artist.name] + 1 : 1;
+        artists[artist.name] = artists[artist.name] ? artists[artist.name] + 1 : 1
       })
     }
 
     if (track.album) {
-      albums[track.album.name] = albums[track.album.name] ? albums[track.album.name] + 1 : 1;
+      albums[track.album.name] = albums[track.album.name] ? albums[track.album.name] + 1 : 1
     }
 
     if (track.duration_ms) {
@@ -161,44 +164,43 @@ export const generateTrackChartStats = (tracks) => {
 
     if (track.explicit !== null) {
       const val = track.explicit ? 'Yes' : 'No'
-      explicits[val] = explicits[val] ? explicits[val] + 1 : 1;
+      explicits[val] = explicits[val] ? explicits[val] + 1 : 1
     }
+  })
 
-  });
-
-  artists = excludeSingleCounts(artists);
-  albums = excludeSingleCounts(albums);
+  artists = excludeSingleCounts(artists)
 
   let chartData = {}
 
   chartData.Artists = {
     series: Object.values(artists).sort().reverse(),
     labels: Object.keys(artists).sort((a, b) => artists[b] - artists[a])
-  };
+  }
 
   chartData.Albums = {
     series: Object.values(albums).sort().reverse(),
     labels: Object.keys(albums).sort((a, b) => albums[b] - albums[a])
-  };
+  }
 
   chartData.Popularity = {
     series: [{
       data: Object.values(popularities).sort()
     }],
     categories: Object.keys(popularities).sort((a, b) => popularities[a] - popularities[b])
-  };
+  }
+
 
   chartData.Duration = {
     series: [{
       data: Object.values(durations).sort()
     }],
     categories: Object.keys(durations).sort((a, b) => durations[a] - durations[b])
-  };
+  }
 
   chartData.Explicit = {
     series: Object.values(explicits),
     labels: Object.keys(explicits)
-  };
+  }
 
-  return chartData;
+  return chartData
 }

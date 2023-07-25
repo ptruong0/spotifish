@@ -1,10 +1,10 @@
-import './Settings.scss';
+import './Settings.scss'
 
 import closeIcon from '../assets/close-icon.png'
-import { NUM_FISH_OPTIONS, TIME_RANGE_OPTIONS } from '../constants/settings';
-import { THEME_OPTIONS } from '../constants/colorThemes';
-import { memo } from 'react';
-
+import githubIcon from '../assets/github-mark-white.png'
+import { NUM_FISH_OPTIONS, TIME_RANGE_OPTIONS } from '../constants/settings'
+import { THEME_OPTIONS } from '../constants/colorThemes'
+import { memo } from 'react'
 
 
 const Settings = memo((props) => {
@@ -29,7 +29,7 @@ const Settings = memo((props) => {
 
   return (
     <div className='settings'>
-      <img src={closeIcon} className='close-settings-btn' onClick={() => props.toggle('settings')}/>
+      <img src={closeIcon} className='close-settings-btn' onClick={() => props.toggle('settings')} />
       <h2 className='settings-title'>Settings</h2>
       <div>
         {/* number of fish */}
@@ -43,7 +43,7 @@ const Settings = memo((props) => {
         </div>
 
         <br />
-        
+
         {/* short term, medium term, or long term */}
         <div className='row-between'>
           <p className='setting-label'>Time Range</p>
@@ -65,10 +65,18 @@ const Settings = memo((props) => {
             })}
           </select>
         </div>
+        <br />
 
+        <div className='credit-row'>
+          <a href='https://www.github.com/ptruong0/spotifish' target="_blank" rel="noreferrer" className=' row-center credit-text'>
+            <img src={githubIcon} className='github-icon' />
+            <p >Check out the project here</p>
+          </a>
+
+        </div>
       </div>
     </div>
-  );
+  )
 })
 
-export default Settings;
+export default Settings

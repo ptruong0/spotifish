@@ -5,7 +5,7 @@ export const DEFAULT_OPTIONS = {
 }
 
 export const NUM_FISH_OPTIONS = [
-  5, 10, 20, 25// 30, 50
+  5, 10, 20, 50
 ];
 
 export const TIME_RANGE_OPTIONS = {

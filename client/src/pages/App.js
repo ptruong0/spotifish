@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom'
 
 const App = () => {
   return (
@@ -6,7 +6,7 @@ const App = () => {
     <div className="App">
       <Navigate to="/login" />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

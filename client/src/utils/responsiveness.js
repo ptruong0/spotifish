@@ -1,4 +1,4 @@
-import { RESOLUTIONS, MOBILE_WIDTH, TABLET_WIDTH } from "../constants/settings";
+import { RESOLUTIONS, MOBILE_WIDTH, TABLET_WIDTH } from "../constants/settings"
 
 export const toggleMenu = (component, currentState, resolution, setShow, forceTrue) => {
   // for mobile resolution, showing one component hides all other components
@@ -7,8 +7,8 @@ export const toggleMenu = (component, currentState, resolution, setShow, forceTr
         info: false,
         sidebar: false,
         settings: false
-      };
-      newShow[component] = true;
+      }
+      newShow[component] = true
       setShow(newShow)
   } else if (resolution === RESOLUTIONS.tablet && !currentState) {
     // for tablet resolution, showing info hides other components
@@ -39,15 +39,15 @@ export const toggleMenu = (component, currentState, resolution, setShow, forceTr
 export const determineResolution = (resolution, setResolution) => {
   if (window.innerWidth < MOBILE_WIDTH) {
     if (resolution !== RESOLUTIONS.mobile) {
-      setResolution(RESOLUTIONS.mobile);
+      setResolution(RESOLUTIONS.mobile)
     }
   } else if (window.innerWidth < TABLET_WIDTH) {
     if (resolution !== RESOLUTIONS.tablet) {
-      setResolution(RESOLUTIONS.tablet);
+      setResolution(RESOLUTIONS.tablet)
     }
   } else {
     if (resolution !== RESOLUTIONS.desktop) {
-      setResolution(RESOLUTIONS.desktop);
+      setResolution(RESOLUTIONS.desktop)
     }
   }
 }

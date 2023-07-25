@@ -1,23 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { getToken, topItems } from '../utils/apiCalls';
-import Home from './Home';
-import { useNavigate } from 'react-router-dom';
-import Loading from '../components/Loading';
+import React, { useState, useEffect } from 'react'
+import { getToken, topItems } from '../utils/apiCalls'
+import Home from './Home'
+import { useNavigate } from 'react-router-dom'
+import Loading from '../components/Loading'
 
-
-const MAX_TOKEN_REQUEST_MS = 5000
 
 const Authenticate = (props) => {
-  const [token, setToken] = useState("");
-  const [refreshToken, setRefreshToken] = useState("");
+  const [token, setToken] = useState("")
+  const [refreshToken, setRefreshToken] = useState("")
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
 
   useEffect(() => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const code = urlParams.get('code');
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
+    const code = urlParams.get('code')
 
     if (!code) {
       navigate('/login')
@@ -26,7 +24,7 @@ const Authenticate = (props) => {
   }, [])
 
   useEffect(() => {
-    console.log(token)
+    // console.log(token)
     // if (!token) {
     //   setTimeout(() => {navigate('/login')}, MAX_TOKEN_REQUEST_MS)
     // }
@@ -41,7 +39,7 @@ const Authenticate = (props) => {
           <Loading />
       }
     </div>
-  );
+  )
 }
 
-export default Authenticate;
+export default Authenticate

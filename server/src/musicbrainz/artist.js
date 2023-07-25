@@ -6,6 +6,7 @@ var axios = require('axios');
 
 
 const getMusicBrainz = async (artistName, index) => {
+  // set delay to respect request limit
   await wait(index * 1000);
 
   return axios.get(MUSICBRAINZ_BASE_URL + `/artist/`, {
