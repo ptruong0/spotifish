@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 const Navbar = memo((props) => {
   const navigate = useNavigate()
 
+  // logout, redirect to login page
   const returnToLogin = () => {
     localStorage.setItem('showDialog', true)
     navigate('/login')
