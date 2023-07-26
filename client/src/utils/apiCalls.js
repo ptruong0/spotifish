@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { SERVER_BASE_URL, TOP_N_TRACKS, ARTIST_TOP_N_TRACKS } from '../constants/server'
+import { SERVER_BASE_URL, TOP_N_TRACKS, ARTIST_TOP_N_TRACKS, REDIRECT_URI } from '../constants/server'
 
 
 const headers = {
@@ -30,7 +30,7 @@ export const getToken = async (code) => {
     return axios.post(
             SERVER_BASE_URL + '/token', {
                 code: code,
-                redirect_uri: 'http://localhost:3000/home'
+                redirect_uri: REDIRECT_URI
             }
         )
         .then(res => {
