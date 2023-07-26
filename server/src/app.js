@@ -69,6 +69,10 @@ app.get('/similar_artists', getSimilarArtists)
  */
 app.get('/artist_charts', getChartData)
 
+app.get('/temp', (req, res) => {
+  res.text('It works!')
+})
 
-console.log(`Listening on ${PORT_NUM}`)
-app.listen(PORT_NUM)
+
+console.log(`Listening on ${process.env.PORT || PORT_NUM}`)
+app.listen(process.env.PORT || PORT_NUM)
