@@ -5,12 +5,13 @@ import spotifyLogo from '../assets/spotify-logo.png'
 
 import Foreground from '../ui/Foreground'
 import Background from '../ui/Background'
+import { SERVER_BASE_URL } from '../constants/server'
 
 
 const Login = () => {
   const showDialog = JSON.parse(localStorage.getItem('showDialog'));
   // show dialog if null or true
-  const spotifyLoginURL = `http://localhost:5000/login?show_dialog=${showDialog === null || showDialog === true}`
+  const spotifyLoginURL = `${SERVER_BASE_URL}/login?show_dialog=${showDialog === null || showDialog === true}`
 
   return (
     <div className='login-page'>

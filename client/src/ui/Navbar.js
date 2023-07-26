@@ -19,7 +19,7 @@ const Navbar = memo((props) => {
         <h1 className='nav-title'>Spotifish</h1>
         {/* tooltip with guide text */}
           <div className='tooltip'>
-            <img src={infoIcon} className='info-icon' />
+            <img src={infoIcon} className='info-icon' alt='Icon: hover to read guide'/>
             <span className='tooltiptext'>
               <p>Welcome to your Spotify aquarium! The size of each fish correlates to how much you listen to that artist.</p><br />
               <p>Click on a fish to view additional info about the artist. Click on the purple clam to view your top artists and songs, including charts visualizing your data.</p>
@@ -29,7 +29,7 @@ const Navbar = memo((props) => {
       <div className='row-between'>
         {/* user profile pic and name */}
         {props.user && props.user["images"].length > 0 &&
-          <img src={props.user["images"][0]["url"]} className='profile-pic'
+          <img src={props.user["images"][0]["url"]} className='profile-pic' alt='Spotify profile picture'
           />}
         <p className='display-name'>{props.user && props.user["display_name"]}</p>
         

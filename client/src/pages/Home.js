@@ -85,7 +85,7 @@ const Home = (props) => {
       console.log(data)
       localStorage.setItem('artistCharts', JSON.stringify(data))
 
-      if (numFish <= 20) {
+      if (numFish < 20) {
         getArtistChartData(topArtists)
         .then(res => {
           // include spotify metadata

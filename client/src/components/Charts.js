@@ -8,9 +8,7 @@ import { useState, useEffect, memo } from 'react'
 const Charts = memo((props) => {
   const [chartComponents, setChartComponents] = useState(null)
 
-  const generateCharts = () => {
-    console.log('generating charts')
-    
+  const generateCharts = () => {    
     let chartData = props.artistCharts
     if (props.tab === 'tracks') {
       chartData = props.getTrackCharts()
