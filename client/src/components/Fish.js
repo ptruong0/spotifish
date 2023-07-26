@@ -24,7 +24,6 @@ const Fish = (props) => {
   const leftPos = Math.floor(Math.random() * 70).toString() + '%'
   const topPos = Math.floor((Math.random() * 70) + 2).toString() + '%'
 
-
   const FISH_MOD = props.numFish / FISH_SETTINGS.numFishShapes
 
   // determine fish shape based off of rank mod
@@ -38,15 +37,16 @@ const Fish = (props) => {
 
   return (
     <div className='outer'>
-      <FishContainer className='fish' leftPos={leftPos} topPos={topPos} speed={speed} delay={delay} flip={flip} 
-      onMouseUp={() => { props.clickHandler(props.rank, props.artist) }}>
+      <FishContainer className='fish' leftPos={leftPos} topPos={topPos} speed={speed} delay={delay} flip={flip}
+        onMouseUp={() => { props.clickHandler(props.rank, props.artist) }}>
 
         {/* render fish image */}
         <FishImg className='fish-img' src={imgSrc}
           color={color} flip={flip}
         />
-          <FishText className='fish-text' textColor={textColor}>{props.artist.name}</FishText>
-        
+        {/* artist name on top of fish */}
+        <FishText className='fish-text' textColor={textColor}>{props.artist.name}</FishText>
+
       </FishContainer>
     </div>
   )

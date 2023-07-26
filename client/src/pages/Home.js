@@ -77,7 +77,7 @@ const Home = (props) => {
    * Get artist chart data from server or cache
    */
   const fetchArtistCharts = () => {
-    const cachedArtistCharts = null // JSON.parse(localStorage.getItem('artistCharts'))
+    const cachedArtistCharts = JSON.parse(localStorage.getItem('artistCharts'))
    
     if (!cachedArtistCharts || timeRange !== localStorage.getItem('timeRange') || cachedArtistCharts.Popularity?.categories?.length !== numFish) {
       let data = generateArtistChartStats(topArtists)
@@ -161,6 +161,17 @@ const Home = (props) => {
    * On initial page load, retrieve user data and their top items
    */
   useEffect(() => {
+    // prevent redirect to login 
+    const timeoutId = localStorage.getItem('timeoutId')
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      localStorage.removeItem('timeoutId')
+    }
+
+    // prevent spotify login dialog from showing on future logins
+    localStorage.setItem('showDialog', false)
+
+    // fetch data
     fetchTopArtists()
     fetchTopTracks()
     fetchUser()

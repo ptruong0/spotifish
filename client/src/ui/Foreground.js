@@ -1,16 +1,17 @@
+import './Foreground.scss'
 import sand from '../assets/sand.png'
 import kelp from '../assets/kelp.png'
 import seashell from '../assets/seashell.png'
 import coral from '../assets/coral.png'
 import clam from '../assets/clam.png'
 import clamOpen from '../assets/clam-open.png'
-import './Foreground.scss'
 
 import { useMemo, useState } from 'react'
 
 const Foreground = (props) => {
   const [clamSrc, setClamSrc] = useState(clam)
 
+  // Small animation on hover over clam and seashell
   const wiggle = (element) => {
     element = '.' + element
     document.querySelector(element).className += ' wiggle'
@@ -19,14 +20,17 @@ const Foreground = (props) => {
     }, 1500)
   }
 
+  // clam click toggles sidebar
   const clickClam = () => {
     if (props.toggle) {
       props.toggle('sidebar')
     } else {
+      // on login screen, clicking opens/closes clam (switch image source)
       setClamSrc(clamSrc === clam ? clamOpen : clam)
     }
   }
 
+  // clam click toggles settings menu
   const clickSeashell = () => {
     if (props.toggle) {
       props.toggle('settings')
@@ -49,7 +53,6 @@ const Foreground = (props) => {
               <h2 className='seashell-text'>Settings</h2>
             }
           </div>
-          {/* <Footer /> */}
         </span>
       }, [])}
 

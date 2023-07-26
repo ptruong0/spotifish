@@ -1,3 +1,5 @@
+
+// maps data measure to chart type
 export const CHART_TYPES = {
   'Gender': 'pie',
   'Country': 'pie',

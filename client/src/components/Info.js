@@ -69,7 +69,7 @@ const Info = (props) => {
   return (
     <div className={'info-all'}>
       {
-
+        // unexpanded portion
         <div className={'info-container ' + (expanded ? 'expanded-info-container' : '')} >
           <div className='info-row-between'>
             <div className='row-start'>
@@ -110,7 +110,9 @@ const Info = (props) => {
             }
           </div>
 
+          
           {
+            // expanded portion
             expanded &&
 
             <div className='white-box'>
@@ -122,6 +124,7 @@ const Info = (props) => {
                   <p className='green-text'>{arrayToString(props.info.genres)}</p>
                   <br />
 
+                  {/* list of top 5 songs from artist */}
                   <h3 className='green-text green-label'>Most Popular Songs</h3>
                   <div>
                     {mostPopularSongs &&
@@ -135,11 +138,12 @@ const Info = (props) => {
                 </div>
 
                 <div className='col'>
+                  {/* popularity score */}
                   <h3 className='green-text green-label'>Popularity</h3>
                   <p className='green-text'>{props.info.popularity}/100</p>
                   <br />
-                  {/* list of top 5 songs from artist */}
 
+                  {/* list of 5 related artists */}
                   <div>
                     <h3 className='green-text green-label'>Similar Artists</h3>
                     {similarArtists &&
@@ -160,7 +164,6 @@ const Info = (props) => {
         </div>
       }
     </div>
-
   )
 }
 

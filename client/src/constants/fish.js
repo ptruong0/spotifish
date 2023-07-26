@@ -9,7 +9,6 @@ export const FISH_SETTINGS = {
   maxDelay: 5
 }
 
-
 // horizontal movement animation
 const swimRight = keyframes`
     0% { left: -300px; visibility: visible; }

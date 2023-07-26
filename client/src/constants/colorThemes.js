@@ -1,3 +1,6 @@
+
+// list of themes
+// filters used inside of hex codes to dynamically set colors of fish images
 export const THEMES = {
   'classic': {
     colors: [
@@ -95,14 +98,17 @@ export const THEMES = {
 export const THEME_OPTIONS = Object.keys(THEMES)
 
 
+// number of colors in theme set
 export const getNumThemeColors = (theme) => {
   return THEMES[theme].colors.length;
 }
 
+// map mod to color
 export const modToColor = (mod, theme) => {
   return THEMES[theme].colors[mod];
 }
 
+// text color of theme
 export const getThemeTextColor = (theme) => {
   return THEMES[theme].textColor;
 }

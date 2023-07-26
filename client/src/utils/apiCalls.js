@@ -1,30 +1,39 @@
 import axios from 'axios'
 
-import { SERVER_BASE_URL } from '../constants/server'
+import { SERVER_BASE_URL, TOP_N_TRACKS, ARTIST_TOP_N_TRACKS } from '../constants/server'
+
 
 const headers = {
     "Content-Type": "application/json"
 }
 
-export const login = () => {
+/**
+ * Request to login to Spotify, returns redirect to Spotify login page
+ */
+export const login = (ahowDialog) => {
     axios.get(
-            SERVER_BASE_URL + '/login'
+            SERVER_BASE_URL + '/login', {
+                params: {
+                    'show_dialog': true
+                }
+            }
         )
         .catch(err => {
             console.log(err)
         })
 }
 
-export const getToken = async (code, setToken, setRefreshToken) => {
-    await axios.post(
+/**
+ * Request an access token
+ */
+export const getToken = async (code) => {
+    return axios.post(
             SERVER_BASE_URL + '/token', {
                 code: code,
                 redirect_uri: 'http://localhost:3000/home'
             }
         )
         .then(res => {
-            setToken(res.data.access_token)
-            setRefreshToken(res.data.refresh_token)
             return res
         })
         .catch(err => {
@@ -32,6 +41,9 @@ export const getToken = async (code, setToken, setRefreshToken) => {
         })
 }
 
+/**
+ * Given a refresh token, request another access token to replace an expired one 
+ */
 export const refreshToken = async (rToken, setToken, setRToken) => {
     await axios.get(
             SERVER_BASE_URL + '/refresh_token', {
@@ -49,7 +61,9 @@ export const refreshToken = async (rToken, setToken, setRToken) => {
         })
 }
 
-
+/**
+ * Get the current user's top (50) tracks
+ */
 export const getTopTracks = async (token, timeRange) => {
     // let result = []
     const options = {
@@ -57,35 +71,14 @@ export const getTopTracks = async (token, timeRange) => {
             access_token: token,
             type: 'tracks',
             time_range: timeRange,
-            limit: 50,
+            limit: TOP_N_TRACKS,
         },
         headers: headers
     }
-    // not allowed to get the next 50 tracks
-    // const options2 = {
-    //     params: {
-    //         access_token: token,
-    //         type: 'tracks',
-    //         time_range: timeRange,
-    //         limit: 50,
-    //         offset: 50
-    //     },
-    //     headers: headers
-    // }
 
     return axios.get(SERVER_BASE_URL + '/top_items', options)
         .then(async res => {
             return res.data.items
-
-            // return await axios.get(SERVER_BASE_URL + '/top_items', options2)
-            //     .then(res => {
-            //         result.push(...res.data.items)
-            //         console.log(res.data.items)
-            //         return result
-            //     })
-            //     .catch(err => {
-            //         console.log(err)
-            //     })
         })
         .catch(err => {
             console.log(err)
@@ -93,6 +86,9 @@ export const getTopTracks = async (token, timeRange) => {
 
 }
 
+/**
+ * Get the current user's top n artists
+ */
 export const getTopArtists = async (token, numArtists, timeRange) => {
     const options = {
         params: {
@@ -103,7 +99,6 @@ export const getTopArtists = async (token, numArtists, timeRange) => {
         },
         headers: headers
     }
-
     const artists = axios.get(SERVER_BASE_URL + '/top_items', options)
         .then(res => {
             // setTopArtists(res.data.items)
@@ -116,6 +111,9 @@ export const getTopArtists = async (token, numArtists, timeRange) => {
     return artists
 }
 
+/**
+ * Get an artist's top n tracks, given the artist ID
+ */
 export const getArtistTopTracks = async (token, artistID)  => {
     const options = {
         params: {
@@ -125,7 +123,8 @@ export const getArtistTopTracks = async (token, artistID)  => {
         },
         headers: headers
     }
-    const n = 5
+    const n = ARTIST_TOP_N_TRACKS
+
     return axios.get(SERVER_BASE_URL + '/artist_top_tracks', options)
         .then(res => {
             const topTracks = res.data.tracks.length > n ? res.data.tracks.slice(0, n) : res.data.tracks
@@ -136,6 +135,9 @@ export const getArtistTopTracks = async (token, artistID)  => {
         })
 }
 
+/**
+ * Get a list of artists similar to the specified artist
+ */
 export const getSimilarArtists = async (token, artistID)  => {
     const options = {
         params: {
@@ -153,6 +155,10 @@ export const getSimilarArtists = async (token, artistID)  => {
         })
 }
 
+/**
+ * Get additional artist demographic data from MusicBrainz API 
+ * Return as chart data
+ */
 export const getArtistChartData = async (artists) => {
     const options = {
         params: {
@@ -171,6 +177,9 @@ export const getArtistChartData = async (artists) => {
     })
 }
 
+/**
+ * Get an artist's information
+ */
 export const getArtist = async (token, artistID) => {
     const options = {
         params: {
@@ -188,6 +197,9 @@ export const getArtist = async (token, artistID) => {
         })
 }
 
+/**
+ * Get information about the currently logged in user
+ */
 export const getUser = async (token) => {
     const options = {
         params: {

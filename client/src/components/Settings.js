@@ -67,6 +67,7 @@ const Settings = memo((props) => {
         </div>
         <br />
 
+        {/* link to github project */}
         <div className='credit-row'>
           <a href='https://www.github.com/ptruong0/spotifish' target="_blank" rel="noreferrer" className=' row-center credit-text'>
             <img src={githubIcon} className='github-icon' />

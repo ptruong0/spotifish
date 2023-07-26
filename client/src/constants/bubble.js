@@ -11,18 +11,13 @@ export const BUBBLE_SETTINGS = {
   maxDelay: 12
 }
 
+// bubble animation
 export const floatUp = keyframes`
   0% { bottom: -20%; }
   100% { bottom: 120%; }
   `;
 
-// export const Bubble = styled.span`
-//   left: ${props => props.leftPos};
-//   height: ${props => props.size};
-//   width: ${props => props.size};
-//   animation: ${props => props.animation};
-// `;
-
+// bubble css template
 export const Bubble = styled.span.attrs(props => ({
   style: {
     left: props.leftPos,
