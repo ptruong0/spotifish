@@ -1,5 +1,6 @@
-
-
+/**
+ * Convert artist metadata to chart data structure
+ */
 const generateChart = (artists) => {
   let genders = {}
   let countries = {}
@@ -7,17 +8,17 @@ const generateChart = (artists) => {
   artists.forEach((artist) => {
     if (artist) {
       if (artist.gender) {
-        genders[artist.gender] = genders[artist.gender] ? genders[artist.gender] + 1 : 1;
+        genders[artist.gender] = genders[artist.gender] ? genders[artist.gender] + 1 : 1
       } else {
         // no gender data
       }
 
       if (artist.country) {
-        countries[artist.country] = countries[artist.country] ? countries[artist.country] + 1 : 1;
+        countries[artist.country] = countries[artist.country] ? countries[artist.country] + 1 : 1
       }
 
       if (artist.type) {
-        types[artist.type] = types[artist.type] ? types[artist.type] + 1 : 1;
+        types[artist.type] = types[artist.type] ? types[artist.type] + 1 : 1
       }
     }
   })
@@ -40,4 +41,4 @@ const generateChart = (artists) => {
 
 module.exports = {
   generateChart: generateChart
-};
+}
