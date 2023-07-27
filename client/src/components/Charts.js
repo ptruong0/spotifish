@@ -4,6 +4,7 @@ import { CHART_TYPES } from '../constants/chart'
 
 import Chart from 'react-apexcharts'
 import { useState, useEffect, memo } from 'react'
+import { MOBILE_WIDTH } from '../constants/settings'
 
 const Charts = memo((props) => {
   const [chartComponents, setChartComponents] = useState(null)
@@ -18,13 +19,21 @@ const Charts = memo((props) => {
     Object.entries(chartData).map(([chartName, chart], index) => {
       const xValues = chart.labels ? chart.labels : chart.categories
       let options = getChartOptions(chartName, xValues, CHART_TYPES[chartName])
+
+      let height = 500;
+      if (CHART_TYPES[chartName] === 'pie' && chart.labels.length < 10) {
+        height = 400
+        if (window.innerWidth < MOBILE_WIDTH) {
+          height = 300;
+        }
+      }
       
       return <Chart
         options={options}
         series={chart.series}
         type={CHART_TYPES[chartName]}
         key={index}
-        height={CHART_TYPES[chartName] === 'pie' && chart.labels.length < 10 ? 400 : 500}
+        height={height}
         className='chart'
       />
     })

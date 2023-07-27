@@ -29,11 +29,11 @@ const Navbar = memo((props) => {
       <div className='row-between'>
         {/* user profile pic and name */}
         {props.user && props.user["images"].length > 0 &&
-          <img src={props.user["images"][0]["url"]} className='profile-pic' alt='Spotify profile picture'
+          <img src={props.user["images"][0]["url"]} className='profile-pic' alt='Spotify profile pic'
           />}
         <p className='display-name'>{props.user && props.user["display_name"]}</p>
         
-        <a className='log-out-btn' onClick={returnToLogin}>Log Out</a>
+        <button className='log-out-btn' onClick={returnToLogin}>Log Out</button>
       </div>
     </div>
   </div>

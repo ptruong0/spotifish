@@ -27,7 +27,7 @@ $settingColor: #E8A677;
 
 .close-settings-btn {
   position: absolute;
-  top: 2em;
+  top: 1.8em;
   right: 1.5em;
   width: 2em;
   height: 2em;
@@ -72,10 +72,11 @@ select {
 
 @media screen and (max-width: 768px) {
   .settings {
-    width: 80vw;
+    width: 75vw;
+    left: 50%; transform: translate(-50%,0);
   }
 
   .setting-label {
-    font-size: 1.3em;
+    font-size: 1.2em;
   }
 }

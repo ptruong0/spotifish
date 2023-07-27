@@ -6,12 +6,13 @@ var querystring = require('querystring')
 
 
 const loginSpotify = (req, res) => {
+  console.log(redirect_uri)
   var state = generateRandomString(16)
   res.cookie(state_key, state)
 
   const show_dialog = req.query.show_dialog
 
-  // your application requests authorization
+  // requests authorization
   var scope = 'user-read-private user-read-email user-top-read'
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
@@ -25,9 +26,7 @@ const loginSpotify = (req, res) => {
 }
 
 const getCallback = (req, res) => {
-
-  // your application requests refresh and access tokens
-  // after checking the state parameter
+  // requests refresh and access tokens after checking the state parameter
   var code = req.query.code || null
   var state = req.query.state || null
   var storedState = req.cookies ? req.cookies[state_key] : null

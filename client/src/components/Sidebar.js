@@ -45,7 +45,7 @@ const Sidebar = (props) => {
   return (
     <div className='sidebar'>
       {/* close button */}
-      <img src={closeIcon} className='close-sidebar-btn' onClick={() => props.toggle('sidebar')} />
+      <img src={closeIcon} className='close-sidebar-btn' onClick={() => props.toggle('sidebar')} alt='Close sidebar button'/>
 
       {/* title */}
 

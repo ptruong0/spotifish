@@ -57,6 +57,14 @@ h3 {
     align-items: start;
 }
 
+
+.info-top-song-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5em;
+}
+
 .artist-rank {
     font-size: 30px;
 }
@@ -160,15 +168,62 @@ h3 {
 }
 
 @media screen and (max-width: 768px) {
+    .row-start {
+        gap: 12px;
+    }
+    .artist-pic {
+        width: 50px;
+        height: 50px;
+    }
+
     .info-container {
       min-width: 90vw;
+      bottom: 0;
+    }
+
+    .info-row-between {
+        padding: 14px 18px;
     }
 
     .artist-rank,.artist-name {
-        font-size: 2.5em;
+        font-size: 1.5em;
     }
 
     .song-name, .green-text {
-        font-size: 1.3em;
+        font-size: 1em;
+    }
+
+    .new-tab-btn {
+        max-width: 0.7em;
+        max-height: 0.7em;
+    }
+
+    .dropdown-arrow {
+        max-height: 0.7em;
+        max-width: 1.4em;
+    }
+    
+    
+    .close-dropdown-btn {
+        max-height: 1.6em;
+        max-width: 1.6em;
+    }
+    
+  }
+
+  @media screen and (max-width: 480px) {
+    .row-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        padding: 1em;
+        gap: 20px;
+    }
+
+    .info-top-song-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 0;
     }
   }

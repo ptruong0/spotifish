@@ -33,7 +33,7 @@ export const getChartOptions = (title, labels, type) => {
       }
     },
     legend: {
-      position: labels && labels.length >= 5 ? 'bottom' : 'right',
+      position: ((labels && labels.length >= 5) || window.innerWidth < 768) ? 'bottom' : 'right',
       verticalAlign: 'center',
       fontSize: '14px',
       fontFamily: 'ZenKakuGothicAntique-Bold',
@@ -58,7 +58,7 @@ export const getChartOptions = (title, labels, type) => {
       title: titleOptions,
       chart: {
         type: 'bar',
-        height: '600'
+        width: '600'
       },
       colors: colorOptions,
       plotOptions: {

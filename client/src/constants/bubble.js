@@ -4,7 +4,7 @@ import styled, { keyframes } from 'styled-components';
 export const BUBBLE_SETTINGS = {
   numBubbles: 18,
   minSize: 20,
-  maxSize: 70,
+  maxSize: 60,
   minSpeed: 12,
   maxSpeed: 22,
   minDelay: 0,

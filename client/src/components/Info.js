@@ -77,7 +77,7 @@ const Info = (props) => {
               {props.info.rank !== undefined && <p className='artist-rank'>#{props.info.rank + 1}</p>}
               {/* artist photo */}
               {props.info.images && props.info.images.length > 0 ?
-                <img className='artist-pic' src={props.info.images[props.info.images.length - 1].url} />
+                <img className='artist-pic' src={props.info.images[props.info.images.length - 1].url} alt='Artist profile pic'/>
                 :
                 <div className='artist-pic empty-pic'></div>
               }
@@ -88,12 +88,12 @@ const Info = (props) => {
                   <p className='artist-name'>{props.info.name} </p>
                   {/* external link to artist spotify page */}
                   <a href={props.info.external_urls.spotify} target="_blank">
-                    <img src={newTabIcon} className='new-tab-btn' />
+                    <img src={newTabIcon} className='new-tab-btn' alt='Open artist Spotify page in new tab button'/>
                   </a>
                 </span>
 
                 {/* top song of artist for user */}
-                {myTopSong !== 'N/A' && <p className='song-name'>{`Your Top Song: ${myTopSong}`}</p>}
+                {myTopSong !== 'N/A' && <span className='info-top-song-row'><p>Your Top Song: </p><p className='song-name'>{`${myTopSong}`}</p></span>}
               </div>
             </div>
 
@@ -101,12 +101,12 @@ const Info = (props) => {
             {
               expanded ?
                 <div className='row-between menu-controls'>
-                  <img src={downArrow} className='dropdown-arrow' onClick={expandMenu} />
+                  <img src={downArrow} className='dropdown-arrow' onClick={expandMenu} alt='Collapse info menu button'/>
                   <span className='gap'></span>
-                  <img src={closeIcon} className='close-dropdown-btn' onClick={closeMenu} />
+                  <img src={closeIcon} className='close-dropdown-btn' onClick={closeMenu} alt='Close info menu button' />
                 </div>
                 :
-                <img src={upArrow} className='dropdown-arrow' onClick={expandMenu} />
+                <img src={upArrow} className='dropdown-arrow' onClick={expandMenu} alt='Expand info menu button'/>
             }
           </div>
 

@@ -17,7 +17,7 @@ $sidebarColor: #9397ED;
   position: absolute;
   right: 1em;
   bottom: 1em;
-  padding: 0em 1em 0.5em 3em;
+  padding: 0em 2em 0.5em 3em;
   animation: expandSidebar 0.3s ease-in;
   overflow: hidden;
 }
@@ -32,8 +32,8 @@ $sidebarColor: #9397ED;
 
 .tab-group {
   display: flex;
-  justify-content: space-between;
-  margin: 3em 3em 1.5em 0;
+  justify-content: space-around;
+  margin: 3em auto 1.5em auto;
   min-width: 15vw;
 }
 
@@ -96,21 +96,27 @@ $sidebarColor: #9397ED;
 
   @media screen and (max-width: 768px) {
     .sidebar {
-      width: 80vw;
+      width: 75vw;
       left: 50%; transform: translate(-50%,0);
+      padding-left: 2em;
+      padding-right: 1.5em;
+
     }
 
     .sidebar-row-text {
-      font-size: 1.3em;
+      font-size: 1.2em;
     }
 
     .sidebar-tab {
-      font-size: 2em;
+      font-size: 1.3em;
+      margin: 0;
     }
 
     .tab-group {
       display: flex;
       justify-content: space-around;
+      align-content: center;
+      margin-right: 0.5em;
     }
     
   }

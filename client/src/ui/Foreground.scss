@@ -6,6 +6,7 @@
 .sand {
     position: absolute;
     width: 100vw;
+    min-height: 3vh;
     bottom: 0;
     left: 0;
     z-index: 2;
@@ -86,4 +87,46 @@
 
 .wiggle {
     animation: wiggle 1s ease-in-out 1;
+}
+
+@media screen and (max-width: 768px) {
+    .seashell-container {
+        bottom: 0.2vh;
+        left: 20px;
+    }
+
+    .clam-container {
+        bottom: 0.5vh;
+        right: 20px;
+    }
+
+    .seashell {
+        max-width: 35vw;
+    }
+
+    .clam {
+        max-width: 35vw;
+    }
+
+    .kelp {
+        max-height: 38vh;
+    }
+
+    .coral {
+        max-height: 38vh;
+    }
+    
+} 
+
+@media screen and (max-width: 440px)  {
+    .clam-text, .seashell-text {
+        font-size: 1.2em;
+    }
+    .seashell-text {
+        top: 40%;
+    }
+    
+    .clam-text {
+        top: 10%;
+    }
 }

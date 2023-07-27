@@ -29,7 +29,7 @@ const Login = () => {
         <a className='login-btn' href={spotifyLoginURL}>
           <span className='row-around'>
             <p className='login-text'>Log in with Spotify</p>
-            <img src={spotifyLogo} alt='spotify logo'/>
+            <img src={spotifyLogo} className='spotify-logo' alt='spotify logo'/>
           </span>
         </a>
       </div>

@@ -29,7 +29,7 @@ const Settings = memo((props) => {
 
   return (
     <div className='settings'>
-      <img src={closeIcon} className='close-settings-btn' onClick={() => props.toggle('settings')} />
+      <img src={closeIcon} className='close-settings-btn' onClick={() => props.toggle('settings')} alt='Close settings button'/>
       <h2 className='settings-title'>Settings</h2>
       <div>
         {/* number of fish */}
@@ -70,7 +70,7 @@ const Settings = memo((props) => {
         {/* link to github project */}
         <div className='credit-row'>
           <a href='https://www.github.com/ptruong0/spotifish' target="_blank" rel="noreferrer" className=' row-center credit-text'>
-            <img src={githubIcon} className='github-icon' />
+            <img src={githubIcon} className='github-icon' alt='Github icon'/>
             <p >Check out the project here</p>
           </a>
 
